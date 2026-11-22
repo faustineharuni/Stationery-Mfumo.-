@@ -616,7 +616,7 @@
                 Ripoti Fupi za Miezi Iliyofungwa Kiotomatiki (Auto-Closed Monthly Reports)
               </h4>
               <p class="text-[11px] text-slate-600">
-                Mwezi ukimalizika (<code class="font-semibold text-slate-800">YYYY-MM</code> uliopita), mfumo unafunga hesabu kiotomatiki na kutunza muhtasari mfupi hapa bila ku-reset kadi za juu.
+                Ripoti hufungwa rasmi <strong>kila tarehe ya mwisho wa mwezi</strong> (kabla ya tarehe 1 ya mwezi mpya) na kutunza muhtasari hapa bila ku-reset kadi za juu.
               </p>
             </div>
             <span id="monthlyReportsCountBadge" class="text-[11px] font-extrabold px-2.5 py-0.5 rounded-full bg-indigo-700 text-white">
@@ -779,9 +779,26 @@
         comparisonCanvas: document.getElementById('dailyComparisonChart'),
         pocketsLineCanvas: document.getElementById('dailyPocketsLineChart'),
 
+
         recordsCountBadge: document.getElementById('recordsCountBadge'),
         recordsTableBody: document.getElementById('recordsTableBody')
       };
+
+      function getLastDayOfMonthISO(monthKey) {
+        if (!/^\d{4}-\d{2}$/.test(monthKey)) return '';
+        const [yStr, mStr] = monthKey.split('-');
+        const year = Number(yStr);
+        const monthIndex = Number(mStr); // 1..12
+        const lastDay = new Date(year, monthIndex, 0).getDate();
+        return `${yStr}-${mStr}-${String(lastDay).padStart(2, '0')}`;
+      }
+
+      function isMonthStrictlyClosedAtMonthEnd(monthKey, todayISO) {
+        const lastDayISO = getLastDayOfMonthISO(monthKey);
+        if (!lastDayISO) return false;
+        // Closed only after the month's final calendar day has passed (before day 1 of the following month)
+        return todayISO > lastDayISO;
+      }
 
       function getTodayISO() {
         const now = new Date();
@@ -1008,16 +1025,23 @@
           }
         });
 
-        const currentMonthKey = getTodayISO().slice(0, 7);
+        const todayISO = getTodayISO();
+        const currentMonthKey = todayISO.slice(0, 7);
         const monthlySeries = Array.from(monthMap.values())
-          .map((m) => ({
-            ...m,
-            mtajiRemaining: m.mtajiAllocated - m.purchases
-          }))
+          .map((m) => {
+            const monthEndDate = getLastDayOfMonthISO(m.month);
+            const isClosed = isMonthStrictlyClosedAtMonthEnd(m.month, todayISO);
+            return {
+              ...m,
+              monthEndDate,
+              isClosed,
+              mtajiRemaining: m.mtajiAllocated - m.purchases
+            };
+          })
           .sort((a, b) => a.month.localeCompare(b.month));
 
         const closedMonthlyReports = monthlySeries
-          .filter((m) => m.month < currentMonthKey)
+          .filter((m) => m.isClosed)
           .sort((a, b) => b.month.localeCompare(a.month));
 
         const monthlyTotalAll = monthlySeries.reduce((acc, m) => acc + m.total, 0);
@@ -1164,7 +1188,7 @@
         if (reports.length === 0) {
           els.monthlyAutoReportsList.innerHTML = `
             <div class="col-span-full rounded-lg bg-white border border-slate-200 px-3 py-2.5 text-[11px] text-slate-600">
-              Mwezi wa sasa (<strong>${escapeHTML(getTodayISO().slice(0, 7))}</strong>) bado unaendelea. Mwezi unapoisha kiotomatiki, ripoti fupi ya mwezi husika (Akiba, Salio, Mtaji Uliobaki, Manunuzi, na Wi-Fi) itatokea hapa moja kwa moja.
+              Mwezi wa sasa (<strong>${escapeHTML(getTodayISO().slice(0, 7))}</strong>) utafungwa rasmi <strong>tarehe ya mwisho wa mwezi (${escapeHTML(getLastDayOfMonthISO(getTodayISO().slice(0, 7)))})</strong> kabla ya kuanza tarehe 1 ya mwezi unaofuata. Ripoti fupi ya mwezi husika (Akiba, Salio, Mtaji Uliobaki, Manunuzi, na Wi-Fi) itatokea hapa mara mwisho wa mwezi ukipita.
             </div>
           `;
         } else {
@@ -1174,7 +1198,7 @@
                 <div class="flex items-center justify-between gap-2 border-b border-slate-100 pb-1.5">
                   <div class="flex items-center gap-1.5">
                     <span class="font-extrabold text-xs text-[#0f2942]">Ripoti: ${escapeHTML(rep.month)}</span>
-                    <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-900">Imefungwa</span>
+                    <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-900">Imefungwa Mwisho (${escapeHTML(rep.monthEndDate || '')})</span>
                   </div>
                   <button
                     type="button"
@@ -1932,8 +1956,10 @@
             showBanner(`Hakuna rekodi za mwezi ${targetMonth} za kutuma WhatsApp.`, 'warning');
             return;
           }
-          const isClosed = targetMonth < getTodayISO().slice(0, 7);
-          const statusLabel = isClosed ? 'IMEPUNGWA / IMEFUNGWA' : 'INAENDELEA';
+          const todayISO = getTodayISO();
+          const isClosed = Boolean(monthItem.isClosed) || isMonthStrictlyClosedAtMonthEnd(targetMonth, todayISO);
+          const endDateText = monthItem.monthEndDate || getLastDayOfMonthISO(targetMonth);
+          const statusLabel = isClosed ? `IMEFUNGWA MWISHO WA MWEZI (${endDateText})` : `INAENDELEA (HUFUNGWA ${endDateText})`;
           const text = [
             `*FAUSTINE STATIONERY SERVICE*`,
             `Ripoti ya Mwezi: *${monthItem.month}* (${statusLabel})`,

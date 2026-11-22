@@ -1211,7 +1211,7 @@
                 <div class="grid grid-cols-2 gap-x-3 gap-y-1 text-[11px]">
                   <p class="text-slate-600">Akiba: <strong class="text-amber-800">${formatTZS(rep.akiba)}</strong></p>
                   <p class="text-slate-600">Salio: <strong class="text-slate-900">${formatTZS(rep.salio)}</strong></p>
-                  <p class="text-slate-600">Mtaji Uliobaki: <strong class="text-teal-800">${formatTZS(rep.mtajiRemaining)}</strong></p>
+                  <p class="text-slate-600">Mtaji Uliobaki: <strong class="${rep.mtajiRemaining < 0 ? 'text-rose-700' : 'text-teal-800'}">${formatTZS(rep.mtajiRemaining)}</strong></p>
                   <p class="text-slate-600">Manunuzi: <strong class="text-rose-700">${formatTZS(rep.purchases)}</strong></p>
                   <p class="col-span-2 text-slate-600">Wi-Fi (.NET): <strong class="text-[#db2777]">${formatTZS(rep.wifi)}</strong></p>
                 </div>
@@ -1232,6 +1232,9 @@
 
         els.stationeryTotalLabel.textContent = formatTZS(summary.stationeryTotal);
         els.mtajiTotalDisplay.textContent = formatTZS(summary.mtajiAvailable);
+        els.mtajiTotalDisplay.className = summary.mtajiAvailable < 0
+          ? 'text-2xl font-extrabold text-rose-700 mt-2'
+          : 'text-2xl font-extrabold text-[#0f2942] mt-2';
         els.mtajiBreakdownText.textContent = `Uliotengwa: ${formatTZS(summary.mtajiAllocated)} • Manunuzi: ${formatTZS(summary.purchasesTotal)}`;
 
         els.akibaTotalDisplay.textContent = formatTZS(summary.akibaTotal);
@@ -1781,16 +1784,6 @@
           }
 
           const itemName = (els.purItemInput.value || '').trim() || 'Vifaa vya Stationery';
-          const summary = computeSummaries();
-
-          if (cost > summary.mtajiAvailable) {
-            showBanner(
-              `Angalizo: Gharama ${formatTZS(cost)} inazidi Mtaji Uliobaki (${formatTZS(summary.mtajiAvailable)}). Ongeza mapato ya Stationery au punguza gharama.`,
-              'warning'
-            );
-            return;
-          }
-
           appState.purchases.push({
             id: `pur-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
             date: els.purDateInput.value || getTodayISO(),
@@ -1801,8 +1794,16 @@
           saveAppState();
           els.purItemInput.value = '';
           els.purAmountInput.value = '';
+          const updatedSummary = computeSummaries();
           renderAll();
-          showBanner(`Manunuzi ya "${itemName}" (${formatTZS(cost)}) yamekatwa moja kwa moja kwenye Mtaji.`, 'success');
+          if (updatedSummary.mtajiAvailable < 0) {
+            showBanner(
+              `Manunuzi ya "${itemName}" (${formatTZS(cost)}) yamehifadhiwa. Mtaji sasa una deni (negative): ${formatTZS(updatedSummary.mtajiAvailable)}.`,
+              'warning'
+            );
+          } else {
+            showBanner(`Manunuzi ya "${itemName}" (${formatTZS(cost)}) yamekatwa moja kwa moja kwenye Mtaji.`, 'success');
+          }
         });
 
         els.wifiEntryForm.addEventListener('submit', (e) => {

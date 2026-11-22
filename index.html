@@ -557,6 +557,81 @@
       </div>
     </section>
 
+    <!-- MONTHLY COMPARISON & TREND SECTION (ABOVE SAVED RECORDS) -->
+    <section aria-label="Ulinganisho na Mwenendo wa Kila Mwezi" class="bg-white rounded-2xl border border-slate-200/90 p-5 sm:p-6 shadow-xs">
+      <!-- Monthly Comparison & Trend Line Chart (Stationery vs Wi-Fi + Total Business) -->
+      <div class="rounded-2xl border-2 border-indigo-200/80 bg-gradient-to-b from-indigo-50/40 to-white p-4 sm:p-5 space-y-4">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-2">
+          <div>
+            <span class="inline-block text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-full bg-indigo-700 text-white mb-1">
+              Monthly Comparison &amp; Trend
+            </span>
+            <h3 class="text-sm sm:text-base font-extrabold text-[#0f2942]">
+              Ulinganisho na Mwenendo wa Kila Mwezi (Monthly Sales Trend &amp; Comparison)
+            </h3>
+            <p class="text-xs text-slate-500">
+              Inakusanya kiotomatiki rekodi zako kwa mwezi (<code class="text-slate-700 font-semibold">YYYY-MM</code>) ili kulinganisha Stationery, Wi-Fi (.NET), na Jumla ya Biashara mwezi kwa mwezi.
+            </p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2 text-xs font-bold text-[#0f2942]">
+            <span class="px-2.5 py-1 rounded-lg bg-indigo-100/80 border border-indigo-200">
+              Mwezi Bora: <span id="monthlyBestMonthLabel">—</span>
+            </span>
+            <span class="px-2.5 py-1 rounded-lg bg-white border border-slate-200">
+              Mabadiliko ya Mwezi: <span id="monthlyGrowthLabel">—</span>
+            </span>
+            <button
+              id="sendCurrentMonthWhatsappBtn"
+              type="button"
+              class="px-3 py-1 rounded-lg text-xs font-extrabold bg-[#25D366] hover:bg-[#1ebe5d] active:scale-[0.99] text-slate-950 shadow-2xs transition cursor-pointer"
+            >
+              Tuma Mwezi Huu WhatsApp
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div class="rounded-xl bg-white border border-slate-200/90 p-3">
+            <p class="text-[11px] font-extrabold uppercase tracking-wider text-slate-500">Mwezi wa Sasa / Mwisho</p>
+            <p id="monthlyLatestLabel" class="text-xs font-bold text-indigo-900 mt-0.5">—</p>
+            <p id="monthlyLatestTotal" class="text-base sm:text-lg font-extrabold text-[#0f2942] mt-1">0 TZS</p>
+          </div>
+          <div class="rounded-xl bg-white border border-teal-200/90 p-3">
+            <p class="text-[11px] font-extrabold uppercase tracking-wider text-teal-900">Stationery (Mwezi Huo)</p>
+            <p id="monthlyLatestStationery" class="text-base sm:text-lg font-extrabold text-teal-800 mt-1">0 TZS</p>
+            <p id="monthlyAvgTotalLabel" class="text-[11px] text-slate-500 mt-0.5">Wastani/Mwezi: 0 TZS</p>
+          </div>
+          <div class="rounded-xl bg-white border border-[#db2777]/30 p-3">
+            <p class="text-[11px] font-extrabold uppercase tracking-wider text-[#9d174d]">Wi-Fi .NET (Mwezi Huo)</p>
+            <p id="monthlyLatestWifi" class="text-base sm:text-lg font-extrabold text-[#db2777] mt-1">0 TZS</p>
+            <p id="monthlyConclusionText" class="text-[11px] text-slate-600 mt-0.5 line-clamp-2">Ongeza data za miezi tofauti kulinganisha.</p>
+          </div>
+        </div>
+
+        <!-- Short & Clear Auto-Closed Monthly Reports (Appears automatically for any completed month YYYY-MM < current month) -->
+        <div class="rounded-xl border border-indigo-200/90 bg-indigo-50/45 p-3.5 sm:p-4 space-y-2.5">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <h4 class="text-xs sm:text-sm font-extrabold text-[#0f2942]">
+                Ripoti Fupi za Miezi Iliyofungwa Kiotomatiki (Auto-Closed Monthly Reports)
+              </h4>
+              <p class="text-[11px] text-slate-600">
+                Mwezi ukimalizika (<code class="font-semibold text-slate-800">YYYY-MM</code> uliopita), mfumo unafunga hesabu kiotomatiki na kutunza muhtasari mfupi hapa bila ku-reset kadi za juu.
+              </p>
+            </div>
+            <span id="monthlyReportsCountBadge" class="text-[11px] font-extrabold px-2.5 py-0.5 rounded-full bg-indigo-700 text-white">
+              0 ripoti
+            </span>
+          </div>
+          <div id="monthlyAutoReportsList" class="grid grid-cols-1 md:grid-cols-2 gap-2.5 text-xs"></div>
+        </div>
+
+        <div class="chart-box">
+          <canvas id="monthlyTrendChart" aria-label="Monthly Business Trend and Comparison Line Chart"></canvas>
+        </div>
+      </div>
+    </section>
+
     <!-- SECTION 4: KUMBUKUMBU ZILIZOHIFADHIWA -->
     <section aria-label="Kumbukumbu Zilizohifadhiwa" class="bg-white rounded-2xl border border-slate-200/90 p-5 sm:p-6 shadow-xs space-y-4">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
@@ -622,6 +697,7 @@
 
       let appState = loadAppState();
       let trendChart = null;
+      let monthlyTrendChart = null;
       let wifiTrendChart = null;
       let comparisonChart = null;
       let pocketsLineChart = null;
@@ -682,6 +758,19 @@
         insightTrendStatus: document.getElementById('insightTrendStatus'),
         insightTrendDetail: document.getElementById('insightTrendDetail'),
         insightConclusionText: document.getElementById('insightConclusionText'),
+
+        monthlyBestMonthLabel: document.getElementById('monthlyBestMonthLabel'),
+        monthlyGrowthLabel: document.getElementById('monthlyGrowthLabel'),
+        monthlyLatestLabel: document.getElementById('monthlyLatestLabel'),
+        monthlyLatestTotal: document.getElementById('monthlyLatestTotal'),
+        monthlyLatestStationery: document.getElementById('monthlyLatestStationery'),
+        monthlyAvgTotalLabel: document.getElementById('monthlyAvgTotalLabel'),
+        monthlyLatestWifi: document.getElementById('monthlyLatestWifi'),
+        monthlyConclusionText: document.getElementById('monthlyConclusionText'),
+        sendCurrentMonthWhatsappBtn: document.getElementById('sendCurrentMonthWhatsappBtn'),
+        monthlyReportsCountBadge: document.getElementById('monthlyReportsCountBadge'),
+        monthlyAutoReportsList: document.getElementById('monthlyAutoReportsList'),
+        monthlyTrendCanvas: document.getElementById('monthlyTrendChart'),
         wifiAvgDailySales: document.getElementById('wifiAvgDailySales'),
         wifiBestDayLabel: document.getElementById('wifiBestDayLabel'),
         wifiTrendCanvas: document.getElementById('wifiTrendChart'),
@@ -811,6 +900,7 @@
         let wifiTotal = 0;
 
         const dayMap = new Map();
+        const monthMap = new Map();
 
         function ensureDay(dateKey) {
           if (!dayMap.has(dateKey)) {
@@ -826,15 +916,37 @@
           return dayMap.get(dateKey);
         }
 
+        function ensureMonth(dateKey) {
+          const monthKey = /^\d{4}-\d{2}/.test(dateKey) ? dateKey.slice(0, 7) : getTodayISO().slice(0, 7);
+          if (!monthMap.has(monthKey)) {
+            monthMap.set(monthKey, {
+              month: monthKey,
+              stationery: 0,
+              wifi: 0,
+              total: 0,
+              mtajiAllocated: 0,
+              purchases: 0,
+              mtajiRemaining: 0,
+              akiba: 0,
+              salio: 0
+            });
+          }
+          return monthMap.get(monthKey);
+        }
+
         appState.entries.forEach((entry) => {
           const isWifi = entry.category === 'WIFI';
           const amt = Number(entry.amount) || 0;
           const dateKey = entry.date || getTodayISO();
           const dayRecord = ensureDay(dateKey);
 
+          const monthRecord = ensureMonth(dateKey);
+
           if (isWifi) {
             wifiTotal += amt;
             dayRecord.wifi += amt;
+            monthRecord.wifi += amt;
+            monthRecord.total += amt;
           } else {
             const m = Number(entry.mtaji) || 0;
             const a = Number(entry.akiba) || 0;
@@ -849,6 +961,12 @@
             dayRecord.mtaji += m;
             dayRecord.akiba += a;
             dayRecord.salio += s;
+
+            monthRecord.stationery += amt;
+            monthRecord.total += amt;
+            monthRecord.mtajiAllocated += m;
+            monthRecord.akiba += a;
+            monthRecord.salio += s;
           }
         });
 
@@ -856,9 +974,11 @@
           const cost = Number(pur.amount) || 0;
           const dateKey = pur.date || getTodayISO();
           const dayRecord = ensureDay(dateKey);
+          const monthRecord = ensureMonth(dateKey);
 
           purchasesTotal += cost;
           dayRecord.mtaji -= cost;
+          monthRecord.purchases += cost;
         });
 
         const mtajiAvailable = mtajiAllocated - purchasesTotal;
@@ -888,6 +1008,28 @@
           }
         });
 
+        const currentMonthKey = getTodayISO().slice(0, 7);
+        const monthlySeries = Array.from(monthMap.values())
+          .map((m) => ({
+            ...m,
+            mtajiRemaining: m.mtajiAllocated - m.purchases
+          }))
+          .sort((a, b) => a.month.localeCompare(b.month));
+
+        const closedMonthlyReports = monthlySeries
+          .filter((m) => m.month < currentMonthKey)
+          .sort((a, b) => b.month.localeCompare(a.month));
+
+        const monthlyTotalAll = monthlySeries.reduce((acc, m) => acc + m.total, 0);
+        const avgMonthlySales = monthlySeries.length > 0 ? Math.round(monthlyTotalAll / monthlySeries.length) : 0;
+
+        let bestMonth = null;
+        monthlySeries.forEach((m) => {
+          if (!bestMonth || m.total > bestMonth.total) {
+            bestMonth = m;
+          }
+        });
+
         return {
           stationeryTotal,
           mtajiAllocated,
@@ -897,6 +1039,10 @@
           salioTotal,
           wifiTotal,
           dailySeries,
+          monthlySeries,
+          closedMonthlyReports,
+          avgMonthlySales,
+          bestMonth,
           stationeryDays,
           activeDaysCount,
           avgDailySales,
@@ -969,6 +1115,85 @@
           els.insightConclusionText.textContent = `Ingawa mauzo yameshuka kidogo kutoka ${previous.date}, bado yapo juu ya wastani wa siku (${formatTZS(summary.avgDailySales)}). Kasi bado ni nzuri.`;
         } else {
           els.insightConclusionText.textContent = `Mauzo ya ${latest.date} (${formatTZS(latest.stationery)}) yapo chini ya wastani (${formatTZS(summary.avgDailySales)}). Kagua huduma zilizopungua au tangaza huduma kwa wateja.`;
+        }
+
+        // Monthly Trend & Comparison Summary
+        const mSeries = summary.monthlySeries || [];
+        els.monthlyAvgTotalLabel.textContent = `Wastani/Mwezi: ${formatTZS(summary.avgMonthlySales)}`;
+        els.monthlyBestMonthLabel.textContent = summary.bestMonth
+          ? `${summary.bestMonth.month} (${formatTZS(summary.bestMonth.total)})`
+          : '—';
+
+        if (mSeries.length === 0) {
+          els.monthlyLatestLabel.textContent = 'Hakuna rekodi';
+          els.monthlyLatestTotal.textContent = '0 TZS';
+          els.monthlyLatestStationery.textContent = '0 TZS';
+          els.monthlyLatestWifi.textContent = '0 TZS';
+          els.monthlyGrowthLabel.textContent = '—';
+          els.monthlyConclusionText.textContent = 'Rekodi mapato katika miezi tofauti ili kuona ulinganisho wa mwezi hadi mwezi.';
+        } else {
+          const latestMonth = mSeries[mSeries.length - 1];
+          els.monthlyLatestLabel.textContent = `Mwezi ${latestMonth.month}`;
+          els.monthlyLatestTotal.textContent = formatTZS(latestMonth.total);
+          els.monthlyLatestStationery.textContent = formatTZS(latestMonth.stationery);
+          els.monthlyLatestWifi.textContent = formatTZS(latestMonth.wifi);
+
+          if (mSeries.length === 1) {
+            els.monthlyGrowthLabel.textContent = 'Mwezi 1 tu';
+            els.monthlyConclusionText.textContent = `Mwezi ${latestMonth.month} una jumla ya ${formatTZS(latestMonth.total)}. Mwezi unaofuata utaonekana mstari wa ulinganisho.`;
+          } else {
+            const prevMonth = mSeries[mSeries.length - 2];
+            const mDiff = latestMonth.total - prevMonth.total;
+            const mPct = prevMonth.total > 0 ? ((mDiff / prevMonth.total) * 100) : 0;
+            if (mDiff > 0) {
+              els.monthlyGrowthLabel.textContent = `+${mPct.toFixed(0)}% (+${formatTZS(mDiff)})`;
+              els.monthlyConclusionText.textContent = `${latestMonth.month} umekua kwa ${mPct.toFixed(0)}% ukilinganisha na ${prevMonth.month} (${formatTZS(prevMonth.total)}).`;
+            } else if (mDiff < 0) {
+              els.monthlyGrowthLabel.textContent = `${mPct.toFixed(0)}% (-${formatTZS(Math.abs(mDiff))})`;
+              els.monthlyConclusionText.textContent = `${latestMonth.month} umeshuka kwa ${Math.abs(mPct).toFixed(0)}% ukilinganisha na ${prevMonth.month} (${formatTZS(prevMonth.total)}).`;
+            } else {
+              els.monthlyGrowthLabel.textContent = '0% (Sawa)';
+              els.monthlyConclusionText.textContent = `${latestMonth.month} umelingana na ${prevMonth.month} (${formatTZS(prevMonth.total)}).`;
+            }
+          }
+        }
+
+        const reports = summary.closedMonthlyReports || [];
+        els.monthlyReportsCountBadge.textContent = `${reports.length} ${reports.length === 1 ? 'ripoti' : 'ripoti'}`;
+
+        if (reports.length === 0) {
+          els.monthlyAutoReportsList.innerHTML = `
+            <div class="col-span-full rounded-lg bg-white border border-slate-200 px-3 py-2.5 text-[11px] text-slate-600">
+              Mwezi wa sasa (<strong>${escapeHTML(getTodayISO().slice(0, 7))}</strong>) bado unaendelea. Mwezi unapoisha kiotomatiki, ripoti fupi ya mwezi husika (Akiba, Salio, Mtaji Uliobaki, Manunuzi, na Wi-Fi) itatokea hapa moja kwa moja.
+            </div>
+          `;
+        } else {
+          els.monthlyAutoReportsList.innerHTML = reports
+            .map((rep) => `
+              <div class="rounded-xl bg-white border border-indigo-200/80 p-3 space-y-2 shadow-2xs">
+                <div class="flex items-center justify-between gap-2 border-b border-slate-100 pb-1.5">
+                  <div class="flex items-center gap-1.5">
+                    <span class="font-extrabold text-xs text-[#0f2942]">Ripoti: ${escapeHTML(rep.month)}</span>
+                    <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-900">Imefungwa</span>
+                  </div>
+                  <button
+                    type="button"
+                    data-whatsapp-month="${escapeHTML(rep.month)}"
+                    class="send-whatsapp-month-btn px-2.5 py-1 rounded-lg text-[11px] font-extrabold bg-[#25D366] hover:bg-[#1ebe5d] active:scale-[0.99] text-slate-950 transition cursor-pointer"
+                  >
+                    Tuma WhatsApp
+                  </button>
+                </div>
+                <div class="grid grid-cols-2 gap-x-3 gap-y-1 text-[11px]">
+                  <p class="text-slate-600">Akiba: <strong class="text-amber-800">${formatTZS(rep.akiba)}</strong></p>
+                  <p class="text-slate-600">Salio: <strong class="text-slate-900">${formatTZS(rep.salio)}</strong></p>
+                  <p class="text-slate-600">Mtaji Uliobaki: <strong class="text-teal-800">${formatTZS(rep.mtajiRemaining)}</strong></p>
+                  <p class="text-slate-600">Manunuzi: <strong class="text-rose-700">${formatTZS(rep.purchases)}</strong></p>
+                  <p class="col-span-2 text-slate-600">Wi-Fi (.NET): <strong class="text-[#db2777]">${formatTZS(rep.wifi)}</strong></p>
+                </div>
+              </div>
+            `)
+            .join('');
         }
       }
 
@@ -1150,6 +1375,7 @@
         const wifiAvgLineValues = wifiTrendSeries.map(() => summary.wifiAvgDailySales);
 
         if (trendChart) trendChart.destroy();
+        if (monthlyTrendChart) monthlyTrendChart.destroy();
         if (wifiTrendChart) wifiTrendChart.destroy();
         if (comparisonChart) comparisonChart.destroy();
         if (pocketsLineChart) pocketsLineChart.destroy();
@@ -1182,6 +1408,88 @@
                 borderDash: [6, 6],
                 fill: false,
                 pointRadius: 0
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: {
+              mode: 'index',
+              intersect: false
+            },
+            plugins: {
+              legend: {
+                position: 'top',
+                labels: { font: { family: 'Inter', weight: '600', size: 11 } }
+              },
+              tooltip: {
+                callbacks: {
+                  label: (ctx) => `${ctx.dataset.label}: ${Number(ctx.parsed.y || 0).toLocaleString('en-US')} TZS`
+                }
+              }
+            },
+            scales: {
+              x: { ticks: { font: { family: 'Inter', size: 11 } } },
+              y: {
+                beginAtZero: true,
+                ticks: {
+                  font: { family: 'Inter', size: 11 },
+                  callback: (val) => Number(val).toLocaleString('en-US')
+                }
+              }
+            }
+          }
+        });
+
+        // 1a) Monthly Comparison & Business Trend Line Chart
+        const mSeriesChart = (summary.monthlySeries && summary.monthlySeries.length > 0)
+          ? summary.monthlySeries
+          : [{ month: 'Hakuna Data', total: 0, stationery: 0, wifi: 0 }];
+
+        monthlyTrendChart = new Chart(els.monthlyTrendCanvas.getContext('2d'), {
+          type: 'line',
+          data: {
+            labels: mSeriesChart.map((m) => m.month),
+            datasets: [
+              {
+                label: 'Jumla ya Mwezi (Stationery + Wi-Fi)',
+                data: mSeriesChart.map((m) => m.total),
+                borderColor: '#4338ca',
+                backgroundColor: 'rgba(67, 56, 202, 0.14)',
+                borderWidth: 3,
+                fill: true,
+                tension: 0.3,
+                pointRadius: 5,
+                pointHoverRadius: 7,
+                pointBackgroundColor: '#312e81',
+                pointBorderColor: '#ffffff',
+                pointBorderWidth: 2
+              },
+              {
+                label: 'Stationery / Mwezi (TZS)',
+                data: mSeriesChart.map((m) => m.stationery),
+                borderColor: '#0d9488',
+                backgroundColor: 'rgba(13, 148, 136, 0.08)',
+                borderWidth: 2.5,
+                fill: false,
+                tension: 0.3,
+                pointRadius: 4,
+                pointHoverRadius: 6,
+                pointBackgroundColor: '#0f766e'
+              },
+              {
+                label: 'Wi-Fi .NET / Mwezi (TZS)',
+                data: mSeriesChart.map((m) => m.wifi),
+                borderColor: '#db2777',
+                backgroundColor: 'rgba(219, 39, 119, 0.08)',
+                borderWidth: 2.5,
+                borderDash: [5, 4],
+                fill: false,
+                tension: 0.3,
+                pointRadius: 4,
+                pointHoverRadius: 6,
+                pointBackgroundColor: '#9d174d'
               }
             ]
           },
@@ -1615,6 +1923,48 @@
             }
           };
           reader.readAsText(file);
+        });
+
+        function openMonthlyReportWhatsapp(targetMonth) {
+          const summary = computeSummaries();
+          const monthItem = (summary.monthlySeries || []).find((m) => m.month === targetMonth);
+          if (!monthItem) {
+            showBanner(`Hakuna rekodi za mwezi ${targetMonth} za kutuma WhatsApp.`, 'warning');
+            return;
+          }
+          const isClosed = targetMonth < getTodayISO().slice(0, 7);
+          const statusLabel = isClosed ? 'IMEPUNGWA / IMEFUNGWA' : 'INAENDELEA';
+          const text = [
+            `*FAUSTINE STATIONERY SERVICE*`,
+            `Ripoti ya Mwezi: *${monthItem.month}* (${statusLabel})`,
+            `• Akiba: *${formatTZS(monthItem.akiba)}*`,
+            `• Salio: *${formatTZS(monthItem.salio)}*`,
+            `• Mtaji Uliobaki: *${formatTZS(monthItem.mtajiRemaining)}*`,
+            `• Manunuzi: *${formatTZS(monthItem.purchases)}*`,
+            `• Wi-Fi (.NET): *${formatTZS(monthItem.wifi)}*`,
+            `• Jumla Mapato (Stationery + Wi-Fi): *${formatTZS(monthItem.total)}*`
+          ].join('\n');
+
+          const whatsappPhone = '255612147790';
+          const waUrl = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(text)}`;
+          window.open(waUrl, '_blank', 'noopener,noreferrer');
+        }
+
+        els.monthlyAutoReportsList.addEventListener('click', (e) => {
+          const btn = e.target.closest('.send-whatsapp-month-btn');
+          if (!btn) return;
+          const monthKey = btn.getAttribute('data-whatsapp-month');
+          if (monthKey) openMonthlyReportWhatsapp(monthKey);
+        });
+
+        els.sendCurrentMonthWhatsappBtn.addEventListener('click', () => {
+          const summary = computeSummaries();
+          const mSeries = summary.monthlySeries || [];
+          const currentMonthKey = getTodayISO().slice(0, 7);
+          const targetMonth = mSeries.some((m) => m.month === currentMonthKey)
+            ? currentMonthKey
+            : (mSeries.length > 0 ? mSeries[mSeries.length - 1].month : currentMonthKey);
+          openMonthlyReportWhatsapp(targetMonth);
         });
 
         els.closeBannerBtn.addEventListener('click', hideBanner);

@@ -674,6 +674,211 @@
       </div>
     </section>
 
+    <!-- SECTION 3A: UCHAMBUZI WA HUDUMA ZINAZOINGIZA ZAIDI & MCHANGO WA WI-FI -->
+    <section aria-label="Huduma Zinazoingiza Zaidi na Mchango wa Wi-Fi" class="bg-white rounded-2xl border border-slate-200/90 p-5 sm:p-6 shadow-xs space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
+        <div>
+          <span class="inline-block text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-full bg-teal-700 text-white mb-1">
+            Kipengele 1 &bull; Huduma &amp; Wi-Fi Share
+          </span>
+          <h2 class="text-lg font-extrabold text-[#0f2942]">
+            Huduma Zinazoingiza Zaidi &amp; Mchango wa Wi-Fi (.NET)
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-500">
+            Inaonyesha moja kwa moja huduma ya Stationery inayoongoza kwa mapato na mchango wa Wi-Fi (.NET) dhidi ya jumla ya mapato.
+          </p>
+        </div>
+        <span id="topServiceBadge" class="text-xs font-extrabold px-3 py-1 rounded-full bg-teal-100 text-teal-950 self-start sm:self-auto">
+          Kinara: —
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div class="rounded-xl border border-slate-200/90 bg-[#f8fafc] p-4 space-y-2.5">
+          <p class="text-xs font-extrabold uppercase tracking-wider text-[#0f2942]">Mchanganuo wa Huduma za Stationery</p>
+          <div id="serviceBreakdownList" class="space-y-2 text-xs"></div>
+        </div>
+
+        <div class="rounded-xl border border-[#db2777]/25 bg-[#fdf2f8]/60 p-4 flex flex-col justify-between space-y-3">
+          <div>
+            <p class="text-xs font-extrabold uppercase tracking-wider text-[#9d174d]">Mchango wa Wi-Fi (.NET) vs Stationery</p>
+            <p id="wifiShareHeadline" class="text-xl font-extrabold text-[#db2777] mt-1">0.0% Wi-Fi &bull; 0.0% Stationery</p>
+            <p id="wifiShareInterpretation" class="text-xs text-[#831843] mt-1.5 leading-relaxed">
+              Ongeza mapato ya Stationery na Wi-Fi ili kuona uwiano wa mchango wa kila upande.
+            </p>
+          </div>
+          <div class="w-full h-2.5 rounded-full bg-teal-200/80 overflow-hidden flex">
+            <div id="shareStationeryBar" class="h-full bg-teal-700 transition-all duration-300" style="width: 50%;"></div>
+            <div id="shareWifiBar" class="h-full bg-[#db2777] transition-all duration-300" style="width: 50%;"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3B: KIASHIRIA CHA AFYA YA MTAJI NA MATUMIZI -->
+    <section aria-label="Afya ya Mtaji na Matumizi" class="bg-white rounded-2xl border border-slate-200/90 p-5 sm:p-6 shadow-xs space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
+        <div>
+          <span class="inline-block text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-full bg-amber-600 text-white mb-1">
+            Kipengele 2 &bull; Afya ya Mtaji &amp; Matumizi
+          </span>
+          <h2 class="text-lg font-extrabold text-[#0f2942]">
+            Kiashiria cha Afya ya Mtaji na Gharama za Salio
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-500">
+            Kinakusaidia kuona uwiano wa manunuzi ya vifaa dhidi ya mtaji uliotengwa na jumla ya matumizi yaliyokatwa kwenye Salio.
+          </p>
+        </div>
+        <span id="mtajiHealthBadge" class="text-xs font-extrabold px-3 py-1 rounded-full bg-emerald-100 text-emerald-950 self-start sm:self-auto">
+          Hali: Salama
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="rounded-xl border border-teal-200 bg-teal-50/60 p-4 space-y-2.5">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-extrabold uppercase tracking-wider text-teal-950">Manunuzi vs Mtaji Uliotengwa</span>
+            <span id="mtajiBurnPctLabel" class="text-xs font-extrabold text-teal-900">0.0%</span>
+          </div>
+          <p id="mtajiBurnSummaryText" class="text-sm font-bold text-[#0f2942]">
+            Manunuzi: 0 TZS kati ya Mtaji uliotengwa 0 TZS
+          </p>
+          <div class="w-full h-2.5 rounded-full bg-teal-200/80 overflow-hidden">
+            <div id="mtajiBurnBar" class="h-full bg-teal-700 transition-all duration-300" style="width: 0%;"></div>
+          </div>
+          <p id="mtajiBurnAdvice" class="text-xs text-teal-950/85">
+            Ukitumia chini ya 75% ya mtaji uliotengwa, mzunguko wa biashara upo imara.
+          </p>
+        </div>
+
+        <div class="rounded-xl border border-slate-200 bg-slate-50/90 p-4 space-y-2">
+          <span class="text-xs font-extrabold uppercase tracking-wider text-slate-800">Jumla ya Gharama Zilizokatwa Kwenye Salio</span>
+          <p id="salioExpensesTotalDisplay" class="text-xl font-extrabold text-[#0f2942]">0 TZS</p>
+          <p id="salioExpensesDetailText" class="text-xs text-slate-600">
+            Salio la awali: 0 TZS &bull; Makato ya matumizi: 0 TZS
+          </p>
+          <p id="salioExpensesAdvice" class="text-xs font-semibold text-slate-700">
+            Ukataji wa moja kwa moja kwenye kadi ya Salio unapunguza salio linaloonekana papo hapo.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3C: KICHUJIO CHA KIPINDI / TAREHE -->
+    <section aria-label="Kichujio cha Kipindi na Tarehe" class="bg-white rounded-2xl border border-slate-200/90 p-5 sm:p-6 shadow-xs space-y-4">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3 border-b border-slate-100 pb-3">
+        <div>
+          <span class="inline-block text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-full bg-indigo-700 text-white mb-1">
+            Kipengele 3 &bull; Kichujio cha Kipindi
+          </span>
+          <h2 class="text-lg font-extrabold text-[#0f2942]">
+            Kichujio cha Kipindi / Tarehe (Leo / Siku 7 / Mwezi Huu / Zote)
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-500">
+            Chagua kipindi ili kuona mapato ya Stationery, Wi-Fi (.NET), na Manunuzi kwa haraka bila kuharibu data zako.
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-1.5">
+          <button type="button" data-period="ALL" class="period-filter-btn px-3 py-1.5 rounded-lg text-xs font-extrabold bg-[#0f2942] text-white cursor-pointer">Zote</button>
+          <button type="button" data-period="TODAY" class="period-filter-btn px-3 py-1.5 rounded-lg text-xs font-extrabold bg-slate-100 text-slate-800 hover:bg-slate-200 cursor-pointer">Leo</button>
+          <button type="button" data-period="7D" class="period-filter-btn px-3 py-1.5 rounded-lg text-xs font-extrabold bg-slate-100 text-slate-800 hover:bg-slate-200 cursor-pointer">Siku 7</button>
+          <button type="button" data-period="MONTH" class="period-filter-btn px-3 py-1.5 rounded-lg text-xs font-extrabold bg-slate-100 text-slate-800 hover:bg-slate-200 cursor-pointer">Mwezi Huu</button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div class="rounded-xl bg-teal-50/70 border border-teal-200 p-3.5">
+          <p class="text-[11px] font-extrabold uppercase tracking-wider text-teal-900">Stationery (<span class="period-active-label">Zote</span>)</p>
+          <p id="periodStationeryTotal" class="text-lg font-extrabold text-[#0f2942] mt-1">0 TZS</p>
+        </div>
+        <div class="rounded-xl bg-[#fdf2f8] border border-[#db2777]/30 p-3.5">
+          <p class="text-[11px] font-extrabold uppercase tracking-wider text-[#9d174d]">Wi-Fi .NET (<span class="period-active-label">Zote</span>)</p>
+          <p id="periodWifiTotal" class="text-lg font-extrabold text-[#db2777] mt-1">0 TZS</p>
+        </div>
+        <div class="rounded-xl bg-slate-100/90 border border-slate-300/80 p-3.5">
+          <p class="text-[11px] font-extrabold uppercase tracking-wider text-slate-800">Manunuzi (<span class="period-active-label">Zote</span>)</p>
+          <p id="periodPurchasesTotal" class="text-lg font-extrabold text-rose-700 mt-1">0 TZS</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3D: KIPIMO CHA KASI YA AKIBA (LENGO 1,000,000 TZS) -->
+    <section aria-label="Kasi ya Akiba Kuelekea Lengo" class="bg-white rounded-2xl border border-slate-200/90 p-5 sm:p-6 shadow-xs space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
+        <div>
+          <span class="inline-block text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-full bg-amber-500 text-slate-950 mb-1">
+            Kipengele 4 &bull; Kasi ya Akiba
+          </span>
+          <h2 class="text-lg font-extrabold text-[#0f2942]">
+            Kipimo cha Kasi ya Akiba Kuelekea 1,000,000 TZS
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-500">
+            Inakuonyesha wastani wa akiba inayoongezeka kwa siku ya mauzo na makadirio ya muda uliobaki kufikia lengo.
+          </p>
+        </div>
+        <span id="akibaPaceBadge" class="text-xs font-extrabold px-3 py-1 rounded-full bg-amber-100 text-amber-950 self-start sm:self-auto">
+          Lengo: 1,000,000 TZS
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <div class="rounded-xl bg-amber-50/80 border border-amber-300/80 p-3.5">
+          <p class="text-[11px] font-extrabold uppercase tracking-wider text-amber-950">Wastani wa Akiba / Siku</p>
+          <p id="akibaDailyPaceDisplay" class="text-lg font-extrabold text-[#0f2942] mt-1">0 TZS</p>
+        </div>
+        <div class="rounded-xl bg-amber-50/80 border border-amber-300/80 p-3.5">
+          <p class="text-[11px] font-extrabold uppercase tracking-wider text-amber-950">Makadirio ya Siku Zilizobaki</p>
+          <p id="akibaEstimatedDaysDisplay" class="text-lg font-extrabold text-amber-950 mt-1">—</p>
+        </div>
+        <div class="rounded-xl bg-slate-100/90 border border-slate-300/80 p-3.5">
+          <p class="text-[11px] font-extrabold uppercase tracking-wider text-slate-800">Tafsiri ya Kasi</p>
+          <p id="akibaPaceInterpretation" class="text-xs font-bold text-[#0f2942] mt-1 leading-snug">
+            Rekodi mapato ya Stationery ili kuona kasi ya akiba yako.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3E: ZIADA HALISI YA PESA (NET CASH SURPLUS) -->
+    <section aria-label="Ziada Halisi ya Pesa" class="bg-white rounded-2xl border border-slate-200/90 p-5 sm:p-6 shadow-xs space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
+        <div>
+          <span class="inline-block text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#0f2942] text-white mb-1">
+            Kipengele 5 &bull; Net Cash Surplus
+          </span>
+          <h2 class="text-lg font-extrabold text-[#0f2942]">
+            Muhtasari wa Ziada Halisi ya Pesa (Net Cash Surplus)
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-500">
+            Inalinganisha jumla ya mapato yaliyoingia (Stationery + Wi-Fi) dhidi ya gharama zote zilizotoka (Manunuzi + Gharama za Salio).
+          </p>
+        </div>
+        <span id="surplusStatusBadge" class="text-xs font-extrabold px-3 py-1 rounded-full bg-emerald-100 text-emerald-950 self-start sm:self-auto">
+          Ziada Chanya
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <div class="rounded-xl bg-teal-50/70 border border-teal-200 p-3.5">
+          <p class="text-[11px] font-extrabold uppercase tracking-wider text-teal-950">Jumla ya Mapato (Stationery + Wi-Fi)</p>
+          <p id="surplusGrossIncomeDisplay" class="text-lg font-extrabold text-[#0f2942] mt-1">0 TZS</p>
+        </div>
+        <div class="rounded-xl bg-rose-50/70 border border-rose-200 p-3.5">
+          <p class="text-[11px] font-extrabold uppercase tracking-wider text-rose-900">Jumla ya Gharama (Manunuzi + Salio)</p>
+          <p id="surplusTotalOutflowDisplay" class="text-lg font-extrabold text-rose-700 mt-1">0 TZS</p>
+        </div>
+        <div class="rounded-xl bg-[#0f2942] text-white p-3.5">
+          <p class="text-[11px] font-extrabold uppercase tracking-wider text-teal-300">Ziada Halisi (Net Cash Surplus)</p>
+          <p id="surplusNetAmountDisplay" class="text-lg font-extrabold text-white mt-1">0 TZS</p>
+        </div>
+      </div>
+
+      <p id="surplusInterpretationText" class="text-xs sm:text-sm font-semibold text-slate-700 bg-[#f8fafc] border border-slate-200 rounded-xl px-4 py-3">
+        Ingiza rekodi za mapato na gharama ili kuona hali halisi ya ziada ya pesa.
+      </p>
+    </section>
+
     <!-- SECTION 4: KUMBUKUMBU ZILIZOHIFADHIWA -->
     <section aria-label="Kumbukumbu Zilizohifadhiwa" class="bg-white rounded-2xl border border-slate-200/90 p-5 sm:p-6 shadow-xs space-y-4">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
@@ -739,6 +944,7 @@
       };
 
       let appState = loadAppState();
+      let activePeriod = 'ALL';
       let trendChart = null;
       let monthlyTrendChart = null;
       let wifiTrendChart = null;
@@ -830,6 +1036,32 @@
 
 
         recordsCountBadge: document.getElementById('recordsCountBadge'),
+        topServiceBadge: document.getElementById('topServiceBadge'),
+        serviceBreakdownList: document.getElementById('serviceBreakdownList'),
+        wifiShareHeadline: document.getElementById('wifiShareHeadline'),
+        wifiShareInterpretation: document.getElementById('wifiShareInterpretation'),
+        shareStationeryBar: document.getElementById('shareStationeryBar'),
+        shareWifiBar: document.getElementById('shareWifiBar'),
+        mtajiHealthBadge: document.getElementById('mtajiHealthBadge'),
+        mtajiBurnPctLabel: document.getElementById('mtajiBurnPctLabel'),
+        mtajiBurnSummaryText: document.getElementById('mtajiBurnSummaryText'),
+        mtajiBurnBar: document.getElementById('mtajiBurnBar'),
+        mtajiBurnAdvice: document.getElementById('mtajiBurnAdvice'),
+        salioExpensesTotalDisplay: document.getElementById('salioExpensesTotalDisplay'),
+        salioExpensesDetailText: document.getElementById('salioExpensesDetailText'),
+        salioExpensesAdvice: document.getElementById('salioExpensesAdvice'),
+        periodStationeryTotal: document.getElementById('periodStationeryTotal'),
+        periodWifiTotal: document.getElementById('periodWifiTotal'),
+        periodPurchasesTotal: document.getElementById('periodPurchasesTotal'),
+        akibaPaceBadge: document.getElementById('akibaPaceBadge'),
+        akibaDailyPaceDisplay: document.getElementById('akibaDailyPaceDisplay'),
+        akibaEstimatedDaysDisplay: document.getElementById('akibaEstimatedDaysDisplay'),
+        akibaPaceInterpretation: document.getElementById('akibaPaceInterpretation'),
+        surplusStatusBadge: document.getElementById('surplusStatusBadge'),
+        surplusGrossIncomeDisplay: document.getElementById('surplusGrossIncomeDisplay'),
+        surplusTotalOutflowDisplay: document.getElementById('surplusTotalOutflowDisplay'),
+        surplusNetAmountDisplay: document.getElementById('surplusNetAmountDisplay'),
+        surplusInterpretationText: document.getElementById('surplusInterpretationText'),
         recordsTableBody: document.getElementById('recordsTableBody')
       };
 
@@ -1152,6 +1384,167 @@
         };
       }
 
+      function renderFiveFeatures(summary) {
+        // 1. Top Performing Services & Wi-Fi Share
+        const serviceTotals = new Map();
+        appState.entries.forEach((entry) => {
+          if (entry.category === 'WIFI') return;
+          const srv = entry.label || 'Huduma Nyingine';
+          serviceTotals.set(srv, (serviceTotals.get(srv) || 0) + (Number(entry.amount) || 0));
+        });
+        const sortedServices = Array.from(serviceTotals.entries()).sort((a, b) => b[1] - a[1]);
+
+        if (sortedServices.length === 0) {
+          els.topServiceBadge.textContent = 'Kinara: —';
+          els.serviceBreakdownList.innerHTML = '<p class="text-slate-500">Hakuna mapato ya Stationery yaliyorekodiwa bado.</p>';
+        } else {
+          const [topName, topAmt] = sortedServices[0];
+          const topPct = summary.stationeryTotal > 0 ? ((topAmt / summary.stationeryTotal) * 100).toFixed(1) : '0.0';
+          els.topServiceBadge.textContent = `Kinara: ${topName} (${topPct}%)`;
+          els.serviceBreakdownList.innerHTML = sortedServices
+            .map(([name, amt]) => {
+              const pct = summary.stationeryTotal > 0 ? Math.min(100, (amt / summary.stationeryTotal) * 100) : 0;
+              return `
+                <div class="space-y-1">
+                  <div class="flex items-center justify-between font-bold text-slate-800">
+                    <span>${escapeHTML(name)}</span>
+                    <span>${formatTZS(amt)} (${pct.toFixed(0)}%)</span>
+                  </div>
+                  <div class="w-full h-1.5 rounded-full bg-slate-200 overflow-hidden">
+                    <div class="h-full bg-teal-700" style="width: ${pct}%;"></div>
+                  </div>
+                </div>
+              `;
+            })
+            .join('');
+        }
+
+        const grossAll = summary.stationeryTotal + summary.wifiTotal;
+        const wifiPct = grossAll > 0 ? (summary.wifiTotal / grossAll) * 100 : 0;
+        const stPct = grossAll > 0 ? (summary.stationeryTotal / grossAll) * 100 : 0;
+        els.wifiShareHeadline.textContent = `${wifiPct.toFixed(1)}% Wi-Fi • ${stPct.toFixed(1)}% Stationery`;
+        els.shareStationeryBar.style.width = `${grossAll > 0 ? stPct : 50}%`;
+        els.shareWifiBar.style.width = `${grossAll > 0 ? wifiPct : 50}%`;
+        if (grossAll === 0) {
+          els.wifiShareInterpretation.textContent = 'Ongeza mapato ya Stationery na Wi-Fi ili kuona mchango wa kila sehemu.';
+        } else if (wifiPct >= 30) {
+          els.wifiShareInterpretation.textContent = `Wi-Fi (.NET) inachangia ${wifiPct.toFixed(1)}% ya mapato yote—huduma ya intaneti ni chanzo imara cha ziada.`;
+        } else {
+          els.wifiShareInterpretation.textContent = `Stationery inaongoza kwa ${stPct.toFixed(1)}%, huku Wi-Fi (.NET) ikichangia ${wifiPct.toFixed(1)}%.`;
+        }
+
+        // 2. Mtaji Health & Salio Expenses
+        const burnRatio = summary.mtajiAllocated > 0
+          ? (summary.purchasesTotal / summary.mtajiAllocated) * 100
+          : (summary.purchasesTotal > 0 ? 100 : 0);
+        const clampedBar = Math.min(100, Math.max(0, burnRatio));
+        els.mtajiBurnPctLabel.textContent = `${burnRatio.toFixed(1)}%`;
+        els.mtajiBurnSummaryText.textContent = `Manunuzi: ${formatTZS(summary.purchasesTotal)} / Mtaji Uliotengwa: ${formatTZS(summary.mtajiAllocated)}`;
+        els.mtajiBurnBar.style.width = `${clampedBar}%`;
+
+        if (summary.mtajiAvailable < 0) {
+          els.mtajiHealthBadge.textContent = 'Hali: Deni (Negative)';
+          els.mtajiHealthBadge.className = 'text-xs font-extrabold px-3 py-1 rounded-full bg-rose-100 text-rose-800 self-start sm:self-auto';
+          els.mtajiBurnBar.className = 'h-full bg-rose-600 transition-all duration-300';
+          els.mtajiBurnAdvice.textContent = `Manunuzi yamezidi mtaji uliotengwa kwa ${formatTZS(Math.abs(summary.mtajiAvailable))}. Punguza manunuzi au ongeza mauzo ya Stationery.`;
+        } else if (burnRatio >= 75) {
+          els.mtajiHealthBadge.textContent = 'Hali: Angalizo (>75%)';
+          els.mtajiHealthBadge.className = 'text-xs font-extrabold px-3 py-1 rounded-full bg-amber-100 text-amber-950 self-start sm:self-auto';
+          els.mtajiBurnBar.className = 'h-full bg-amber-500 transition-all duration-300';
+          els.mtajiBurnAdvice.textContent = `Umetumia ${burnRatio.toFixed(1)}% ya mtaji uliotengwa. Linda mtaji uliobaki kwa ununuzi muhimu pekee.`;
+        } else {
+          els.mtajiHealthBadge.textContent = 'Hali: Salama';
+          els.mtajiHealthBadge.className = 'text-xs font-extrabold px-3 py-1 rounded-full bg-emerald-100 text-emerald-950 self-start sm:self-auto';
+          els.mtajiBurnBar.className = 'h-full bg-teal-700 transition-all duration-300';
+          els.mtajiBurnAdvice.textContent = `Mtaji upo kwenye hali nzuri (${burnRatio.toFixed(1)}% umetumika).`;
+        }
+
+        els.salioExpensesTotalDisplay.textContent = formatTZS(summary.salioExpensesTotal);
+        els.salioExpensesDetailText.textContent = `Salio la awali: ${formatTZS(summary.salioGrossTotal)} • Makato ya matumizi: ${formatTZS(summary.salioExpensesTotal)}`;
+        els.salioExpensesAdvice.textContent = summary.salioTotal < 0
+          ? `Salio lina upungufu wa ${formatTZS(Math.abs(summary.salioTotal))} baada ya makato ya matumizi.`
+          : `Salio halisi linaloonekana sasa ni ${formatTZS(summary.salioTotal)}.`;
+
+        // 3. Period / Date Filter (ALL / TODAY / 7D / MONTH)
+        const todayISO = getTodayISO();
+        const currentMonthPrefix = todayISO.slice(0, 7);
+        const sevenDaysAgo = new Date();
+        sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6);
+        const sevenDaysAgoISO = `${sevenDaysAgo.getFullYear()}-${String(sevenDaysAgo.getMonth() + 1).padStart(2, '0')}-${String(sevenDaysAgo.getDate()).padStart(2, '0')}`;
+
+        function inPeriod(dateStr) {
+          const d = dateStr || todayISO;
+          if (activePeriod === 'TODAY') return d === todayISO;
+          if (activePeriod === '7D') return d >= sevenDaysAgoISO && d <= todayISO;
+          if (activePeriod === 'MONTH') return d.startsWith(currentMonthPrefix);
+          return true;
+        }
+
+        let pStationery = 0;
+        let pWifi = 0;
+        let pPurchases = 0;
+        appState.entries.forEach((e) => {
+          if (!inPeriod(e.date)) return;
+          if (e.category === 'WIFI') pWifi += Number(e.amount) || 0;
+          else pStationery += Number(e.amount) || 0;
+        });
+        appState.purchases.forEach((p) => {
+          if (!inPeriod(p.date)) return;
+          pPurchases += Number(p.amount) || 0;
+        });
+
+        const periodLabelsMap = { ALL: 'Zote', TODAY: 'Leo', '7D': 'Siku 7', MONTH: 'Mwezi Huu' };
+        const pLabel = periodLabelsMap[activePeriod] || 'Zote';
+        document.querySelectorAll('.period-active-label').forEach((el) => {
+          el.textContent = pLabel;
+        });
+        document.querySelectorAll('.period-filter-btn').forEach((btn) => {
+          const isSelected = btn.getAttribute('data-period') === activePeriod;
+          btn.className = isSelected
+            ? 'period-filter-btn px-3 py-1.5 rounded-lg text-xs font-extrabold bg-[#0f2942] text-white cursor-pointer'
+            : 'period-filter-btn px-3 py-1.5 rounded-lg text-xs font-extrabold bg-slate-100 text-slate-800 hover:bg-slate-200 cursor-pointer';
+        });
+        els.periodStationeryTotal.textContent = formatTZS(pStationery);
+        els.periodWifiTotal.textContent = formatTZS(pWifi);
+        els.periodPurchasesTotal.textContent = formatTZS(pPurchases);
+
+        // 4. Savings Pace (1,000,000 TZS Target)
+        const dailyAkibaPace = summary.activeDaysCount > 0 ? Math.round(summary.akibaTotal / summary.activeDaysCount) : 0;
+        const remainingGoal = Math.max(0, AKIBA_GOAL_TZS - summary.akibaTotal);
+        els.akibaDailyPaceDisplay.textContent = formatTZS(dailyAkibaPace);
+        if (remainingGoal === 0) {
+          els.akibaPaceBadge.textContent = 'Lengo Limefikiwa!';
+          els.akibaEstimatedDaysDisplay.textContent = 'Siku 0';
+          els.akibaPaceInterpretation.textContent = 'Hongera! Umefikia lengo la Akiba la 1,000,000 TZS.';
+        } else if (dailyAkibaPace > 0) {
+          const estDays = Math.ceil(remainingGoal / dailyAkibaPace);
+          els.akibaPaceBadge.textContent = `Bado ${formatTZS(remainingGoal)}`;
+          els.akibaEstimatedDaysDisplay.textContent = `~Siku ${estDays}`;
+          els.akibaPaceInterpretation.textContent = `Kwa wastani wa ${formatTZS(dailyAkibaPace)}/siku, utafikia 1,000,000 TZS baada ya takribani siku ${estDays} za mauzo.`;
+        } else {
+          els.akibaPaceBadge.textContent = 'Lengo: 1,000,000 TZS';
+          els.akibaEstimatedDaysDisplay.textContent = '—';
+          els.akibaPaceInterpretation.textContent = 'Rekodi mapato ya Stationery ili kuona kasi ya akiba yako.';
+        }
+
+        // 5. Net Cash Surplus (Ziada Halisi ya Pesa)
+        const totalOutflow = summary.purchasesTotal + summary.salioExpensesTotal;
+        const netCashSurplus = grossAll - totalOutflow;
+        els.surplusGrossIncomeDisplay.textContent = formatTZS(grossAll);
+        els.surplusTotalOutflowDisplay.textContent = formatTZS(totalOutflow);
+        els.surplusNetAmountDisplay.textContent = formatTZS(netCashSurplus);
+
+        if (netCashSurplus >= 0) {
+          els.surplusStatusBadge.textContent = 'Ziada Chanya';
+          els.surplusStatusBadge.className = 'text-xs font-extrabold px-3 py-1 rounded-full bg-emerald-100 text-emerald-950 self-start sm:self-auto';
+          els.surplusInterpretationText.textContent = `Una ziada halisi ya ${formatTZS(netCashSurplus)} baada ya kutoa manunuzi ya vifaa na makato ya Salio.`;
+        } else {
+          els.surplusStatusBadge.textContent = 'Upungufu (Negative)';
+          els.surplusStatusBadge.className = 'text-xs font-extrabold px-3 py-1 rounded-full bg-rose-100 text-rose-800 self-start sm:self-auto';
+          els.surplusInterpretationText.textContent = `Gharama zilizotoka zimezidi jumla ya mapato kwa ${formatTZS(Math.abs(netCashSurplus))}. Dhibiti matumizi au ongeza mapato.`;
+        }
+      }
+
       function renderBusinessInsights(summary) {
         els.insightAvgDailySales.textContent = formatTZS(summary.avgDailySales);
         els.insightActiveDaysText.textContent = `Kwenye siku ${summary.activeDaysCount} za mauzo`;
@@ -1337,7 +1730,8 @@
         els.purchasesTotalDisplay.textContent = formatTZS(summary.purchasesTotal);
         els.wifiTotalDisplay.textContent = formatTZS(summary.wifiTotal);
 
-        renderBusinessInsights(summary);
+        renderFiveFeatures(summary);
+                renderBusinessInsights(summary);
         renderPurchasesTable();
         renderRecordsTable();
         renderCharts(summary);
@@ -2171,6 +2565,13 @@
             showBanner(`Gharama ya ${formatTZS(expAmt)} imekatwa moja kwa moja kwenye Salio.`, 'success');
           });
         }
+
+                document.querySelectorAll('.period-filter-btn').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            activePeriod = btn.getAttribute('data-period') || 'ALL';
+            renderAll();
+          });
+        });
 
                 els.closeBannerBtn.addEventListener('click', hideBanner);
       }

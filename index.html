@@ -150,6 +150,23 @@
             <p id="salioTotalDisplay" class="text-2xl font-extrabold text-[#0f2942] mt-2">0 TZS</p>
           </div>
           <p class="text-xs text-slate-600 mt-2">Matumizi ya kila siku bila kugusa Mtaji wala Akiba.</p>
+          <form id="salioExpenseForm" class="mt-3 pt-2.5 border-t border-slate-300/80 flex items-center gap-2">
+            <input
+              id="salioExpenseInput"
+              type="number"
+              min="1"
+              step="1"
+              placeholder="Gharama ya matumizi (TZS)"
+              aria-label="Gharama ya matumizi ya Salio (TZS)"
+              class="w-full px-2.5 py-1.5 text-xs font-bold rounded-lg border border-slate-300 bg-white text-slate-900 focus:border-[#0f2942] outline-none"
+            />
+            <button
+              type="submit"
+              class="px-3 py-1.5 rounded-lg text-xs font-extrabold bg-[#0f2942] hover:bg-[#163654] text-white shrink-0 transition cursor-pointer"
+            >
+              Kata Salio
+            </button>
+          </form>
         </div>
       </div>
 
@@ -375,6 +392,31 @@
           </div>
         </div>
       </div>
+
+        <!-- Dedicated Purchases Trend Line Chart inside Purchases Sub-Section -->
+        <div class="rounded-2xl border-2 border-cyan-500/35 bg-gradient-to-b from-cyan-50/75 to-white p-4 sm:p-5 space-y-3">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div>
+              <span class="inline-block text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-full bg-cyan-600 text-white mb-1">
+                Purchases Trend Line
+              </span>
+              <h4 class="text-sm sm:text-base font-extrabold text-[#0f2942]">
+                Mwenendo wa Manunuzi ya Vifaa (Purchases Trend &amp; Average Line)
+              </h4>
+            </div>
+            <div class="flex flex-wrap items-center gap-2 text-xs font-bold text-cyan-950">
+              <span class="px-2.5 py-1 rounded-lg bg-cyan-100/90 border border-cyan-300/70">
+                Wastani Manunuzi/Siku: <span id="purAvgDailyLabel">0 TZS</span>
+              </span>
+              <span class="px-2.5 py-1 rounded-lg bg-white border border-cyan-300/70">
+                Manunuzi Makubwa: <span id="purMaxDayLabel">—</span>
+              </span>
+            </div>
+          </div>
+          <div class="chart-box">
+            <canvas id="purchasesTrendChart" aria-label="Purchases Trend Line Chart"></canvas>
+          </div>
+        </div>
     </section>
 
     <!-- SECTION 2: STATIONERY SERVICE . NET — WI-FI PEKEE (PINK ACCENTED, NO THREE POCKETS) -->
@@ -692,13 +734,15 @@
           salio: 14
         },
         entries: [],
-        purchases: []
+        purchases: [],
+        salioExpenses: []
       };
 
       let appState = loadAppState();
       let trendChart = null;
       let monthlyTrendChart = null;
       let wifiTrendChart = null;
+      let purchasesTrendChart = null;
       let comparisonChart = null;
       let pocketsLineChart = null;
 
@@ -744,6 +788,11 @@
         purAmountInput: document.getElementById('purAmountInput'),
         purchasesCountBadge: document.getElementById('purchasesCountBadge'),
         purchasesTableBody: document.getElementById('purchasesTableBody'),
+        purchasesTrendCanvas: document.getElementById('purchasesTrendChart'),
+        purAvgDailyLabel: document.getElementById('purAvgDailyLabel'),
+        purMaxDayLabel: document.getElementById('purMaxDayLabel'),
+        salioExpenseForm: document.getElementById('salioExpenseForm'),
+        salioExpenseInput: document.getElementById('salioExpenseInput'),
 
         wifiTotalDisplay: document.getElementById('wifiTotalDisplay'),
         wifiEntryForm: document.getElementById('wifiEntryForm'),
@@ -850,7 +899,8 @@
               salio: Number.isFinite(Number(parsed.percentages?.salio)) ? Number(parsed.percentages.salio) : 14
             },
             entries: Array.isArray(parsed.entries) ? parsed.entries : [],
-            purchases: Array.isArray(parsed.purchases) ? parsed.purchases : []
+            purchases: Array.isArray(parsed.purchases) ? parsed.purchases : [],
+            salioExpenses: Array.isArray(parsed.salioExpenses) ? parsed.salioExpenses : []
           };
         } catch (err) {
           return JSON.parse(JSON.stringify(DEFAULT_STATE));
@@ -999,6 +1049,25 @@
         });
 
         const mtajiAvailable = mtajiAllocated - purchasesTotal;
+        let salioExpensesTotal = 0;
+        const purDayMap = new Map();
+        appState.purchases.forEach((pur) => {
+          const cost = Number(pur.amount) || 0;
+          const pDate = pur.date || getTodayISO();
+          purDayMap.set(pDate, (purDayMap.get(pDate) || 0) + cost);
+        });
+        appState.salioExpenses.forEach((exp) => {
+          salioExpensesTotal += Number(exp.amount) || 0;
+        });
+        const salioAvailable = salioTotal - salioExpensesTotal;
+        const purchaseDays = Array.from(purDayMap.entries())
+          .map(([date, amount]) => ({ date, amount }))
+          .sort((a, b) => a.date.localeCompare(b.date));
+        const purAvgDailySales = purchaseDays.length > 0 ? Math.round(purchasesTotal / purchaseDays.length) : 0;
+        let purMaxDay = null;
+        purchaseDays.forEach((d) => {
+          if (!purMaxDay || d.amount > purMaxDay.amount) purMaxDay = d;
+        });
         const dailySeries = Array.from(dayMap.values()).sort((a, b) => a.date.localeCompare(b.date));
 
         // Stationery Sales Trend Insights
@@ -1060,7 +1129,12 @@
           purchasesTotal,
           mtajiAvailable,
           akibaTotal,
-          salioTotal,
+          salioTotal: salioAvailable,
+          salioGrossTotal: salioTotal,
+          salioExpensesTotal,
+          purchaseDays,
+          purAvgDailySales,
+          purMaxDay,
           wifiTotal,
           dailySeries,
           monthlySeries,
@@ -1239,6 +1313,17 @@
 
         els.akibaTotalDisplay.textContent = formatTZS(summary.akibaTotal);
         els.salioTotalDisplay.textContent = formatTZS(summary.salioTotal);
+        els.salioTotalDisplay.className = summary.salioTotal < 0
+          ? 'text-2xl font-extrabold text-rose-700 mt-2'
+          : 'text-2xl font-extrabold text-[#0f2942] mt-2';
+        if (els.purAvgDailyLabel) {
+          els.purAvgDailyLabel.textContent = formatTZS(summary.purAvgDailySales);
+        }
+        if (els.purMaxDayLabel) {
+          els.purMaxDayLabel.textContent = summary.purMaxDay
+            ? `${formatTZS(summary.purMaxDay.amount)} (${summary.purMaxDay.date})`
+            : '—';
+        }
 
         const goalPct = Math.min(100, Math.max(0, (summary.akibaTotal / AKIBA_GOAL_TZS) * 100));
         const remainingGoal = Math.max(0, AKIBA_GOAL_TZS - summary.akibaTotal);
@@ -1404,10 +1489,82 @@
         if (trendChart) trendChart.destroy();
         if (monthlyTrendChart) monthlyTrendChart.destroy();
         if (wifiTrendChart) wifiTrendChart.destroy();
+        if (purchasesTrendChart) purchasesTrendChart.destroy();
         if (comparisonChart) comparisonChart.destroy();
         if (pocketsLineChart) pocketsLineChart.destroy();
 
-        // 1b) Dedicated Wi-Fi (.NET) Daily Sales Trend Line Chart (Pink)
+        // Dedicated Purchases Trend Line Chart (Vibrant Cyan/Teal)
+        if (els.purchasesTrendCanvas) {
+          const purSeries = (summary.purchaseDays && summary.purchaseDays.length > 0)
+            ? summary.purchaseDays
+            : [{ date: 'Hakuna Data', amount: 0 }];
+          const purLabels = purSeries.map((d) => d.date);
+          const purValues = purSeries.map((d) => d.amount);
+          const purAvgValues = purSeries.map(() => summary.purAvgDailySales || 0);
+
+          purchasesTrendChart = new Chart(els.purchasesTrendCanvas.getContext('2d'), {
+            type: 'line',
+            data: {
+              labels: purLabels,
+              datasets: [
+                {
+                  label: 'Manunuzi ya Vifaa (TZS)',
+                  data: purValues,
+                  borderColor: '#0891b2',
+                  backgroundColor: 'rgba(8, 145, 178, 0.16)',
+                  borderWidth: 3,
+                  fill: true,
+                  tension: 0.3,
+                  pointRadius: 5,
+                  pointHoverRadius: 7,
+                  pointBackgroundColor: '#0e7490',
+                  pointBorderColor: '#ffffff',
+                  pointBorderWidth: 2
+                },
+                {
+                  label: 'Wastani wa Manunuzi/Siku (TZS)',
+                  data: purAvgValues,
+                  borderColor: '#f59e0b',
+                  borderWidth: 2,
+                  borderDash: [6, 6],
+                  fill: false,
+                  pointRadius: 0
+                }
+              ]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              interaction: {
+                mode: 'index',
+                intersect: false
+              },
+              plugins: {
+                legend: {
+                  position: 'top',
+                  labels: { font: { family: 'Inter', weight: '600', size: 11 } }
+                },
+                tooltip: {
+                  callbacks: {
+                    label: (ctx) => `${ctx.dataset.label}: ${Number(ctx.parsed.y || 0).toLocaleString('en-US')} TZS`
+                  }
+                }
+              },
+              scales: {
+                x: { ticks: { font: { family: 'Inter', size: 11 } } },
+                y: {
+                  beginAtZero: true,
+                  ticks: {
+                    font: { family: 'Inter', size: 11 },
+                    callback: (val) => Number(val).toLocaleString('en-US')
+                  }
+                }
+              }
+            }
+          });
+        }
+
+                // 1b) Dedicated Wi-Fi (.NET) Daily Sales Trend Line Chart (Pink)
         wifiTrendChart = new Chart(els.wifiTrendCanvas.getContext('2d'), {
           type: 'line',
           data: {
@@ -1994,7 +2151,28 @@
           openMonthlyReportWhatsapp(targetMonth);
         });
 
-        els.closeBannerBtn.addEventListener('click', hideBanner);
+        if (els.salioExpenseForm) {
+          els.salioExpenseForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const expAmt = Math.max(0, Math.round(Number(els.salioExpenseInput.value) || 0));
+            if (expAmt <= 0) {
+              showBanner('Weka kiasi kikubwa kuliko 0 TZS ili kukata Salio.', 'warning');
+              return;
+            }
+            if (!Array.isArray(appState.salioExpenses)) appState.salioExpenses = [];
+            appState.salioExpenses.push({
+              id: `salio-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+              date: getTodayISO(),
+              amount: expAmt
+            });
+            saveAppState();
+            els.salioExpenseInput.value = '';
+            renderAll();
+            showBanner(`Gharama ya ${formatTZS(expAmt)} imekatwa moja kwa moja kwenye Salio.`, 'success');
+          });
+        }
+
+                els.closeBannerBtn.addEventListener('click', hideBanner);
       }
 
       window.addEventListener('DOMContentLoaded', () => {

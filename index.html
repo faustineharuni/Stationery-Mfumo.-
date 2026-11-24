@@ -884,21 +884,94 @@
       </div>
     </section>
 
-    <!-- SECTION 5: KUMBUKUMBU ZILIZOHIFADHIWA -->
+    <!-- SECTION 5: KUMBUKUMBU ZILIZOHIFADHIWA + ADVANCED DATA FILTERING -->
     <section aria-label="Kumbukumbu Zilizohifadhiwa" class="bg-white rounded-2xl border border-slate-200/90 p-5 sm:p-6 shadow-xs space-y-4">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div>
           <h2 class="text-lg sm:text-xl font-extrabold text-[#0f2942]">
-            5. Kumbukumbu Zilizohifadhiwa (Mapato &amp; Manunuzi)
+            5. Kumbukumbu Zilizohifadhiwa &amp; Uchujaji (Mapato &amp; Manunuzi)
           </h2>
           <p class="text-xs text-slate-500">
-            Zinahifadhiwa moja kwa moja kwenye browser yako (<code class="text-slate-700 font-semibold">faustine_stationery_service_v1</code>).
+            Zinahifadhiwa moja kwa moja kwenye browser yako (<code class="text-slate-700 font-semibold">faustine_stationery_service_v1</code>). Chuja rekodi ili kuchambua kwa kina.
           </p>
         </div>
         <span id="recordsCountBadge" class="text-xs font-extrabold px-3 py-1 rounded-full bg-slate-100 text-slate-800 self-start sm:self-auto">
           0 rekodi
         </span>
       </div>
+
+      <!-- Advanced Multi-Criteria Filter Bar -->
+      <div class="rounded-2xl border border-slate-200 bg-[#f8fafc] p-4 space-y-3">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+          <div>
+            <label for="filterCategorySelect" class="block text-[11px] font-extrabold uppercase tracking-wider text-slate-700 mb-1">
+              Aina ya Rekodi
+            </label>
+            <select id="filterCategorySelect" class="w-full px-3 py-2 text-xs sm:text-sm font-semibold rounded-xl border border-slate-300 bg-white text-slate-900 focus:border-[#0f2942] outline-none">
+              <option value="ALL">Aina Zote</option>
+              <option value="STATIONERY">Stationery Pekee</option>
+              <option value="WIFI">Wi-Fi (.NET) Pekee</option>
+              <option value="PURCHASE">Manunuzi (Mtaji) Pekee</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="filterServiceSelect" class="block text-[11px] font-extrabold uppercase tracking-wider text-slate-700 mb-1">
+              Huduma ya Stationery
+            </label>
+            <select id="filterServiceSelect" class="w-full px-3 py-2 text-xs sm:text-sm font-semibold rounded-xl border border-slate-300 bg-white text-slate-900 focus:border-[#0f2942] outline-none">
+              <option value="ALL">Huduma Zote</option>
+              <option value="Printing & Photocopy">Printing &amp; Photocopy</option>
+              <option value="Typing & Document Formatting">Typing &amp; Document Formatting</option>
+              <option value="Binding & Lamination">Binding &amp; Lamination</option>
+              <option value="Stationery Supplies & Sales">Stationery Supplies &amp; Sales</option>
+              <option value="Design, Scanning & Other Services">Design, Scanning &amp; Other Services</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="filterTableStartDate" class="block text-[11px] font-extrabold uppercase tracking-wider text-slate-700 mb-1">
+              Kuanzia Tarehe
+            </label>
+            <input id="filterTableStartDate" type="date" class="w-full px-3 py-2 text-xs sm:text-sm font-semibold rounded-xl border border-slate-300 bg-white text-slate-900 focus:border-[#0f2942] outline-none" />
+          </div>
+
+          <div>
+            <label for="filterTableEndDate" class="block text-[11px] font-extrabold uppercase tracking-wider text-slate-700 mb-1">
+              Hadi Tarehe
+            </label>
+            <input id="filterTableEndDate" type="date" class="w-full px-3 py-2 text-xs sm:text-sm font-semibold rounded-xl border border-slate-300 bg-white text-slate-900 focus:border-[#0f2942] outline-none" />
+          </div>
+
+          <div>
+            <label for="filterSearchInput" class="block text-[11px] font-extrabold uppercase tracking-wider text-slate-700 mb-1">
+              Tafuta Maelezo / Bidhaa
+            </label>
+            <input id="filterSearchInput" type="text" placeholder="Mfano: Rimu, Vocha, Wino..." class="w-full px-3 py-2 text-xs sm:text-sm font-medium rounded-xl border border-slate-300 bg-white text-slate-900 focus:border-[#0f2942] outline-none" />
+          </div>
+        </div>
+
+        <div class="pt-2 border-t border-slate-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+          <div class="flex flex-wrap items-center gap-2 font-bold text-slate-700">
+            <span class="px-2.5 py-1 rounded-lg bg-white border border-slate-200">
+              Jumla ya Kiasi Kilichochujwa: <strong id="filteredSumAmountLabel" class="text-[#0f2942]">0 TZS</strong>
+            </span>
+            <span class="px-2.5 py-1 rounded-lg bg-white border border-slate-200">
+              Stationery: <strong id="filteredSumStationeryLabel" class="text-teal-800">0 TZS</strong>
+            </span>
+            <span class="px-2.5 py-1 rounded-lg bg-white border border-slate-200">
+              Wi-Fi: <strong id="filteredSumWifiLabel" class="text-[#db2777]">0 TZS</strong>
+            </span>
+            <span class="px-2.5 py-1 rounded-lg bg-white border border-slate-200">
+              Manunuzi: <strong id="filteredSumPurchaseLabel" class="text-rose-700">0 TZS</strong>
+            </span>
+          </div>
+          <button id="resetAllFiltersBtn" type="button" class="px-3.5 py-1.5 rounded-xl text-xs font-extrabold bg-[#0f2942] hover:bg-[#163654] text-white transition cursor-pointer self-start sm:self-auto">
+            Safisha Vichujio (Reset)
+          </button>
+        </div>
+      </div>
+
       <div class="overflow-x-auto">
         <table class="w-full text-left border-collapse">
           <thead>
@@ -934,6 +1007,12 @@
       let activePeriod = 'ALL';
       let customStartDate = '';
       let customEndDate = '';
+
+      let tableCategoryFilter = 'ALL';
+      let tableServiceFilter = 'ALL';
+      let tableStartDateFilter = '';
+      let tableEndDateFilter = '';
+      let tableSearchQuery = '';
 
       let trendChart = null;
       let monthlyTrendChart = null;
@@ -1046,6 +1125,16 @@
         surplusTotalOutflowDisplay: document.getElementById('surplusTotalOutflowDisplay'),
         surplusNetAmountDisplay: document.getElementById('surplusNetAmountDisplay'),
         surplusInterpretationText: document.getElementById('surplusInterpretationText'),
+        filterCategorySelect: document.getElementById('filterCategorySelect'),
+        filterServiceSelect: document.getElementById('filterServiceSelect'),
+        filterTableStartDate: document.getElementById('filterTableStartDate'),
+        filterTableEndDate: document.getElementById('filterTableEndDate'),
+        filterSearchInput: document.getElementById('filterSearchInput'),
+        filteredSumAmountLabel: document.getElementById('filteredSumAmountLabel'),
+        filteredSumStationeryLabel: document.getElementById('filteredSumStationeryLabel'),
+        filteredSumWifiLabel: document.getElementById('filteredSumWifiLabel'),
+        filteredSumPurchaseLabel: document.getElementById('filteredSumPurchaseLabel'),
+        resetAllFiltersBtn: document.getElementById('resetAllFiltersBtn'),
         recordsTableBody: document.getElementById('recordsTableBody')
       };
 
@@ -1752,7 +1841,7 @@
           .join('');
       }
 
-      function renderRecordsTable() {
+      function getFilteredCombinedRecords() {
         const combined = [
           ...appState.entries.map((item) => ({
             id: item.id,
@@ -1775,20 +1864,64 @@
             salioDelta: null
           }))
         ];
-        const count = combined.length;
-        els.recordsCountBadge.textContent = `${count} ${count === 1 ? 'rekodi' : 'rekodi'}`;
+
+        const q = (tableSearchQuery || '').trim().toLowerCase();
+
+        return combined
+          .filter((row) => {
+            if (tableCategoryFilter !== 'ALL' && row.kind !== tableCategoryFilter) return false;
+            if (tableServiceFilter !== 'ALL') {
+              if (row.kind !== 'STATIONERY' || row.label !== tableServiceFilter) return false;
+            }
+            if (tableStartDateFilter && (row.date || '') < tableStartDateFilter) return false;
+            if (tableEndDateFilter && (row.date || '') > tableEndDateFilter) return false;
+            if (q) {
+              const hay = `${row.date} ${row.kind} ${row.label} ${row.amount}`.toLowerCase();
+              if (!hay.includes(q)) return false;
+            }
+            return true;
+          })
+          .sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+      }
+
+      function renderRecordsTable() {
+        const totalAllCount = appState.entries.length + appState.purchases.length;
+        const filtered = getFilteredCombinedRecords();
+        const count = filtered.length;
+
+        let sumAmount = 0;
+        let sumStationery = 0;
+        let sumWifi = 0;
+        let sumPurchase = 0;
+        filtered.forEach((row) => {
+          sumAmount += Number(row.amount) || 0;
+          if (row.kind === 'STATIONERY') sumStationery += Number(row.amount) || 0;
+          else if (row.kind === 'WIFI') sumWifi += Number(row.amount) || 0;
+          else if (row.kind === 'PURCHASE') sumPurchase += Number(row.amount) || 0;
+        });
+
+        if (els.filteredSumAmountLabel) els.filteredSumAmountLabel.textContent = formatTZS(sumAmount);
+        if (els.filteredSumStationeryLabel) els.filteredSumStationeryLabel.textContent = formatTZS(sumStationery);
+        if (els.filteredSumWifiLabel) els.filteredSumWifiLabel.textContent = formatTZS(sumWifi);
+        if (els.filteredSumPurchaseLabel) els.filteredSumPurchaseLabel.textContent = formatTZS(sumPurchase);
+
+        els.recordsCountBadge.textContent = count === totalAllCount
+          ? `${count} ${count === 1 ? 'rekodi' : 'rekodi'}`
+          : `${count} kati ya ${totalAllCount} rekodi`;
+
         if (count === 0) {
+          const emptyMsg = totalAllCount === 0
+            ? 'Hakuna kumbukumbu zilizohifadhiwa bado. Tumia fomu ya <strong>Stationery</strong>, <strong>Manunuzi ya Vifaa</strong>, au <strong>STATIONERY SERVICE . NET</strong> hapo juu.'
+            : 'Hakuna rekodi zilizopatikana kwa vichujio ulivyoweka. Bonyeza <strong>Safisha Vichujio</strong> kuona zote.';
           els.recordsTableBody.innerHTML = `
             <tr>
-              <td colspan="8" class="py-8 px-4 text-center text-xs sm:text-sm text-slate-500">
-                Hakuna kumbukumbu zilizohifadhiwa bado. Tumia fomu ya <strong>Stationery</strong>, <strong>Manunuzi ya Vifaa</strong>, au <strong>STATIONERY SERVICE . NET</strong> hapo juu.
-              </td>
+              <td colspan="8" class="py-8 px-4 text-center text-xs sm:text-sm text-slate-500">${emptyMsg}</td>
             </tr>
           `;
           return;
         }
-        const sortedDesc = combined.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
-        els.recordsTableBody.innerHTML = sortedDesc
+
+        els.recordsTableBody.innerHTML = filtered
           .map((row) => {
             let badgeHtml = '<span class="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-teal-100 text-teal-900">Stationery</span>';
             if (row.kind === 'WIFI') {
@@ -2218,6 +2351,58 @@
           const entryId = btn.getAttribute('data-delete-id');
           if (entryId) deleteEntryById(entryId);
         });
+
+        if (els.filterCategorySelect) {
+          els.filterCategorySelect.addEventListener('change', () => {
+            tableCategoryFilter = els.filterCategorySelect.value || 'ALL';
+            renderRecordsTable();
+          });
+        }
+
+        if (els.filterServiceSelect) {
+          els.filterServiceSelect.addEventListener('change', () => {
+            tableServiceFilter = els.filterServiceSelect.value || 'ALL';
+            renderRecordsTable();
+          });
+        }
+
+        if (els.filterTableStartDate) {
+          els.filterTableStartDate.addEventListener('change', () => {
+            tableStartDateFilter = els.filterTableStartDate.value || '';
+            renderRecordsTable();
+          });
+        }
+
+        if (els.filterTableEndDate) {
+          els.filterTableEndDate.addEventListener('change', () => {
+            tableEndDateFilter = els.filterTableEndDate.value || '';
+            renderRecordsTable();
+          });
+        }
+
+        if (els.filterSearchInput) {
+          els.filterSearchInput.addEventListener('input', () => {
+            tableSearchQuery = els.filterSearchInput.value || '';
+            renderRecordsTable();
+          });
+        }
+
+        if (els.resetAllFiltersBtn) {
+          els.resetAllFiltersBtn.addEventListener('click', () => {
+            tableCategoryFilter = 'ALL';
+            tableServiceFilter = 'ALL';
+            tableStartDateFilter = '';
+            tableEndDateFilter = '';
+            tableSearchQuery = '';
+            if (els.filterCategorySelect) els.filterCategorySelect.value = 'ALL';
+            if (els.filterServiceSelect) els.filterServiceSelect.value = 'ALL';
+            if (els.filterTableStartDate) els.filterTableStartDate.value = '';
+            if (els.filterTableEndDate) els.filterTableEndDate.value = '';
+            if (els.filterSearchInput) els.filterSearchInput.value = '';
+            renderRecordsTable();
+            showBanner('Vichujio vyote vimesafishwa.', 'info');
+          });
+        }
 
         els.exportCsvBtn.addEventListener('click', () => {
           if (appState.entries.length === 0 && appState.purchases.length === 0) {

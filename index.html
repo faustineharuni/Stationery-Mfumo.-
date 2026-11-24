@@ -28,6 +28,63 @@
   </style>
 </head>
 <body class="min-h-screen antialiased text-slate-900">
+  <!-- LOGIN GATE OVERLAY (Password Protected: Fau@06477) -->
+  <div id="authLockScreen" class="fixed inset-0 z-50 bg-gradient-to-br from-[#091b2d] via-[#0f2942] to-[#163654] flex items-center justify-center p-4">
+    <div class="w-full max-w-md bg-white rounded-3xl shadow-2xl border border-slate-200/90 p-6 sm:p-8 space-y-5">
+      <div class="text-center space-y-2">
+        <span class="inline-block text-[11px] font-extrabold uppercase tracking-widest px-3 py-1 rounded-full bg-amber-100 text-amber-950">
+          Mfumo Uliofungwa &bull; Ulinzi wa Data
+        </span>
+        <h1 class="text-xl sm:text-2xl font-extrabold text-[#0f2942]">
+          FAUSTINE STATIONERY SERVICE
+        </h1>
+        <p class="text-xs sm:text-sm text-slate-500">
+          Weka nenosiri (Password) kuingia kwenye dashibodi ya biashara na kusawazisha vifaa vyako.
+        </p>
+      </div>
+
+      <form id="authLoginForm" class="space-y-4">
+        <div>
+          <label for="authPasswordInput" class="block text-xs font-extrabold uppercase tracking-wider text-slate-700 mb-1.5">
+            Nenosiri (Password)
+          </label>
+          <div class="relative">
+            <input
+              id="authPasswordInput"
+              type="password"
+              required
+              autocomplete="current-password"
+              placeholder="Ingiza password yako..."
+              class="w-full px-4 py-3 pr-20 text-sm font-bold rounded-xl border border-slate-300 focus:border-[#0f2942] focus:ring-2 focus:ring-[#0f2942]/15 outline-none bg-[#f8fafc] focus:bg-white"
+            />
+            <button
+              id="togglePasswordVisBtn"
+              type="button"
+              class="absolute right-2.5 top-1/2 -translate-y-1/2 px-2.5 py-1 rounded-lg text-[11px] font-extrabold text-slate-600 hover:bg-slate-200/80 transition cursor-pointer"
+            >
+              Onyesha
+            </button>
+          </div>
+        </div>
+
+        <p id="authErrorMsg" class="hidden text-xs font-bold text-rose-700 bg-rose-50 border border-rose-200 rounded-xl px-3.5 py-2.5">
+          Nenosiri uliloingiza si sahihi. Jaribu tena.
+        </p>
+
+        <button
+          type="submit"
+          class="w-full py-3 rounded-xl text-sm font-extrabold bg-[#0f2942] hover:bg-[#163654] active:scale-[0.99] text-white shadow-sm transition cursor-pointer"
+        >
+          Fungua Mfumo (Login)
+        </button>
+      </form>
+
+      <p class="text-[11px] text-center text-slate-400">
+        Stationery Mifuko Mitatu &bull; STATIONERY SERVICE . NET &bull; Cloud Sync Ready
+      </p>
+    </div>
+  </div>
+
   <!-- Header: Slate-Navy with User's Official Logo + CSV / JSON Backup & Restore -->
   <header class="bg-gradient-to-r from-[#0f2942] via-[#163654] to-[#0f2942] text-white shadow-md sticky top-0 z-30">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3.5 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3">
@@ -73,6 +130,20 @@
           Rudisha Data (JSON)
           <input id="restoreJsonInput" type="file" accept=".json,application/json" class="hidden" />
         </label>
+        <button
+          id="openCloudSetupBtn"
+          type="button"
+          class="px-3.5 py-2 rounded-xl text-xs font-bold bg-sky-500 hover:bg-sky-400 active:scale-[0.99] text-slate-950 shadow-xs transition cursor-pointer"
+        >
+          Cloud Sync
+        </button>
+        <button
+          id="lockAppBtn"
+          type="button"
+          class="px-3.5 py-2 rounded-xl text-xs font-bold bg-rose-600 hover:bg-rose-500 active:scale-[0.99] text-white shadow-xs transition cursor-pointer"
+        >
+          Funga (Lock)
+        </button>
       </div>
     </div>
   </header>
@@ -84,6 +155,59 @@
       <button id="closeBannerBtn" type="button" class="text-xs font-extrabold uppercase tracking-wider opacity-75 hover:opacity-100 cursor-pointer">
         Funga
       </button>
+    </div>
+  </div>
+
+  <!-- Multi-Device Cloud Sync Bar (Google Sheets Web App URL) -->
+  <div id="cloudSyncPanel" class="max-w-6xl mx-auto px-4 sm:px-6 mt-4 hidden">
+    <div class="rounded-2xl bg-white border-2 border-sky-300/80 p-4 sm:p-5 shadow-xs space-y-3">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <div>
+          <span class="inline-block text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-sky-100 text-sky-950 mb-1">
+            Vifaa Vingi (Multi-Device Cloud Sync)
+          </span>
+          <h2 class="text-sm sm:text-base font-extrabold text-[#0f2942]">
+            Unganisha Google Sheets (Ukijaza Kifaa Kimoja, Kifaa Kingine Kinaona Ukirefresh)
+          </h2>
+        </div>
+        <span id="cloudSyncStatusBadge" class="text-xs font-extrabold px-3 py-1 rounded-full bg-slate-100 text-slate-700 self-start sm:self-auto">
+          Hali: Haijaunganishwa (Local Pekee)
+        </span>
+      </div>
+
+      <form id="cloudConfigForm" class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
+        <input
+          id="cloudWebAppUrlInput"
+          type="url"
+          placeholder="Bandika Google Apps Script Web App URL hapa (https://script.google.com/macros/s/.../exec)"
+          class="flex-1 px-3.5 py-2.5 text-xs sm:text-sm font-medium rounded-xl border border-slate-300 focus:border-sky-600 outline-none bg-[#f8fafc] focus:bg-white"
+        />
+        <div class="flex flex-wrap items-center gap-2">
+          <button
+            type="submit"
+            class="px-4 py-2.5 rounded-xl text-xs font-extrabold bg-[#0f2942] hover:bg-[#163654] text-white transition cursor-pointer"
+          >
+            Hifadhi &amp; Vuta Data
+          </button>
+          <button
+            id="pushCloudNowBtn"
+            type="button"
+            class="px-3.5 py-2.5 rounded-xl text-xs font-extrabold bg-teal-700 hover:bg-teal-600 text-white transition cursor-pointer"
+          >
+            Tuma Data Zilizopo Kwenda Cloud
+          </button>
+          <button
+            id="closeCloudPanelBtn"
+            type="button"
+            class="px-3 py-2.5 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 transition cursor-pointer"
+          >
+            Funga
+          </button>
+        </div>
+      </form>
+      <p class="text-[11px] text-slate-500">
+        Kidokezo: Ukishaweka URL hii mara moja kwenye simu yako na kompyuta yako, kila ukihifadhi au kufuta rekodi itatumwa Google Sheets moja kwa moja, na ukirefresh kifaa kingine data zitajipakia zenyewe.
+      </p>
     </div>
   </div>
 
@@ -1185,6 +1309,7 @@
         } catch (err) {
           showBanner('Imeshindikana kuhifadhi kwenye browser. Tumia Backup JSON.', 'warning');
         }
+        pushStateToCloud(true);
       }
 
       function getPocketShares() {
@@ -2804,7 +2929,198 @@
                 els.closeBannerBtn.addEventListener('click', hideBanner);
       }
 
+      const REQUIRED_PASSWORD = 'Fau@06477';
+      const SESSION_AUTH_KEY = 'faustine_stationery_auth_v19';
+      const CLOUD_URL_KEY = 'faustine_stationery_cloud_url_v19';
+
+      function getCloudUrl() {
+        return (localStorage.getItem(CLOUD_URL_KEY) || '').trim();
+      }
+
+      function setCloudUrl(url) {
+        localStorage.setItem(CLOUD_URL_KEY, (url || '').trim());
+      }
+
+      function updateCloudStatusBadge(text, variant = 'neutral') {
+        const badge = document.getElementById('cloudSyncStatusBadge');
+        if (!badge) return;
+        badge.textContent = text;
+        const map = {
+          neutral: 'text-xs font-extrabold px-3 py-1 rounded-full bg-slate-100 text-slate-700 self-start sm:self-auto',
+          syncing: 'text-xs font-extrabold px-3 py-1 rounded-full bg-amber-100 text-amber-950 self-start sm:self-auto',
+          ok: 'text-xs font-extrabold px-3 py-1 rounded-full bg-emerald-100 text-emerald-950 self-start sm:self-auto',
+          err: 'text-xs font-extrabold px-3 py-1 rounded-full bg-rose-100 text-rose-800 self-start sm:self-auto'
+        };
+        badge.className = map[variant] || map.neutral;
+      }
+
+      async function syncFromCloud(silent = false) {
+        const url = getCloudUrl();
+        if (!url) {
+          updateCloudStatusBadge('Hali: Haijaunganishwa (Local Pekee)', 'neutral');
+          return false;
+        }
+        updateCloudStatusBadge('Inavuta data kutoka Cloud...', 'syncing');
+        try {
+          const sep = url.includes('?') ? '&' : '?';
+          const fetchUrl = `${url}${sep}action=load&password=${encodeURIComponent(REQUIRED_PASSWORD)}&_ts=${Date.now()}`;
+          const res = await fetch(fetchUrl, { method: 'GET' });
+          const data = await res.json();
+          if (!data || !data.ok || !data.state) {
+            updateCloudStatusBadge('Hitilafu ya Cloud Sync', 'err');
+            if (!silent) showBanner(data?.error || 'Imeshindikana kuvuta data kutoka Google Sheets.', 'warning');
+            return false;
+          }
+          appState = {
+            percentages: {
+              mtaji: Number.isFinite(Number(data.state.percentages?.mtaji)) ? Number(data.state.percentages.mtaji) : 50,
+              akiba: Number.isFinite(Number(data.state.percentages?.akiba)) ? Number(data.state.percentages.akiba) : 36,
+              salio: Number.isFinite(Number(data.state.percentages?.salio)) ? Number(data.state.percentages.salio) : 14
+            },
+            entries: Array.isArray(data.state.entries) ? data.state.entries : [],
+            purchases: Array.isArray(data.state.purchases) ? data.state.purchases : [],
+            salioExpenses: Array.isArray(data.state.salioExpenses) ? data.state.salioExpenses : []
+          };
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+          renderAll();
+          updateCloudStatusBadge('Imeunganishwa • Data Zimesawazishwa', 'ok');
+          if (!silent) showBanner('Data zimevutwa na kusawazishwa kutoka Google Sheets!', 'success');
+          return true;
+        } catch (err) {
+          updateCloudStatusBadge('Mtandao / URL Haikujibu', 'err');
+          if (!silent) showBanner('Imeshindikana kuwasiliana na Google Sheets. Angalia intaneti au Web App URL.', 'warning');
+          return false;
+        }
+      }
+
+      async function pushStateToCloud(silent = true) {
+        const url = getCloudUrl();
+        if (!url) return false;
+        updateCloudStatusBadge('Inatuma kwenda Cloud...', 'syncing');
+        try {
+          const res = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify({
+              action: 'save',
+              password: REQUIRED_PASSWORD,
+              state: appState
+            })
+          });
+          const data = await res.json();
+          if (!data || !data.ok) {
+            updateCloudStatusBadge('Imeshindwa Kutuma Cloud', 'err');
+            if (!silent) showBanner(data?.error || 'Imeshindikana kutuma data kwenda Google Sheets.', 'warning');
+            return false;
+          }
+          updateCloudStatusBadge('Imeunganishwa • Imesasishwa Cloud', 'ok');
+          if (!silent) showBanner('Data zote zimetumwa na kuhifadhiwa kwenye Google Sheets!', 'success');
+          return true;
+        } catch (err) {
+          updateCloudStatusBadge('Imeshindwa Kutuma Cloud', 'err');
+          if (!silent) showBanner('Hitilafu ya kutuma data kwenda Google Sheets. Angalia mtandao.', 'warning');
+          return false;
+        }
+      }
+
+      function initAuthAndCloudControls() {
+        const lockScreen = document.getElementById('authLockScreen');
+        const loginForm = document.getElementById('authLoginForm');
+        const pwdInput = document.getElementById('authPasswordInput');
+        const toggleVisBtn = document.getElementById('togglePasswordVisBtn');
+        const errMsg = document.getElementById('authErrorMsg');
+        const lockBtn = document.getElementById('lockAppBtn');
+        const openCloudBtn = document.getElementById('openCloudSetupBtn');
+        const cloudPanel = document.getElementById('cloudSyncPanel');
+        const closeCloudBtn = document.getElementById('closeCloudPanelBtn');
+        const cloudForm = document.getElementById('cloudConfigForm');
+        const cloudUrlInput = document.getElementById('cloudWebAppUrlInput');
+        const pushCloudBtn = document.getElementById('pushCloudNowBtn');
+
+        const savedUrl = getCloudUrl();
+        if (cloudUrlInput && savedUrl) {
+          cloudUrlInput.value = savedUrl;
+          updateCloudStatusBadge('Imeunganishwa • Tayari', 'ok');
+        }
+
+        if (sessionStorage.getItem(SESSION_AUTH_KEY) === 'UNLOCKED') {
+          if (lockScreen) lockScreen.classList.add('hidden');
+          if (savedUrl) syncFromCloud(true);
+        }
+
+        if (toggleVisBtn && pwdInput) {
+          toggleVisBtn.addEventListener('click', () => {
+            const isHidden = pwdInput.type === 'password';
+            pwdInput.type = isHidden ? 'text' : 'password';
+            toggleVisBtn.textContent = isHidden ? 'Ficha' : 'Onyesha';
+          });
+        }
+
+        if (loginForm && pwdInput) {
+          loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (pwdInput.value === REQUIRED_PASSWORD) {
+              sessionStorage.setItem(SESSION_AUTH_KEY, 'UNLOCKED');
+              if (errMsg) errMsg.classList.add('hidden');
+              if (lockScreen) lockScreen.classList.add('hidden');
+              pwdInput.value = '';
+              renderAll();
+              if (getCloudUrl()) {
+                await syncFromCloud(true);
+              }
+            } else {
+              if (errMsg) errMsg.classList.remove('hidden');
+              pwdInput.focus();
+            }
+          });
+        }
+
+        if (lockBtn && lockScreen) {
+          lockBtn.addEventListener('click', () => {
+            sessionStorage.removeItem(SESSION_AUTH_KEY);
+            lockScreen.classList.remove('hidden');
+          });
+        }
+
+        if (openCloudBtn && cloudPanel) {
+          openCloudBtn.addEventListener('click', () => {
+            cloudPanel.classList.toggle('hidden');
+          });
+        }
+
+        if (closeCloudBtn && cloudPanel) {
+          closeCloudBtn.addEventListener('click', () => {
+            cloudPanel.classList.add('hidden');
+          });
+        }
+
+        if (cloudForm && cloudUrlInput) {
+          cloudForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const val = cloudUrlInput.value.trim();
+            setCloudUrl(val);
+            if (!val) {
+              updateCloudStatusBadge('Hali: Haijaunganishwa (Local Pekee)', 'neutral');
+              showBanner('Cloud Sync imezimwa (mfumo unatumia hifadhi ya kifaa hiki pekee).', 'info');
+              return;
+            }
+            await syncFromCloud(false);
+          });
+        }
+
+        if (pushCloudBtn) {
+          pushCloudBtn.addEventListener('click', async () => {
+            if (!getCloudUrl()) {
+              showBanner('Weka kwanza Web App URL ya Google Apps Script.', 'warning');
+              return;
+            }
+            await pushStateToCloud(false);
+          });
+        }
+      }
+
       window.addEventListener('DOMContentLoaded', () => {
+        initAuthAndCloudControls();
         const today = getTodayISO();
         els.stDateInput.value = today;
         els.purDateInput.value = today;

@@ -28,8 +28,8 @@
 </head>
 <body class="min-h-screen antialiased text-slate-900">
   <!-- LOGIN GATE OVERLAY (Password Protected: Fau@06477) -->
-  <div id="authLockScreen" class="fixed inset-0 z-50 bg-gradient-to-br from-[#091b2d] via-[#0f2942] to-[#163654] flex items-center justify-center p-4 pointer-events-auto">
-    <div class="w-full max-w-md bg-white rounded-3xl shadow-2xl border border-slate-200/90 p-6 sm:p-8 space-y-5 relative z-10 pointer-events-auto">
+  <div id="authLockScreen" class="fixed inset-0 z-50 bg-gradient-to-br from-[#091b2d] via-[#0f2942] to-[#163654] flex items-center justify-center p-4">
+    <div class="w-full max-w-md bg-white rounded-3xl shadow-2xl border border-slate-200/90 p-6 sm:p-8 space-y-5">
       <div class="text-center space-y-2">
         <span class="inline-block text-[11px] font-extrabold uppercase tracking-widest px-3 py-1 rounded-full bg-amber-100 text-amber-950">
           Mfumo Uliofungwa &bull; Ulinzi wa Data
@@ -43,15 +43,12 @@
             <rect width="420" height="340" rx="20" fill="#f6f6f4" />
             <!-- Printer (Left) -->
             <g transform="translate(88, 36)">
-              <!-- Top Paper Sheet -->
               <polygon points="32,8 84,8 96,20 96,62 32,62" fill="#ffffff" stroke="#111827" stroke-width="7" stroke-linejoin="round" />
               <polyline points="84,8 84,20 96,20" fill="none" stroke="#111827" stroke-width="6" stroke-linejoin="round" />
               <line x1="44" y1="26" x2="74" y2="26" stroke="#111827" stroke-width="6" stroke-linecap="round" />
               <line x1="44" y1="40" x2="74" y2="40" stroke="#111827" stroke-width="6" stroke-linecap="round" />
-              <!-- Printer Blue Body -->
               <rect x="10" y="56" width="108" height="58" rx="14" fill="#1d85c8" stroke="#111827" stroke-width="7" stroke-linejoin="round" />
               <rect x="88" y="76" width="12" height="8" rx="3" fill="#111827" />
-              <!-- Bottom Output Tray & Paper -->
               <path d="M26,114 L102,114 L112,134 L16,134 Z" fill="#ffffff" stroke="#111827" stroke-width="7" stroke-linejoin="round" />
               <rect x="34" y="102" width="60" height="32" fill="#ffffff" stroke="#111827" stroke-width="7" stroke-linejoin="round" />
               <line x1="46" y1="115" x2="82" y2="115" stroke="#111827" stroke-width="5" stroke-linecap="round" />
@@ -69,7 +66,6 @@
             <text x="210" y="218" text-anchor="middle" fill="#1d85c8" font-family="Inter, Arial, sans-serif" font-size="44" font-weight="800" letter-spacing="1">FAUSTIN</text>
             <text x="210" y="254" text-anchor="middle" fill="#111827" font-family="Inter, Arial, sans-serif" font-size="25" font-weight="700" letter-spacing="5.5">STATIONERY</text>
             <text x="210" y="286" text-anchor="middle" fill="#111827" font-family="Inter, Arial, sans-serif" font-size="23" font-weight="700" letter-spacing="6">SERVICES</text>
-            <!-- Yellow Accent Bar -->
             <rect x="180" y="302" width="60" height="6" rx="3" fill="#eab308" />
           </svg>
         </div>
@@ -83,19 +79,19 @@
           <label for="authPasswordInput" class="block text-xs font-extrabold uppercase tracking-wider text-slate-700 mb-1.5">
             Nenosiri (Password)
           </label>
-          <div class="relative flex items-center">
+          <div class="relative">
             <input
               id="authPasswordInput"
               type="password"
               required
               autocomplete="current-password"
               placeholder="Ingiza password yako..."
-              class="w-full px-4 py-3 pr-24 text-sm font-bold rounded-xl border border-slate-300 focus:border-[#0f2942] focus:ring-2 focus:ring-[#0f2942]/15 outline-none bg-[#f8fafc] focus:bg-white pointer-events-auto"
+              class="w-full px-4 py-3 pr-20 text-sm font-bold rounded-xl border border-slate-300 focus:border-[#0f2942] focus:ring-2 focus:ring-[#0f2942]/15 outline-none bg-[#f8fafc] focus:bg-white"
             />
             <button
               id="togglePasswordVisBtn"
               type="button"
-              class="absolute right-2.5 top-1/2 -translate-y-1/2 z-20 px-2.5 py-1 rounded-lg text-[11px] font-extrabold text-slate-700 bg-slate-100 hover:bg-slate-200 transition cursor-pointer pointer-events-auto"
+              class="absolute right-2.5 top-1/2 -translate-y-1/2 px-2.5 py-1 rounded-lg text-[11px] font-extrabold text-slate-600 hover:bg-slate-200/80 transition cursor-pointer"
             >
               Onyesha
             </button>
@@ -106,7 +102,7 @@
         </p>
         <button
           type="submit"
-          class="w-full py-3 rounded-xl text-sm font-extrabold bg-[#0f2942] hover:bg-[#163654] text-white shadow-sm transition cursor-pointer pointer-events-auto"
+          class="w-full py-3 rounded-xl text-sm font-extrabold bg-[#0f2942] hover:bg-[#163654] active:scale-[0.99] text-white shadow-sm transition cursor-pointer"
         >
           Fungua Mfumo (Login)
         </button>
@@ -155,7 +151,7 @@
             FAUSTINE STATIONERY SERVICE
           </h1>
           <p class="text-xs sm:text-sm text-slate-300 mt-0.5">
-            Mfumo wa Mifuko Mitatu (Stationery Pekee) &bull; STATIONERY SERVICE . NET (Wi-Fi Tenga)
+            Mfumo wa Stationery Mifuko Mitatu &bull; STATIONERY SERVICE . NET (Wi-Fi Tenga)
           </p>
         </div>
       </div>
@@ -241,7 +237,10 @@
             1. Stationery — Mifuko Mitatu Pekee
           </h2>
           <p class="text-xs sm:text-sm text-slate-500">
-            Hela za Wi-Fi hazijumlishwi hapa. Mgawanyo wa msingi: <span class="font-semibold text-teal-800">Mtaji</span>, <span class="font-semibold text-amber-800">Akiba (1,000,000 TZS)</span>, na <span class="font-semibold text-slate-800">Salio</span>.
+            Hela za Wi-Fi hazijumlishwi hapa. Mgawanyo wa msingi:
+            <span class="font-semibold text-teal-800">Mtaji</span>,
+            <span class="font-semibold text-amber-800">Akiba (1,000,000 TZS)</span>, na
+            <span class="font-semibold text-slate-800">Salio</span>.
           </p>
         </div>
         <div class="px-3.5 py-2 rounded-xl bg-slate-100 border border-slate-200 text-xs sm:text-sm font-bold text-[#0f2942] shrink-0">
@@ -395,7 +394,6 @@
               <input id="purAmountInput" type="number" min="0" step="1" required placeholder="Mfano: 25000" class="w-full px-3.5 py-2.5 text-sm sm:text-base font-extrabold rounded-xl border border-slate-300 focus:border-teal-700 focus:ring-2 focus:ring-teal-700/10 outline-none bg-[#f4f6f9] focus:bg-white" />
             </div>
           </div>
-
           <button type="submit" class="w-full sm:w-auto px-5 py-2.5 rounded-xl text-sm font-extrabold bg-[#0f2942] hover:bg-[#163654] active:scale-[0.99] text-white shadow-xs transition cursor-pointer">
             - Rekodi Manunuzi ya Vifaa (Kata Mtaji)
           </button>
@@ -479,7 +477,6 @@
             <input id="wifiAmountInput" type="number" min="0" step="1" required placeholder="Mfano: 15000" class="w-full px-3.5 py-2.5 text-sm sm:text-base font-extrabold rounded-xl border border-[#db2777]/35 focus:border-[#db2777] focus:ring-2 focus:ring-[#db2777]/15 outline-none bg-white" />
           </div>
         </div>
-
         <button type="submit" class="w-full sm:w-auto px-6 py-3 rounded-xl text-sm font-extrabold bg-[#db2777] hover:bg-[#be185d] active:scale-[0.99] text-white shadow-xs transition cursor-pointer">
           + Hifadhi Mapato ya Wi-Fi
         </button>
@@ -523,19 +520,16 @@
           <p id="insightAvgDailySales" class="text-lg font-extrabold text-[#0f2942] mt-1">0 TZS</p>
           <p id="insightActiveDaysText" class="text-[11px] text-sky-800/80 mt-0.5">Kwenye siku 0 za mauzo</p>
         </div>
-
         <div class="rounded-xl bg-emerald-50/80 border border-emerald-200 p-3.5">
           <p class="text-[11px] font-extrabold uppercase tracking-wider text-emerald-900">Siku Iliyofanya Vizuri Zaidi</p>
           <p id="insightBestDayAmount" class="text-lg font-extrabold text-emerald-950 mt-1">0 TZS</p>
           <p id="insightBestDayDate" class="text-[11px] text-emerald-800/80 mt-0.5">Tarehe: —</p>
         </div>
-
         <div class="rounded-xl bg-amber-50/80 border border-amber-200 p-3.5">
           <p class="text-[11px] font-extrabold uppercase tracking-wider text-amber-900">Mwenendo wa Mauzo (Trend)</p>
           <p id="insightTrendStatus" class="text-lg font-extrabold text-amber-950 mt-1">Bado Data</p>
           <p id="insightTrendDetail" class="text-[11px] text-amber-900/80 mt-0.5">Linganisha siku ya mwisho na zilizopita</p>
         </div>
-
         <div class="rounded-xl bg-slate-100/90 border border-slate-300/80 p-3.5">
           <p class="text-[11px] font-extrabold uppercase tracking-wider text-slate-700">Hitimisho la Biashara</p>
           <p id="insightConclusionText" class="text-xs font-bold text-[#0f2942] mt-1 leading-snug">
@@ -618,7 +612,7 @@
           <div class="rounded-xl bg-white border border-[#db2777]/30 p-3">
             <p class="text-[11px] font-extrabold uppercase tracking-wider text-[#9d174d]">Wi-Fi .NET (Mwezi Huo)</p>
             <p id="monthlyLatestWifi" class="text-base sm:text-lg font-extrabold text-[#db2777] mt-1">0 TZS</p>
-            <p id="monthlyConclusionText" class="text-[11px] text-slate-600 mt-0.5">Ongeza data za miezi tofauti kulinganisha.</p>
+            <p id="monthlyConclusionText" class="text-[11px] text-slate-600 mt-0.5 line-clamp-2">Ongeza data za miezi tofauti kulinganisha.</p>
           </div>
         </div>
 
@@ -958,6 +952,7 @@
               <option value="SALIO_EXPENSE">Matumizi (Salio) Pekee</option>
             </select>
           </div>
+
           <div>
             <label for="filterServiceSelect" class="block text-[11px] font-extrabold uppercase tracking-wider text-slate-700 mb-1">
               Huduma ya Stationery
@@ -971,18 +966,21 @@
               <option value="Design, Scanning & Other Services">Design, Scanning &amp; Other Services</option>
             </select>
           </div>
+
           <div>
             <label for="filterTableStartDate" class="block text-[11px] font-extrabold uppercase tracking-wider text-slate-700 mb-1">
               Kuanzia Tarehe
             </label>
             <input id="filterTableStartDate" type="date" class="w-full px-3 py-2 text-xs sm:text-sm font-semibold rounded-xl border border-slate-300 bg-white text-slate-900 focus:border-[#0f2942] outline-none" />
           </div>
+
           <div>
             <label for="filterTableEndDate" class="block text-[11px] font-extrabold uppercase tracking-wider text-slate-700 mb-1">
               Hadi Tarehe
             </label>
             <input id="filterTableEndDate" type="date" class="w-full px-3 py-2 text-xs sm:text-sm font-semibold rounded-xl border border-slate-300 bg-white text-slate-900 focus:border-[#0f2942] outline-none" />
           </div>
+
           <div>
             <label for="filterSearchInput" class="block text-[11px] font-extrabold uppercase tracking-wider text-slate-700 mb-1">
               Tafuta Maelezo / Bidhaa
@@ -993,11 +991,21 @@
 
         <div class="pt-2 border-t border-slate-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
           <div class="flex flex-wrap items-center gap-2 font-bold text-slate-700">
-            <span class="px-2.5 py-1 rounded-lg bg-white border border-slate-200">Jumla ya Kiasi Kilichochujwa: <strong id="filteredSumAmountLabel" class="text-[#0f2942]">0 TZS</strong></span>
-            <span class="px-2.5 py-1 rounded-lg bg-white border border-slate-200">Stationery: <strong id="filteredSumStationeryLabel" class="text-teal-800">0 TZS</strong></span>
-            <span class="px-2.5 py-1 rounded-lg bg-white border border-slate-200">Wi-Fi: <strong id="filteredSumWifiLabel" class="text-[#db2777]">0 TZS</strong></span>
-            <span class="px-2.5 py-1 rounded-lg bg-white border border-slate-200">Manunuzi: <strong id="filteredSumPurchaseLabel" class="text-rose-700">0 TZS</strong></span>
-            <span class="px-2.5 py-1 rounded-lg bg-white border border-slate-200">Makato Salio: <strong id="filteredSumSalioExpLabel" class="text-amber-800">0 TZS</strong></span>
+            <span class="px-2.5 py-1 rounded-lg bg-white border border-slate-200">
+              Jumla ya Kiasi Kilichochujwa: <strong id="filteredSumAmountLabel" class="text-[#0f2942]">0 TZS</strong>
+            </span>
+            <span class="px-2.5 py-1 rounded-lg bg-white border border-slate-200">
+              Stationery: <strong id="filteredSumStationeryLabel" class="text-teal-800">0 TZS</strong>
+            </span>
+            <span class="px-2.5 py-1 rounded-lg bg-white border border-slate-200">
+              Wi-Fi: <strong id="filteredSumWifiLabel" class="text-[#db2777]">0 TZS</strong>
+            </span>
+            <span class="px-2.5 py-1 rounded-lg bg-white border border-slate-200">
+              Manunuzi: <strong id="filteredSumPurchaseLabel" class="text-rose-700">0 TZS</strong>
+            </span>
+            <span class="px-2.5 py-1 rounded-lg bg-white border border-slate-200">
+              Makato Salio: <strong id="filteredSumSalioExpLabel" class="text-amber-800">0 TZS</strong>
+            </span>
           </div>
           <button id="resetAllFiltersBtn" type="button" class="px-3.5 py-1.5 rounded-xl text-xs font-extrabold bg-[#0f2942] hover:bg-[#163654] text-white transition cursor-pointer self-start sm:self-auto">
             Safisha Vichujio (Reset)
@@ -1387,7 +1395,7 @@
               tips.push('dhibiti manunuzi ya vifaa ili kulinda Mtaji');
             }
             tips.push('tangaza Printing, Photocopy, Typing na vocha za Wi-Fi (.NET) kwa wateja wa karibu');
-            tips.push('toa huduma ya haraka na ufuatiliaji wa wateja wa kawaida (repeat clients)');
+            tips.push('toa huduma ya haraka na ufuatiliaji wa wateja wa kawaida');
             return {
               healthStatus: reasonText,
               actionAdvice: `Nifanye nini ipande: ${tips.join(', ')}.`
@@ -1426,15 +1434,8 @@
           const monthKey = /^\d{4}-\d{2}/.test(dateKey) ? dateKey.slice(0, 7) : getTodayISO().slice(0, 7);
           if (!monthMap.has(monthKey)) {
             monthMap.set(monthKey, {
-              month: monthKey,
-              stationery: 0,
-              wifi: 0,
-              total: 0,
-              mtajiAllocated: 0,
-              purchases: 0,
-              mtajiRemaining: 0,
-              akiba: 0,
-              salio: 0
+              month: monthKey, stationery: 0, wifi: 0, total: 0,
+              mtajiAllocated: 0, purchases: 0, mtajiRemaining: 0, akiba: 0, salio: 0
             });
           }
           return monthMap.get(monthKey);
@@ -1529,12 +1530,7 @@
           .map((m) => {
             const monthEndDate = getLastDayOfMonthISO(m.month);
             const isClosed = isMonthStrictlyClosedAtMonthEnd(m.month, todayISO);
-            return {
-              ...m,
-              monthEndDate,
-              isClosed,
-              mtajiRemaining: m.mtajiAllocated - m.purchases
-            };
+            return { ...m, monthEndDate, isClosed, mtajiRemaining: m.mtajiAllocated - m.purchases };
           })
           .sort((a, b) => a.month.localeCompare(b.month));
 
@@ -1550,31 +1546,13 @@
         });
 
         return {
-          stationeryTotal,
-          mtajiAllocated,
-          purchasesTotal,
-          mtajiAvailable,
-          akibaTotal,
-          salioTotal: salioAvailable,
-          salioGrossTotal: salioTotal,
-          salioExpensesTotal,
-          purchaseDays,
-          purAvgDailySales,
-          purMaxDay,
-          wifiTotal,
-          dailySeries,
-          monthlySeries,
-          closedMonthlyReports,
-          avgMonthlySales,
-          bestMonth,
-          stationeryDays,
-          activeDaysCount,
-          avgDailySales,
-          bestDay,
-          wifiDays,
-          wifiActiveDaysCount,
-          wifiAvgDailySales,
-          wifiBestDay
+          stationeryTotal, mtajiAllocated, purchasesTotal, mtajiAvailable,
+          akibaTotal, salioTotal: salioAvailable, salioGrossTotal: salioTotal,
+          salioExpensesTotal, purchaseDays, purAvgDailySales, purMaxDay,
+          wifiTotal, dailySeries, monthlySeries, closedMonthlyReports,
+          avgMonthlySales, bestMonth, stationeryDays, activeDaysCount,
+          avgDailySales, bestDay, wifiDays, wifiActiveDaysCount,
+          wifiAvgDailySales, wifiBestDay
         };
       }
 
@@ -1658,6 +1636,7 @@
         els.wifiShareHeadline.textContent = `${wifiPct.toFixed(1)}% Wi-Fi • ${stPct.toFixed(1)}% Stationery`;
         els.shareStationeryBar.style.width = `${grossAll > 0 ? stPct : 50}%`;
         els.shareWifiBar.style.width = `${grossAll > 0 ? wifiPct : 50}%`;
+
         if (grossAll === 0) {
           els.wifiShareInterpretation.textContent = 'Ongeza mapato ya Stationery na Wi-Fi ili kuona mchango wa kila sehemu.';
         } else if (wifiPct >= 30) {
@@ -1666,11 +1645,14 @@
           els.wifiShareInterpretation.textContent = `Stationery inaongoza kwa ${stPct.toFixed(1)}%, huku Wi-Fi (.NET) ikichangia ${wifiPct.toFixed(1)}%.`;
         }
 
-        const burnRatio = summary.mtajiAllocated > 0 ? (summary.purchasesTotal / summary.mtajiAllocated) * 100 : (summary.purchasesTotal > 0 ? 100 : 0);
+        const burnRatio = summary.mtajiAllocated > 0
+          ? (summary.purchasesTotal / summary.mtajiAllocated) * 100
+          : (summary.purchasesTotal > 0 ? 100 : 0);
         const clampedBar = Math.min(100, Math.max(0, burnRatio));
         els.mtajiBurnPctLabel.textContent = `${burnRatio.toFixed(1)}%`;
         els.mtajiBurnSummaryText.textContent = `Manunuzi: ${formatTZS(summary.purchasesTotal)} / Mtaji Uliotengwa: ${formatTZS(summary.mtajiAllocated)}`;
         els.mtajiBurnBar.style.width = `${clampedBar}%`;
+
         if (summary.mtajiAvailable < 0) {
           els.mtajiHealthBadge.textContent = 'Hali: Deni (Negative)';
           els.mtajiHealthBadge.className = 'text-xs font-extrabold px-3 py-1 rounded-full bg-rose-100 text-rose-800 self-start sm:self-auto';
@@ -1694,4 +1676,1436 @@
           ? `Salio lina upungufu wa ${formatTZS(Math.abs(summary.salioTotal))} baada ya makato ya matumizi.`
           : `Salio halisi linaloonekana sasa ni ${formatTZS(summary.salioTotal)}.`;
 
-        if (els.customDateRangeBox
+        if (els.customDateRangeBox) {
+          els.customDateRangeBox.classList.toggle('hidden', activePeriod !== 'CUSTOM');
+        }
+
+        const todayISO = getTodayISO();
+        const currentMonthPrefix = todayISO.slice(0, 7);
+        const sevenDaysAgo = new Date();
+        sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6);
+        const sevenDaysAgoISO = `${sevenDaysAgo.getFullYear()}-${String(sevenDaysAgo.getMonth() + 1).padStart(2, '0')}-${String(sevenDaysAgo.getDate()).padStart(2, '0')}`;
+
+        function inPeriod(dateStr) {
+          const d = dateStr || todayISO;
+          if (activePeriod === 'TODAY') return d === todayISO;
+          if (activePeriod === '7D') return d >= sevenDaysAgoISO && d <= todayISO;
+          if (activePeriod === 'MONTH') return d.startsWith(currentMonthPrefix);
+          if (activePeriod === 'CUSTOM') {
+            if (customStartDate && d < customStartDate) return false;
+            if (customEndDate && d > customEndDate) return false;
+            return true;
+          }
+          return true;
+        }
+
+        let pStationery = 0;
+        let pWifi = 0;
+        let pPurchases = 0;
+        appState.entries.forEach((e) => {
+          if (!inPeriod(e.date)) return;
+          if (e.category === 'WIFI') pWifi += Number(e.amount) || 0;
+          else pStationery += Number(e.amount) || 0;
+        });
+        appState.purchases.forEach((p) => {
+          if (!inPeriod(p.date)) return;
+          pPurchases += Number(p.amount) || 0;
+        });
+
+        let pLabel = 'Zote';
+        if (activePeriod === 'TODAY') pLabel = 'Leo';
+        else if (activePeriod === '7D') pLabel = 'Siku 7';
+        else if (activePeriod === 'MONTH') pLabel = 'Mwezi Huu';
+        else if (activePeriod === 'CUSTOM') {
+          if (customStartDate && customEndDate) pLabel = `${customStartDate} hadi ${customEndDate}`;
+          else if (customStartDate) pLabel = `Kuanzia ${customStartDate}`;
+          else if (customEndDate) pLabel = `Hadi ${customEndDate}`;
+          else pLabel = 'Tarehe Maalum';
+        }
+
+        document.querySelectorAll('.period-active-label').forEach((el) => {
+          el.textContent = pLabel;
+        });
+
+        document.querySelectorAll('.period-filter-btn').forEach((btn) => {
+          const isSelected = btn.getAttribute('data-period') === activePeriod;
+          btn.className = isSelected
+            ? 'period-filter-btn px-3 py-1.5 rounded-lg text-xs font-extrabold bg-[#0f2942] text-white shadow-2xs transition cursor-pointer'
+            : 'period-filter-btn px-3 py-1.5 rounded-lg text-xs font-extrabold text-slate-700 hover:bg-white transition cursor-pointer';
+        });
+
+        els.periodStationeryTotal.textContent = formatTZS(pStationery);
+        els.periodWifiTotal.textContent = formatTZS(pWifi);
+        els.periodPurchasesTotal.textContent = formatTZS(pPurchases);
+
+        const goalForecast = computeGoalForecast(summary);
+        els.akibaDailyPaceDisplay.textContent = formatTZS(goalForecast.dailyAkibaPace);
+        els.akibaPaceBadge.textContent = goalForecast.badgeText;
+        if (goalForecast.status === 'REACHED') {
+          els.akibaEstimatedDaysDisplay.innerHTML = `${goalForecast.daysText}<span class="block text-xs font-bold text-emerald-800 mt-0.5">${escapeHTML(goalForecast.fullDateText)}</span>`;
+          els.akibaPaceInterpretation.textContent = goalForecast.summarySentence;
+        } else if (goalForecast.status === 'PROJECTED') {
+          els.akibaEstimatedDaysDisplay.innerHTML = `${goalForecast.daysText}<span class="block text-xs font-extrabold text-[#0f2942] mt-0.5">${escapeHTML(goalForecast.fullDateText)}</span>`;
+          els.akibaPaceInterpretation.textContent = `${goalForecast.summarySentence} Tarehe kamili inayokadiriwa kukamilisha 1,000,000 TZS ni ${goalForecast.fullDateText}.`;
+        } else {
+          els.akibaEstimatedDaysDisplay.textContent = '—';
+          els.akibaPaceInterpretation.textContent = goalForecast.summarySentence;
+        }
+
+        const totalOutflow = summary.purchasesTotal + summary.salioExpensesTotal;
+        const netCashSurplus = grossAll - totalOutflow;
+        els.surplusGrossIncomeDisplay.textContent = formatTZS(grossAll);
+        els.surplusTotalOutflowDisplay.textContent = formatTZS(totalOutflow);
+        els.surplusNetAmountDisplay.textContent = formatTZS(netCashSurplus);
+        if (netCashSurplus >= 0) {
+          els.surplusStatusBadge.textContent = 'Ziada Chanya';
+          els.surplusStatusBadge.className = 'text-xs font-extrabold px-3 py-1 rounded-full bg-emerald-100 text-emerald-950 self-start sm:self-auto';
+          els.surplusInterpretationText.textContent = `Una ziada halisi ya ${formatTZS(netCashSurplus)} baada ya kutoa manunuzi ya vifaa na makato ya Salio.`;
+        } else {
+          els.surplusStatusBadge.textContent = 'Upungufu (Negative)';
+          els.surplusStatusBadge.className = 'text-xs font-extrabold px-3 py-1 rounded-full bg-rose-100 text-rose-800 self-start sm:self-auto';
+          els.surplusInterpretationText.textContent = `Gharama zilizotoka zimezidi jumla ya mapato kwa ${formatTZS(Math.abs(netCashSurplus))}. Dhibiti matumizi au ongeza mapato.`;
+        }
+      }
+
+      function renderBusinessInsights(summary) {
+        els.insightAvgDailySales.textContent = formatTZS(summary.avgDailySales);
+        els.insightActiveDaysText.textContent = `Kwenye siku ${summary.activeDaysCount} za mauzo`;
+        els.wifiAvgDailySales.textContent = formatTZS(summary.wifiAvgDailySales);
+        els.wifiBestDayLabel.textContent = summary.wifiBestDay ? `${formatTZS(summary.wifiBestDay.wifi)} (${summary.wifiBestDay.date})` : '—';
+
+        if (summary.bestDay) {
+          els.insightBestDayAmount.textContent = formatTZS(summary.bestDay.stationery);
+          els.insightBestDayDate.textContent = `Tarehe: ${summary.bestDay.date}`;
+        } else {
+          els.insightBestDayAmount.textContent = '0 TZS';
+          els.insightBestDayDate.textContent = 'Tarehe: —';
+        }
+
+        const stDays = summary.stationeryDays;
+        if (stDays.length === 0) {
+          els.insightTrendStatus.textContent = 'Bado Data';
+          els.insightTrendStatus.className = 'text-lg font-extrabold text-amber-950 mt-1';
+          els.insightTrendDetail.textContent = 'Linganisha siku ya mwisho na zilizopita';
+          els.insightConclusionText.textContent = 'Ingiza mauzo ya siku 2 au zaidi ili mfumo ulinganishe na kutoa hitimisho.';
+        } else if (stDays.length === 1) {
+          const onlyDay = stDays[0];
+          els.insightTrendStatus.textContent = 'Siku ya Kwanza';
+          els.insightTrendStatus.className = 'text-lg font-extrabold text-[#0284c7] mt-1';
+          els.insightTrendDetail.textContent = `${onlyDay.date}: ${formatTZS(onlyDay.stationery)}`;
+          els.insightConclusionText.textContent = `Umeanza na ${formatTZS(onlyDay.stationery)} tarehe ${onlyDay.date}. Ongeza siku inayofuata uone kama mauzo yanapanda au kushuka.`;
+        } else {
+          const latest = stDays[stDays.length - 1];
+          const previous = stDays[stDays.length - 2];
+          const diff = latest.stationery - previous.stationery;
+          const pctChange = previous.stationery > 0 ? ((diff / previous.stationery) * 100) : 0;
+          if (diff > 0) {
+            els.insightTrendStatus.textContent = `Imepanda +${pctChange.toFixed(0)}%`;
+            els.insightTrendStatus.className = 'text-lg font-extrabold text-emerald-700 mt-1';
+            els.insightTrendDetail.textContent = `+${formatTZS(diff)} kuliko ${previous.date}`;
+          } else if (diff < 0) {
+            els.insightTrendStatus.textContent = `Imeshuka ${pctChange.toFixed(0)}%`;
+            els.insightTrendStatus.className = 'text-lg font-extrabold text-rose-700 mt-1';
+            els.insightTrendDetail.textContent = `-${formatTZS(Math.abs(diff))} kuliko ${previous.date}`;
+          } else {
+            els.insightTrendStatus.textContent = 'Imelingana (0%)';
+            els.insightTrendStatus.className = 'text-lg font-extrabold text-slate-800 mt-1';
+            els.insightTrendDetail.textContent = `Sawa na ${previous.date}`;
+          }
+
+          if (latest.stationery >= summary.avgDailySales && diff >= 0) {
+            els.insightConclusionText.textContent = `Mauzo ya ${latest.date} (${formatTZS(latest.stationery)}) yapo juu ya wastani (${formatTZS(summary.avgDailySales)}). Biashara inakua vizuri—endelea kuhimiza huduma zenye faida.`;
+          } else if (latest.stationery >= summary.avgDailySales && diff < 0) {
+            els.insightConclusionText.textContent = `Ingawa mauzo yameshuka kidogo kutoka ${previous.date}, bado yapo juu ya wastani wa siku (${formatTZS(summary.avgDailySales)}). Kasi bado ni nzuri.`;
+          } else {
+            els.insightConclusionText.textContent = `Mauzo ya ${latest.date} (${formatTZS(latest.stationery)}) yapo chini ya wastani (${formatTZS(summary.avgDailySales)}). Kagua huduma zilizopungua au tangaza huduma kwa wateja.`;
+          }
+        }
+
+        const mSeries = summary.monthlySeries || [];
+        els.monthlyAvgTotalLabel.textContent = `Wastani/Mwezi: ${formatTZS(summary.avgMonthlySales)}`;
+        els.monthlyBestMonthLabel.textContent = summary.bestMonth ? `${summary.bestMonth.month} (${formatTZS(summary.bestMonth.total)})` : '—';
+
+        if (mSeries.length === 0) {
+          els.monthlyLatestLabel.textContent = 'Hakuna rekodi';
+          els.monthlyLatestTotal.textContent = '0 TZS';
+          els.monthlyLatestStationery.textContent = '0 TZS';
+          els.monthlyLatestWifi.textContent = '0 TZS';
+          els.monthlyGrowthLabel.textContent = '—';
+          els.monthlyConclusionText.textContent = 'Rekodi mapato katika miezi tofauti ili kuona ulinganisho wa mwezi hadi mwezi.';
+        } else {
+          const latestMonth = mSeries[mSeries.length - 1];
+          els.monthlyLatestLabel.textContent = `Mwezi ${latestMonth.month}`;
+          els.monthlyLatestTotal.textContent = formatTZS(latestMonth.total);
+          els.monthlyLatestStationery.textContent = formatTZS(latestMonth.stationery);
+          els.monthlyLatestWifi.textContent = formatTZS(latestMonth.wifi);
+
+          if (mSeries.length === 1) {
+            els.monthlyGrowthLabel.textContent = 'Mwezi 1 tu';
+            els.monthlyConclusionText.textContent = `Mwezi ${latestMonth.month} una jumla ya ${formatTZS(latestMonth.total)}. Mwezi unaofuata utaonekana mstari wa ulinganisho.`;
+          } else {
+            const prevMonth = mSeries[mSeries.length - 2];
+            const mDiff = latestMonth.total - prevMonth.total;
+            const mPct = prevMonth.total > 0 ? ((mDiff / prevMonth.total) * 100) : 0;
+            if (mDiff > 0) {
+              els.monthlyGrowthLabel.textContent = `+${mPct.toFixed(0)}% (+${formatTZS(mDiff)})`;
+              els.monthlyConclusionText.textContent = `${latestMonth.month} umekua kwa ${mPct.toFixed(0)}% ukilinganisha na ${prevMonth.month} (${formatTZS(prevMonth.total)}).`;
+            } else if (mDiff < 0) {
+              els.monthlyGrowthLabel.textContent = `${mPct.toFixed(0)}% (-${formatTZS(Math.abs(mDiff))})`;
+              els.monthlyConclusionText.textContent = `${latestMonth.month} umeshuka kwa ${Math.abs(mPct).toFixed(0)}% ukilinganisha na ${prevMonth.month} (${formatTZS(prevMonth.total)}).`;
+            } else {
+              els.monthlyGrowthLabel.textContent = '0% (Sawa)';
+              els.monthlyConclusionText.textContent = `${latestMonth.month} umelingana na ${prevMonth.month} (${formatTZS(prevMonth.total)}).`;
+            }
+          }
+        }
+
+        const reports = summary.closedMonthlyReports || [];
+        els.monthlyReportsCountBadge.textContent = `${reports.length} ${reports.length === 1 ? 'ripoti' : 'ripoti'}`;
+        if (reports.length === 0) {
+          els.monthlyAutoReportsList.innerHTML = `
+            <div class="col-span-full rounded-lg bg-white border border-slate-200 px-3 py-2.5 text-[11px] text-slate-600">
+              Mwezi wa sasa (<strong>${escapeHTML(getTodayISO().slice(0, 7))}</strong>) utafungwa rasmi <strong>tarehe ya mwisho wa mwezi (${escapeHTML(getLastDayOfMonthISO(getTodayISO().slice(0, 7)))})</strong> kabla ya kuanza tarehe 1 ya mwezi unaofuata. Ripoti fupi ya mwezi husika (Akiba, Salio, Mtaji Uliobaki, Manunuzi, na Wi-Fi) itatokea hapa mara mwisho wa mwezi ukipita.
+            </div>
+          `;
+        } else {
+          els.monthlyAutoReportsList.innerHTML = reports
+            .map((rep) => `
+              <div class="rounded-xl bg-white border border-indigo-200/80 p-3 space-y-2 shadow-2xs">
+                <div class="flex items-center justify-between gap-2 border-b border-slate-100 pb-1.5">
+                  <div class="flex items-center gap-1.5">
+                    <span class="font-extrabold text-xs text-[#0f2942]">Ripoti: ${escapeHTML(rep.month)}</span>
+                    <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-900">Imefungwa Mwisho (${escapeHTML(rep.monthEndDate || '')})</span>
+                  </div>
+                  <div class="flex items-center gap-1.5">
+                    <button type="button" data-whatsapp-month="${escapeHTML(rep.month)}" class="send-whatsapp-month-btn px-2.5 py-1 rounded-lg text-[11px] font-extrabold bg-[#25D366] hover:bg-[#1ebe5d] active:scale-[0.99] text-slate-950 transition cursor-pointer">
+                      Tuma WhatsApp
+                    </button>
+                    <button type="button" data-copy-month="${escapeHTML(rep.month)}" class="copy-whatsapp-month-btn px-2.5 py-1 rounded-lg text-[11px] font-extrabold bg-slate-800 hover:bg-slate-700 active:scale-[0.99] text-white transition cursor-pointer">
+                      Nakili
+                    </button>
+                  </div>
+                </div>
+                <div class="grid grid-cols-2 gap-x-3 gap-y-1 text-[11px]">
+                  <p class="text-slate-600">Akiba: <strong class="text-amber-800">${formatTZS(rep.akiba)}</strong></p>
+                  <p class="text-slate-600">Salio: <strong class="text-slate-900">${formatTZS(rep.salio)}</strong></p>
+                  <p class="text-slate-600">Mtaji Uliobaki: <strong class="${rep.mtajiRemaining < 0 ? 'text-rose-700' : 'text-teal-800'}">${formatTZS(rep.mtajiRemaining)}</strong></p>
+                  <p class="text-slate-600">Manunuzi: <strong class="text-rose-700">${formatTZS(rep.purchases)}</strong></p>
+                  <p class="col-span-2 text-slate-600">Wi-Fi (.NET): <strong class="text-[#db2777]">${formatTZS(rep.wifi)}</strong></p>
+                </div>
+              </div>
+            `)
+            .join('');
+        }
+      }
+
+      function renderAll() {
+        els.mtajiPctInput.value = appState.percentages.mtaji;
+        els.akibaPctInput.value = appState.percentages.akiba;
+        els.salioPctInput.value = appState.percentages.salio;
+        updateSplitPreview();
+
+        const summary = computeSummaries();
+        els.stationeryTotalLabel.textContent = formatTZS(summary.stationeryTotal);
+        els.mtajiTotalDisplay.textContent = formatTZS(summary.mtajiAvailable);
+        els.mtajiTotalDisplay.className = summary.mtajiAvailable < 0
+          ? 'text-2xl font-extrabold text-rose-700 mt-2'
+          : 'text-2xl font-extrabold text-[#0f2942] mt-2';
+        els.mtajiBreakdownText.textContent = `Uliotengwa: ${formatTZS(summary.mtajiAllocated)} • Manunuzi: ${formatTZS(summary.purchasesTotal)}`;
+        els.akibaTotalDisplay.textContent = formatTZS(summary.akibaTotal);
+        els.salioTotalDisplay.textContent = formatTZS(summary.salioTotal);
+        els.salioTotalDisplay.className = summary.salioTotal < 0
+          ? 'text-2xl font-extrabold text-rose-700 mt-2'
+          : 'text-2xl font-extrabold text-[#0f2942] mt-2';
+
+        if (els.salioCardSubText) {
+          els.salioCardSubText.textContent = `Awali: ${formatTZS(summary.salioGrossTotal)} • Makato: ${formatTZS(summary.salioExpensesTotal)}`;
+        }
+        renderSalioHistoryBox();
+
+        if (els.purAvgDailyLabel) els.purAvgDailyLabel.textContent = formatTZS(summary.purAvgDailySales);
+        if (els.purMaxDayLabel) els.purMaxDayLabel.textContent = summary.purMaxDay ? `${formatTZS(summary.purMaxDay.amount)} (${summary.purMaxDay.date})` : '—';
+
+        const goalPct = Math.min(100, Math.max(0, (summary.akibaTotal / AKIBA_GOAL_TZS) * 100));
+        const remainingGoal = Math.max(0, AKIBA_GOAL_TZS - summary.akibaTotal);
+        els.akibaGoalPercentText.textContent = `${goalPct.toFixed(1)}% ya 1,000,000 TZS`;
+        els.akibaGoalRemainingText.textContent = remainingGoal === 0 ? 'Lengo Limefikiwa!' : `Bado ${formatTZS(remainingGoal)}`;
+        els.akibaGoalBar.style.width = `${goalPct}%`;
+
+        els.purchasesTotalDisplay.textContent = formatTZS(summary.purchasesTotal);
+        els.wifiTotalDisplay.textContent = formatTZS(summary.wifiTotal);
+
+        renderFiveFeatures(summary);
+        renderBusinessInsights(summary);
+        renderPurchasesTable();
+        renderRecordsTable();
+        renderCharts(summary);
+      }
+
+      function renderPurchasesTable() {
+        const count = appState.purchases.length;
+        els.purchasesCountBadge.textContent = `${count} ${count === 1 ? 'ununuzi' : 'manunuzi'}`;
+        if (count === 0) {
+          els.purchasesTableBody.innerHTML = `
+            <tr>
+              <td colspan="4" class="py-6 px-4 text-center text-xs sm:text-sm text-slate-500">
+                Hakuna kumbukumbu za manunuzi ya vifaa bado. Ukirekodi manunuzi hapa juu, kiasi kitakatwa moja kwa moja kwenye <strong>Mtaji</strong>.
+              </td>
+            </tr>
+          `;
+          return;
+        }
+        const sortedDesc = [...appState.purchases].sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+        els.purchasesTableBody.innerHTML = sortedDesc
+          .map((pur) => `
+            <tr class="hover:bg-teal-50/35 transition">
+              <td class="py-2.5 px-3 font-semibold text-slate-800 whitespace-nowrap">${escapeHTML(pur.date || '')}</td>
+              <td class="py-2.5 px-3 font-medium text-slate-700">${escapeHTML(pur.item || '')}</td>
+              <td class="py-2.5 px-3 text-right font-extrabold text-teal-900 whitespace-nowrap">-${Number(pur.amount || 0).toLocaleString('en-US')}</td>
+              <td class="py-2.5 px-3 text-right whitespace-nowrap">
+                <button type="button" data-delete-purchase-id="${escapeHTML(pur.id)}" class="delete-purchase-btn px-2.5 py-1 rounded-lg text-xs font-bold text-rose-700 hover:bg-rose-50 border border-rose-200/70 transition cursor-pointer">
+                  Futa
+                </button>
+              </td>
+            </tr>
+          `)
+          .join('');
+      }
+
+      function getFilteredCombinedRecords() {
+        const combined = [
+          ...appState.entries.map((item) => ({
+            id: item.id,
+            kind: item.category === 'WIFI' ? 'WIFI' : 'STATIONERY',
+            date: item.date || '',
+            label: item.label || '',
+            amount: Number(item.amount) || 0,
+            mtajiDelta: item.category === 'WIFI' ? null : (Number(item.mtaji) || 0),
+            akibaDelta: item.category === 'WIFI' ? null : (Number(item.akiba) || 0),
+            salioDelta: item.category === 'WIFI' ? null : (Number(item.salio) || 0)
+          })),
+          ...appState.purchases.map((pur) => ({
+            id: pur.id,
+            kind: 'PURCHASE',
+            date: pur.date || '',
+            label: pur.item || 'Manunuzi ya Vifaa',
+            amount: Number(pur.amount) || 0,
+            mtajiDelta: -(Number(pur.amount) || 0),
+            akibaDelta: null,
+            salioDelta: null
+          })),
+          ...(Array.isArray(appState.salioExpenses) ? appState.salioExpenses : []).map((exp) => ({
+            id: exp.id,
+            kind: 'SALIO_EXPENSE',
+            date: exp.date || '',
+            label: (exp.note || '').trim() || 'Matumizi ya Salio',
+            amount: Number(exp.amount) || 0,
+            mtajiDelta: null,
+            akibaDelta: null,
+            salioDelta: -(Number(exp.amount) || 0)
+          }))
+        ];
+
+        const q = (tableSearchQuery || '').trim().toLowerCase();
+        return combined
+          .filter((row) => {
+            if (tableCategoryFilter !== 'ALL' && row.kind !== tableCategoryFilter) return false;
+            if (tableServiceFilter !== 'ALL') {
+              if (row.kind !== 'STATIONERY' || row.label !== tableServiceFilter) return false;
+            }
+            if (tableStartDateFilter && (row.date || '') < tableStartDateFilter) return false;
+            if (tableEndDateFilter && (row.date || '') > tableEndDateFilter) return false;
+            if (q) {
+              const hay = `${row.date} ${row.kind} ${row.label} ${row.amount}`.toLowerCase();
+              if (!hay.includes(q)) return false;
+            }
+            return true;
+          })
+          .sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+      }
+
+      function renderRecordsTable() {
+        const salioList = Array.isArray(appState.salioExpenses) ? appState.salioExpenses : [];
+        const totalAllCount = appState.entries.length + appState.purchases.length + salioList.length;
+        const filtered = getFilteredCombinedRecords();
+        const count = filtered.length;
+
+        let sumAmount = 0;
+        let sumStationery = 0;
+        let sumWifi = 0;
+        let sumPurchase = 0;
+        let sumSalioExp = 0;
+
+        filtered.forEach((row) => {
+          sumAmount += Number(row.amount) || 0;
+          if (row.kind === 'STATIONERY') sumStationery += Number(row.amount) || 0;
+          else if (row.kind === 'WIFI') sumWifi += Number(row.amount) || 0;
+          else if (row.kind === 'PURCHASE') sumPurchase += Number(row.amount) || 0;
+          else if (row.kind === 'SALIO_EXPENSE') sumSalioExp += Number(row.amount) || 0;
+        });
+
+        if (els.filteredSumAmountLabel) els.filteredSumAmountLabel.textContent = formatTZS(sumAmount);
+        if (els.filteredSumStationeryLabel) els.filteredSumStationeryLabel.textContent = formatTZS(sumStationery);
+        if (els.filteredSumWifiLabel) els.filteredSumWifiLabel.textContent = formatTZS(sumWifi);
+        if (els.filteredSumPurchaseLabel) els.filteredSumPurchaseLabel.textContent = formatTZS(sumPurchase);
+        if (els.filteredSumSalioExpLabel) els.filteredSumSalioExpLabel.textContent = formatTZS(sumSalioExp);
+
+        els.recordsCountBadge.textContent = count === totalAllCount
+          ? `${count} rekodi`
+          : `${count} kati ya ${totalAllCount} rekodi`;
+
+        if (count === 0) {
+          const emptyMsg = totalAllCount === 0
+            ? 'Hakuna kumbukumbu zilizohifadhiwa bado. Tumia fomu ya <strong>Stationery</strong>, <strong>Manunuzi ya Vifaa</strong>, <strong>Kata Salio</strong>, au <strong>STATIONERY SERVICE . NET</strong> hapo juu.'
+            : 'Hakuna rekodi zilizopatikana kwa vichujio ulivyoweka. Bonyeza <strong>Safisha Vichujio</strong> kuona zote.';
+          els.recordsTableBody.innerHTML = `
+            <tr>
+              <td colspan="8" class="py-8 px-4 text-center text-xs sm:text-sm text-slate-500">${emptyMsg}</td>
+            </tr>
+          `;
+          return;
+        }
+
+        els.recordsTableBody.innerHTML = filtered
+          .map((row) => {
+            let badgeHtml = '<span class="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-teal-100 text-teal-900">Stationery</span>';
+            if (row.kind === 'WIFI') {
+              badgeHtml = '<span class="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-[#fce7f3] text-[#9d174d]">Wi-Fi (.NET)</span>';
+            } else if (row.kind === 'PURCHASE') {
+              badgeHtml = '<span class="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-slate-200 text-slate-900">Manunuzi (Mtaji)</span>';
+            } else if (row.kind === 'SALIO_EXPENSE') {
+              badgeHtml = '<span class="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-100 text-amber-950">Matumizi (Salio)</span>';
+            }
+
+            const mtajiCell = row.mtajiDelta === null
+              ? '—'
+              : row.mtajiDelta < 0
+                ? `-${Math.abs(row.mtajiDelta).toLocaleString('en-US')}`
+                : `+${row.mtajiDelta.toLocaleString('en-US')}`;
+
+            const salioCell = row.salioDelta === null
+              ? '—'
+              : row.salioDelta < 0
+                ? `-${Math.abs(row.salioDelta).toLocaleString('en-US')}`
+                : `+${row.salioDelta.toLocaleString('en-US')}`;
+
+            let deleteAttr = `data-delete-id="${escapeHTML(row.id)}"`;
+            if (row.kind === 'PURCHASE') {
+              deleteAttr = `data-delete-purchase-id="${escapeHTML(row.id)}"`;
+            } else if (row.kind === 'SALIO_EXPENSE') {
+              deleteAttr = `data-delete-salio-id="${escapeHTML(row.id)}"`;
+            }
+
+            return `
+              <tr class="hover:bg-slate-50/90 transition">
+                <td class="py-3 px-3 font-semibold text-slate-800 whitespace-nowrap">${escapeHTML(row.date)}</td>
+                <td class="py-3 px-3 whitespace-nowrap">${badgeHtml}</td>
+                <td class="py-3 px-3 font-medium text-slate-700">${escapeHTML(row.label)}</td>
+                <td class="py-3 px-3 text-right font-extrabold text-slate-900 whitespace-nowrap">${row.amount.toLocaleString('en-US')}</td>
+                <td class="py-3 px-3 text-right font-semibold ${row.mtajiDelta !== null && row.mtajiDelta < 0 ? 'text-rose-700' : 'text-teal-800'} whitespace-nowrap">${mtajiCell}</td>
+                <td class="py-3 px-3 text-right font-semibold text-amber-800 whitespace-nowrap">${row.akibaDelta === null ? '—' : row.akibaDelta.toLocaleString('en-US')}</td>
+                <td class="py-3 px-3 text-right font-semibold ${row.salioDelta !== null && row.salioDelta < 0 ? 'text-rose-700' : 'text-slate-800'} whitespace-nowrap">${salioCell}</td>
+                <td class="py-3 px-3 text-right whitespace-nowrap">
+                  <button type="button" ${deleteAttr} class="delete-any-btn px-2.5 py-1 rounded-lg text-xs font-bold text-rose-700 hover:bg-rose-50 border border-rose-200/70 transition cursor-pointer">
+                    Futa
+                  </button>
+                </td>
+              </tr>
+            `;
+          })
+          .join('');
+      }
+
+      function renderCharts(summary) {
+        if (typeof Chart === 'undefined') return;
+        const dailySeries = summary.dailySeries;
+        const labels = dailySeries.length > 0 ? dailySeries.map((d) => d.date) : ['Hakuna Data'];
+        const stationeryData = dailySeries.length > 0 ? dailySeries.map((d) => d.stationery) : [0];
+        const wifiData = dailySeries.length > 0 ? dailySeries.map((d) => d.wifi) : [0];
+        const mtajiData = dailySeries.length > 0 ? dailySeries.map((d) => d.mtaji) : [0];
+        const akibaData = dailySeries.length > 0 ? dailySeries.map((d) => d.akiba) : [0];
+        const salioData = dailySeries.length > 0 ? dailySeries.map((d) => d.salio) : [0];
+
+        const trendSeries = summary.stationeryDays.length > 0 ? summary.stationeryDays : [{ date: 'Hakuna Data', stationery: 0 }];
+        const trendLabels = trendSeries.map((d) => d.date);
+        const trendValues = trendSeries.map((d) => d.stationery);
+        const avgLineValues = trendSeries.map(() => summary.avgDailySales);
+
+        const wifiTrendSeries = summary.wifiDays.length > 0 ? summary.wifiDays : [{ date: 'Hakuna Data', wifi: 0 }];
+        const wifiTrendLabels = wifiTrendSeries.map((d) => d.date);
+        const wifiTrendValues = wifiTrendSeries.map((d) => d.wifi);
+        const wifiAvgLineValues = wifiTrendSeries.map(() => summary.wifiAvgDailySales);
+
+        if (trendChart) trendChart.destroy();
+        if (monthlyTrendChart) monthlyTrendChart.destroy();
+        if (wifiTrendChart) wifiTrendChart.destroy();
+        if (purchasesTrendChart) purchasesTrendChart.destroy();
+        if (comparisonChart) comparisonChart.destroy();
+        if (pocketsLineChart) pocketsLineChart.destroy();
+
+        if (els.purchasesTrendCanvas) {
+          const purSeries = (summary.purchaseDays && summary.purchaseDays.length > 0)
+            ? summary.purchaseDays
+            : [{ date: 'Hakuna Data', amount: 0 }];
+          purchasesTrendChart = new Chart(els.purchasesTrendCanvas.getContext('2d'), {
+            type: 'line',
+            data: {
+              labels: purSeries.map((d) => d.date),
+              datasets: [
+                {
+                  label: 'Manunuzi ya Vifaa (TZS)',
+                  data: purSeries.map((d) => d.amount),
+                  borderColor: '#0891b2',
+                  backgroundColor: 'rgba(8, 145, 178, 0.16)',
+                  borderWidth: 3,
+                  fill: true,
+                  tension: 0.3,
+                  pointRadius: 5,
+                  pointHoverRadius: 7,
+                  pointBackgroundColor: '#0e7490',
+                  pointBorderColor: '#ffffff',
+                  pointBorderWidth: 2
+                },
+                {
+                  label: 'Wastani wa Manunuzi/Siku (TZS)',
+                  data: purSeries.map(() => summary.purAvgDailySales || 0),
+                  borderColor: '#f59e0b',
+                  borderWidth: 2,
+                  borderDash: [6, 6],
+                  fill: false,
+                  pointRadius: 0
+                }
+              ]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              interaction: { mode: 'index', intersect: false },
+              plugins: {
+                legend: { position: 'top', labels: { font: { family: 'Inter', weight: '600', size: 11 } } },
+                tooltip: {
+                  callbacks: {
+                    label: (ctx) => `${ctx.dataset.label}: ${Number(ctx.parsed.y || 0).toLocaleString('en-US')} TZS`
+                  }
+                }
+              },
+              scales: {
+                x: { ticks: { font: { family: 'Inter', size: 11 } } },
+                y: { beginAtZero: true, ticks: { font: { family: 'Inter', size: 11 }, callback: (val) => Number(val).toLocaleString('en-US') } }
+              }
+            }
+          });
+        }
+
+        wifiTrendChart = new Chart(els.wifiTrendCanvas.getContext('2d'), {
+          type: 'line',
+          data: {
+            labels: wifiTrendLabels,
+            datasets: [
+              {
+                label: 'Mauzo ya Wi-Fi / .NET (TZS)',
+                data: wifiTrendValues,
+                borderColor: '#db2777',
+                backgroundColor: 'rgba(219, 39, 119, 0.14)',
+                borderWidth: 3,
+                fill: true,
+                tension: 0.3,
+                pointRadius: 5,
+                pointHoverRadius: 7,
+                pointBackgroundColor: '#9d174d',
+                pointBorderColor: '#ffffff',
+                pointBorderWidth: 2
+              },
+              {
+                label: 'Wastani wa Wi-Fi/Siku (TZS)',
+                data: wifiAvgLineValues,
+                borderColor: '#f472b6',
+                borderWidth: 2,
+                borderDash: [6, 6],
+                fill: false,
+                pointRadius: 0
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+              legend: { position: 'top', labels: { font: { family: 'Inter', weight: '600', size: 11 } } },
+              tooltip: {
+                callbacks: {
+                  label: (ctx) => `${ctx.dataset.label}: ${Number(ctx.parsed.y || 0).toLocaleString('en-US')} TZS`
+                }
+              }
+            },
+            scales: {
+              x: { ticks: { font: { family: 'Inter', size: 11 } } },
+              y: { beginAtZero: true, ticks: { font: { family: 'Inter', size: 11 }, callback: (val) => Number(val).toLocaleString('en-US') } }
+            }
+          }
+        });
+
+        const mSeriesChart = (summary.monthlySeries && summary.monthlySeries.length > 0)
+          ? summary.monthlySeries
+          : [{ month: 'Hakuna Data', total: 0, stationery: 0, wifi: 0 }];
+
+        monthlyTrendChart = new Chart(els.monthlyTrendCanvas.getContext('2d'), {
+          type: 'line',
+          data: {
+            labels: mSeriesChart.map((m) => m.month),
+            datasets: [
+              {
+                label: 'Jumla ya Mwezi (Stationery + Wi-Fi)',
+                data: mSeriesChart.map((m) => m.total),
+                borderColor: '#4338ca',
+                backgroundColor: 'rgba(67, 56, 202, 0.14)',
+                borderWidth: 3,
+                fill: true,
+                tension: 0.3,
+                pointRadius: 5,
+                pointHoverRadius: 7,
+                pointBackgroundColor: '#312e81',
+                pointBorderColor: '#ffffff',
+                pointBorderWidth: 2
+              },
+              {
+                label: 'Stationery / Mwezi (TZS)',
+                data: mSeriesChart.map((m) => m.stationery),
+                borderColor: '#0d9488',
+                backgroundColor: 'rgba(13, 148, 136, 0.08)',
+                borderWidth: 2.5,
+                fill: false,
+                tension: 0.3,
+                pointRadius: 4,
+                pointHoverRadius: 6,
+                pointBackgroundColor: '#0f766e'
+              },
+              {
+                label: 'Wi-Fi .NET / Mwezi (TZS)',
+                data: mSeriesChart.map((m) => m.wifi),
+                borderColor: '#db2777',
+                backgroundColor: 'rgba(219, 39, 119, 0.08)',
+                borderWidth: 2.5,
+                borderDash: [5, 4],
+                fill: false,
+                tension: 0.3,
+                pointRadius: 4,
+                pointHoverRadius: 6,
+                pointBackgroundColor: '#9d174d'
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+              legend: { position: 'top', labels: { font: { family: 'Inter', weight: '600', size: 11 } } },
+              tooltip: {
+                callbacks: {
+                  label: (ctx) => `${ctx.dataset.label}: ${Number(ctx.parsed.y || 0).toLocaleString('en-US')} TZS`
+                }
+              }
+            },
+            scales: {
+              x: { ticks: { font: { family: 'Inter', size: 11 } } },
+              y: { beginAtZero: true, ticks: { font: { family: 'Inter', size: 11 }, callback: (val) => Number(val).toLocaleString('en-US') } }
+            }
+          }
+        });
+
+        trendChart = new Chart(els.trendCanvas.getContext('2d'), {
+          type: 'line',
+          data: {
+            labels: trendLabels,
+            datasets: [
+              {
+                label: 'Mauzo ya Stationery (TZS)',
+                data: trendValues,
+                borderColor: '#0284c7',
+                backgroundColor: 'rgba(2, 132, 199, 0.14)',
+                borderWidth: 3,
+                fill: true,
+                tension: 0.3,
+                pointRadius: 5,
+                pointHoverRadius: 7,
+                pointBackgroundColor: '#0f2942',
+                pointBorderColor: '#ffffff',
+                pointBorderWidth: 2
+              },
+              {
+                label: 'Wastani wa Mauzo/Siku (TZS)',
+                data: avgLineValues,
+                borderColor: '#f59e0b',
+                borderWidth: 2,
+                borderDash: [6, 6],
+                fill: false,
+                pointRadius: 0
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+              legend: { position: 'top', labels: { font: { family: 'Inter', weight: '600', size: 11 } } },
+              tooltip: {
+                callbacks: {
+                  label: (ctx) => `${ctx.dataset.label}: ${Number(ctx.parsed.y || 0).toLocaleString('en-US')} TZS`
+                }
+              }
+            },
+            scales: {
+              x: { ticks: { font: { family: 'Inter', size: 11 } } },
+              y: { beginAtZero: true, ticks: { font: { family: 'Inter', size: 11 }, callback: (val) => Number(val).toLocaleString('en-US') } }
+            }
+          }
+        });
+
+        comparisonChart = new Chart(els.comparisonCanvas.getContext('2d'), {
+          type: 'bar',
+          data: {
+            labels,
+            datasets: [
+              { label: 'Stationery (TZS)', data: stationeryData, backgroundColor: '#0f2942', borderRadius: 6 },
+              { label: 'Wi-Fi / .NET (TZS)', data: wifiData, backgroundColor: '#db2777', borderRadius: 6 }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { position: 'top', labels: { font: { family: 'Inter', weight: '600', size: 11 } } } },
+            scales: {
+              x: { ticks: { font: { family: 'Inter', size: 10 } } },
+              y: { beginAtZero: true, ticks: { font: { family: 'Inter', size: 10 }, callback: (val) => Number(val).toLocaleString('en-US') } }
+            }
+          }
+        });
+
+        pocketsLineChart = new Chart(els.pocketsLineCanvas.getContext('2d'), {
+          type: 'line',
+          data: {
+            labels,
+            datasets: [
+              { label: 'Mtaji Halisi', data: mtajiData, borderColor: '#0d9488', backgroundColor: '#0d9488', borderWidth: 2.5, tension: 0.25, pointRadius: 3.5 },
+              { label: 'Akiba', data: akibaData, borderColor: '#d97706', backgroundColor: '#d97706', borderWidth: 2.5, tension: 0.25, pointRadius: 3.5 },
+              { label: 'Salio', data: salioData, borderColor: '#475569', backgroundColor: '#475569', borderWidth: 2.5, tension: 0.25, pointRadius: 3.5 }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { position: 'top', labels: { font: { family: 'Inter', weight: '600', size: 11 } } } },
+            scales: {
+              x: { ticks: { font: { family: 'Inter', size: 10 } } },
+              y: { beginAtZero: false, ticks: { font: { family: 'Inter', size: 10 }, callback: (val) => Number(val).toLocaleString('en-US') } }
+            }
+          }
+        });
+      }
+
+      function deleteEntryById(id) {
+        appState.entries = appState.entries.filter((item) => item.id !== id);
+        saveAppState();
+        renderAll();
+        showBanner('Rekodi imefutwa.', 'info');
+      }
+
+      function deletePurchaseById(id) {
+        appState.purchases = appState.purchases.filter((item) => item.id !== id);
+        saveAppState();
+        renderAll();
+        showBanner('Rekodi ya manunuzi imefutwa na Mtaji umerudishwa sawa.', 'info');
+      }
+
+      function deleteSalioExpenseById(id) {
+        if (!Array.isArray(appState.salioExpenses)) return;
+        const removed = appState.salioExpenses.find((item) => item.id === id);
+        appState.salioExpenses = appState.salioExpenses.filter((item) => item.id !== id);
+        saveAppState();
+        renderAll();
+        const amtText = removed ? ` (${formatTZS(removed.amount)})` : '';
+        showBanner(`Mkato wa Salio${amtText} umefutwa na kiasi kimerudishwa kwenye Salio.`, 'info');
+      }
+
+      function resetAllSalioExpenses() {
+        if (!Array.isArray(appState.salioExpenses) || appState.salioExpenses.length === 0) {
+          showBanner('Hakuna makato yoyote ya Salio ya ku-reset.', 'warning');
+          return;
+        }
+        const ok = window.confirm('Una uhakika unataka kufuta makato YOTE ya Salio na kurudisha Salio lote la awali?');
+        if (!ok) return;
+        appState.salioExpenses = [];
+        saveAppState();
+        renderAll();
+        showBanner('Salio limefanyiwa Reset! Makato yote yamefutwa na Salio la awali limerudi kamili.', 'success');
+      }
+
+      function bindEvents() {
+        els.stAmountInput.addEventListener('input', updateSplitPreview);
+        [
+          ['mtaji', els.mtajiPctInput],
+          ['akiba', els.akibaPctInput],
+          ['salio', els.salioPctInput]
+        ].forEach(([key, input]) => {
+          input.addEventListener('input', () => {
+            const val = Math.min(100, Math.max(0, Number(input.value) || 0));
+            appState.percentages[key] = Math.round(val);
+            saveAppState();
+            updateSplitPreview();
+          });
+        });
+
+        els.resetPctBtn.addEventListener('click', () => {
+          appState.percentages = { mtaji: 50, akiba: 36, salio: 14 };
+          saveAppState();
+          renderAll();
+          showBanner('Asilimia za mifuko mitatu zimerudi 50% Mtaji, 36% Akiba, na 14% Salio.', 'info');
+        });
+
+        els.stationeryEntryForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const split = calculateStationerySplit(els.stAmountInput.value);
+          if (split.amount <= 0) {
+            showBanner('Weka kiasi kikubwa kuliko 0 TZS kwa Stationery.', 'warning');
+            return;
+          }
+          appState.entries.push({
+            id: `st-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+            category: 'STATIONERY',
+            date: els.stDateInput.value || getTodayISO(),
+            label: els.stServiceSelect.value || 'Stationery',
+            amount: split.amount,
+            mtaji: split.mtaji,
+            akiba: split.akiba,
+            salio: split.salio
+          });
+          saveAppState();
+          els.stAmountInput.value = '';
+          renderAll();
+          showBanner(`Imehifadhiwa! Stationery ${formatTZS(split.amount)} (Mtaji +${formatTZS(split.mtaji)}, Akiba +${formatTZS(split.akiba)}).`, 'success');
+        });
+
+        els.purchaseEntryForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const cost = Math.max(0, Math.round(Number(els.purAmountInput.value) || 0));
+          if (cost <= 0) {
+            showBanner('Weka gharama ya manunuzi iliyo kubwa kuliko 0 TZS.', 'warning');
+            return;
+          }
+          const itemName = (els.purItemInput.value || '').trim() || 'Vifaa vya Stationery';
+          appState.purchases.push({
+            id: `pur-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+            date: els.purDateInput.value || getTodayISO(),
+            item: itemName,
+            amount: cost
+          });
+          saveAppState();
+          els.purItemInput.value = '';
+          els.purAmountInput.value = '';
+          const updatedSummary = computeSummaries();
+          renderAll();
+          if (updatedSummary.mtajiAvailable < 0) {
+            showBanner(`Manunuzi ya "${itemName}" (${formatTZS(cost)}) yamehifadhiwa. Mtaji sasa una deni (negative): ${formatTZS(updatedSummary.mtajiAvailable)}.`, 'warning');
+          } else {
+            showBanner(`Manunuzi ya "${itemName}" (${formatTZS(cost)}) yamekatwa moja kwa moja kwenye Mtaji.`, 'success');
+          }
+        });
+
+        els.wifiEntryForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const wifiAmt = Math.max(0, Math.round(Number(els.wifiAmountInput.value) || 0));
+          if (wifiAmt <= 0) {
+            showBanner('Weka kiasi kikubwa kuliko 0 TZS kwa STATIONERY SERVICE . NET.', 'warning');
+            return;
+          }
+          const pkgText = (els.wifiPackageInput.value || '').trim() || 'STATIONERY SERVICE . NET';
+          appState.entries.push({
+            id: `wifi-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+            category: 'WIFI',
+            date: els.wifiDateInput.value || getTodayISO(),
+            label: pkgText,
+            amount: wifiAmt,
+            mtaji: 0,
+            akiba: 0,
+            salio: 0
+          });
+          saveAppState();
+          els.wifiAmountInput.value = '';
+          els.wifiPackageInput.value = '';
+          renderAll();
+          showBanner(`Imehifadhiwa! Mapato ya Wi-Fi ${formatTZS(wifiAmt)} yamewekwa kwenye sehemu ya Wi-Fi pekee.`, 'success');
+        });
+
+        els.purchasesTableBody.addEventListener('click', (e) => {
+          const btn = e.target.closest('.delete-purchase-btn');
+          if (!btn) return;
+          const id = btn.getAttribute('data-delete-purchase-id');
+          if (id) deletePurchaseById(id);
+        });
+
+        if (els.salioExpensesList) {
+          els.salioExpensesList.addEventListener('click', (e) => {
+            const btn = e.target.closest('.delete-salio-btn');
+            if (!btn) return;
+            const id = btn.getAttribute('data-delete-salio-id');
+            if (id) deleteSalioExpenseById(id);
+          });
+        }
+
+        if (els.resetSalioExpensesBtn) {
+          els.resetSalioExpensesBtn.addEventListener('click', resetAllSalioExpenses);
+        }
+
+        if (els.undoLastSalioBtn) {
+          els.undoLastSalioBtn.addEventListener('click', () => {
+            if (!Array.isArray(appState.salioExpenses) || appState.salioExpenses.length === 0) {
+              showBanner('Hakuna mkato wa mwisho wa Salio wa kufuta.', 'warning');
+              return;
+            }
+            const lastItem = appState.salioExpenses[appState.salioExpenses.length - 1];
+            if (lastItem && lastItem.id) {
+              deleteSalioExpenseById(lastItem.id);
+            }
+          });
+        }
+
+        els.recordsTableBody.addEventListener('click', (e) => {
+          const btn = e.target.closest('.delete-any-btn');
+          if (!btn) return;
+          const purId = btn.getAttribute('data-delete-purchase-id');
+          if (purId) { deletePurchaseById(purId); return; }
+          const salioId = btn.getAttribute('data-delete-salio-id');
+          if (salioId) { deleteSalioExpenseById(salioId); return; }
+          const entryId = btn.getAttribute('data-delete-id');
+          if (entryId) deleteEntryById(entryId);
+        });
+
+        if (els.filterCategorySelect) {
+          els.filterCategorySelect.addEventListener('change', () => {
+            tableCategoryFilter = els.filterCategorySelect.value || 'ALL';
+            renderRecordsTable();
+          });
+        }
+        if (els.filterServiceSelect) {
+          els.filterServiceSelect.addEventListener('change', () => {
+            tableServiceFilter = els.filterServiceSelect.value || 'ALL';
+            renderRecordsTable();
+          });
+        }
+        if (els.filterTableStartDate) {
+          els.filterTableStartDate.addEventListener('change', () => {
+            tableStartDateFilter = els.filterTableStartDate.value || '';
+            renderRecordsTable();
+          });
+        }
+        if (els.filterTableEndDate) {
+          els.filterTableEndDate.addEventListener('change', () => {
+            tableEndDateFilter = els.filterTableEndDate.value || '';
+            renderRecordsTable();
+          });
+        }
+        if (els.filterSearchInput) {
+          els.filterSearchInput.addEventListener('input', () => {
+            tableSearchQuery = els.filterSearchInput.value || '';
+            renderRecordsTable();
+          });
+        }
+        if (els.resetAllFiltersBtn) {
+          els.resetAllFiltersBtn.addEventListener('click', () => {
+            tableCategoryFilter = 'ALL';
+            tableServiceFilter = 'ALL';
+            tableStartDateFilter = '';
+            tableEndDateFilter = '';
+            tableSearchQuery = '';
+            if (els.filterCategorySelect) els.filterCategorySelect.value = 'ALL';
+            if (els.filterServiceSelect) els.filterServiceSelect.value = 'ALL';
+            if (els.filterTableStartDate) els.filterTableStartDate.value = '';
+            if (els.filterTableEndDate) els.filterTableEndDate.value = '';
+            if (els.filterSearchInput) els.filterSearchInput.value = '';
+            renderRecordsTable();
+            showBanner('Vichujio vyote vimesafishwa.', 'info');
+          });
+        }
+
+        els.exportCsvBtn.addEventListener('click', () => {
+          const salioList = Array.isArray(appState.salioExpenses) ? appState.salioExpenses : [];
+          if (appState.entries.length === 0 && appState.purchases.length === 0 && salioList.length === 0) {
+            showBanner('Hakuna rekodi za kuhamisha kwenye CSV.', 'warning');
+            return;
+          }
+          const headers = ['Tarehe', 'Aina', 'Huduma_Au_Kifurushi_Au_Bidhaa', 'Kiasi_TZS', 'Mtaji_Mabadiliko_TZS', 'Akiba_TZS', 'Salio_Mabadiliko_TZS'];
+          const rows = [
+            ...appState.entries.map((item) => {
+              const isWifi = item.category === 'WIFI';
+              return [
+                item.date || '',
+                isWifi ? 'Wi-Fi (.NET)' : 'Stationery',
+                `"${String(item.label || '').replace(/"/g, '""')}"`,
+                item.amount || 0,
+                isWifi ? 0 : (item.mtaji || 0),
+                isWifi ? 0 : (item.akiba || 0),
+                isWifi ? 0 : (item.salio || 0)
+              ];
+            }),
+            ...appState.purchases.map((pur) => [
+              pur.date || '',
+              'Manunuzi (Mtaji)',
+              `"${String(pur.item || '').replace(/"/g, '""')}"`,
+              pur.amount || 0,
+              -(Number(pur.amount) || 0),
+              0,
+              0
+            ]),
+            ...salioList.map((exp) => [
+              exp.date || '',
+              'Matumizi (Salio)',
+              `"${String(exp.note || 'Matumizi ya Salio').replace(/"/g, '""')}"`,
+              exp.amount || 0,
+              0,
+              0,
+              -(Number(exp.amount) || 0)
+            ])
+          ];
+          const csvString = '\uFEFF' + [headers.join(','), ...rows.map((r) => r.join(','))].join('\n');
+          const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = `faustine-stationery-service-${getTodayISO()}.csv`;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          URL.revokeObjectURL(url);
+          showBanner('Faili la CSV limepakuliwa.', 'success');
+        });
+
+        els.backupJsonBtn.addEventListener('click', () => {
+          const payload = {
+            app: 'FAUSTINE STATIONERY SERVICE',
+            version: 2,
+            exportedAt: new Date().toISOString(),
+            percentages: appState.percentages,
+            entries: appState.entries,
+            purchases: appState.purchases,
+            salioExpenses: Array.isArray(appState.salioExpenses) ? appState.salioExpenses : []
+          };
+          const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = `faustine-stationery-backup-${getTodayISO()}.json`;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          URL.revokeObjectURL(url);
+          showBanner('Backup ya JSON imepakuliwa.', 'success');
+        });
+
+        els.restoreJsonInput.addEventListener('change', (e) => {
+          const file = e.target.files?.[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = (evt) => {
+            try {
+              const parsed = JSON.parse(evt.target?.result || '{}');
+              if (!Array.isArray(parsed.entries)) {
+                showBanner('Faili la JSON halina muundo sahihi.', 'warning');
+                return;
+              }
+              appState.entries = parsed.entries;
+              appState.purchases = Array.isArray(parsed.purchases) ? parsed.purchases : [];
+              appState.salioExpenses = Array.isArray(parsed.salioExpenses) ? parsed.salioExpenses : [];
+              if (parsed.percentages) {
+                appState.percentages = {
+                  mtaji: Number.isFinite(Number(parsed.percentages.mtaji)) ? Number(parsed.percentages.mtaji) : 50,
+                  akiba: Number.isFinite(Number(parsed.percentages.akiba)) ? Number(parsed.percentages.akiba) : 36,
+                  salio: Number.isFinite(Number(parsed.percentages.salio)) ? Number(parsed.percentages.salio) : 14
+                };
+              }
+              saveAppState();
+              renderAll();
+              showBanner(`Data zimerudishwa! Rekodi ${appState.entries.length}, manunuzi ${appState.purchases.length}, na makato ya Salio ${appState.salioExpenses.length} yamepakiwa.`, 'success');
+            } catch (err) {
+              showBanner('Imeshindikana kusoma faili la JSON.', 'warning');
+            } finally {
+              els.restoreJsonInput.value = '';
+            }
+          };
+          reader.readAsText(file);
+        });
+
+        function buildMonthlyReportText(targetMonth) {
+          const summary = computeSummaries();
+          const monthItem = (summary.monthlySeries || []).find((m) => m.month === targetMonth);
+          if (!monthItem) return null;
+          const todayISO = getTodayISO();
+          const isClosed = Boolean(monthItem.isClosed) || isMonthStrictlyClosedAtMonthEnd(targetMonth, todayISO);
+          const endDateText = monthItem.monthEndDate || getLastDayOfMonthISO(targetMonth);
+          const statusLabel = isClosed ? `IMEFUNGWA MWISHO WA MWEZI (${endDateText})` : `INAENDELEA (HUFUNGWA ${endDateText})`;
+          const goalForecastWa = computeGoalForecast(summary);
+          const healthInfoWa = buildBusinessHealthAndAction(summary);
+          const goalCompletionLine = goalForecastWa.status === 'REACHED'
+            ? `• Kukamilisha Lengo (1,000,000 TZS): *Tayari limefikiwa (${goalForecastWa.fullDateText})*`
+            : goalForecastWa.status === 'PROJECTED'
+              ? `• Kukamilisha Lengo (1,000,000 TZS): *${goalForecastWa.fullDateText}* (${goalForecastWa.daysText} zilizobaki)`
+              : `• Kukamilisha Lengo (1,000,000 TZS): *Bado makadirio (ongeza mauzo ya Stationery)*`;
+          return [
+            `*FAUSTINE STATIONERY SERVICE*`,
+            `Ripoti ya Mwezi: *${monthItem.month}* (${statusLabel})`,
+            `• Akiba: *${formatTZS(monthItem.akiba)}*`,
+            `• Salio: *${formatTZS(monthItem.salio)}*`,
+            `• Mtaji Uliobaki: *${formatTZS(monthItem.mtajiRemaining)}*`,
+            `• Manunuzi: *${formatTZS(monthItem.purchases)}*`,
+            `• Wi-Fi (.NET): *${formatTZS(monthItem.wifi)}*`,
+            `• Jumla Mapato (Stationery + Wi-Fi): *${formatTZS(monthItem.total)}*`,
+            goalCompletionLine,
+            `• Hali ya Biashara: *${healthInfoWa.healthStatus}*`,
+            `Ujumbe wa Ripoti: Muhtasari wa mwezi *${monthItem.month}* umeandaliwa kwa ajili ya ufuatiliaji wa mifuko mitatu, Wi-Fi (.NET), na lengo la Akiba.`
+          ].join('\n');
+        }
+
+        function openMonthlyReportWhatsapp(targetMonth) {
+          const text = buildMonthlyReportText(targetMonth);
+          if (!text) {
+            showBanner(`Hakuna rekodi za mwezi ${targetMonth} za kutuma WhatsApp.`, 'warning');
+            return;
+          }
+          const whatsappPhone = '255612147790';
+          const waUrl = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(text)}`;
+          window.open(waUrl, '_blank', 'noopener,noreferrer');
+        }
+
+        async function copyMonthlyReportText(targetMonth) {
+          const text = buildMonthlyReportText(targetMonth);
+          if (!text) {
+            showBanner(`Hakuna rekodi za mwezi ${targetMonth} za kunakili.`, 'warning');
+            return;
+          }
+          try {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              await navigator.clipboard.writeText(text);
+            } else {
+              const tempArea = document.createElement('textarea');
+              tempArea.value = text;
+              tempArea.setAttribute('readonly', '');
+              tempArea.style.position = 'absolute';
+              tempArea.style.left = '-9999px';
+              document.body.appendChild(tempArea);
+              tempArea.select();
+              document.execCommand('copy');
+              document.body.removeChild(tempArea);
+            }
+            showBanner(`Ripoti ya mwezi ${targetMonth} imenakiliwa! Unaweza kubandika (Paste) popote.`, 'success');
+          } catch (err) {
+            showBanner('Imeshindikana kunakili moja kwa moja. Jaribu tena.', 'warning');
+          }
+        }
+
+        els.monthlyAutoReportsList.addEventListener('click', (e) => {
+          const waBtn = e.target.closest('.send-whatsapp-month-btn');
+          if (waBtn) {
+            const monthKey = waBtn.getAttribute('data-whatsapp-month');
+            if (monthKey) openMonthlyReportWhatsapp(monthKey);
+            return;
+          }
+          const copyBtn = e.target.closest('.copy-whatsapp-month-btn');
+          if (copyBtn) {
+            const monthKey = copyBtn.getAttribute('data-copy-month');
+            if (monthKey) copyMonthlyReportText(monthKey);
+          }
+        });
+
+        els.sendCurrentMonthWhatsappBtn.addEventListener('click', () => {
+          const summary = computeSummaries();
+          const mSeries = summary.monthlySeries || [];
+          const currentMonthKey = getTodayISO().slice(0, 7);
+          const targetMonth = mSeries.some((m) => m.month === currentMonthKey)
+            ? currentMonthKey
+            : (mSeries.length > 0 ? mSeries[mSeries.length - 1].month : currentMonthKey);
+          openMonthlyReportWhatsapp(targetMonth);
+        });
+
+        const copyCurrentMonthBtn = document.getElementById('copyCurrentMonthReportBtn');
+        if (copyCurrentMonthBtn) {
+          copyCurrentMonthBtn.addEventListener('click', () => {
+            const summary = computeSummaries();
+            const mSeries = summary.monthlySeries || [];
+            const currentMonthKey = getTodayISO().slice(0, 7);
+            const targetMonth = mSeries.some((m) => m.month === currentMonthKey)
+              ? currentMonthKey
+              : (mSeries.length > 0 ? mSeries[mSeries.length - 1].month : currentMonthKey);
+            copyMonthlyReportText(targetMonth);
+          });
+        }
+
+        if (els.salioExpenseForm) {
+          els.salioExpenseForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const expAmt = Math.max(0, Math.round(Number(els.salioExpenseInput.value) || 0));
+            if (expAmt <= 0) {
+              showBanner('Weka kiasi kikubwa kuliko 0 TZS ili kukata Salio.', 'warning');
+              return;
+            }
+            const expDate = (els.salioExpenseDateInput && els.salioExpenseDateInput.value) || getTodayISO();
+            const expNote = (els.salioExpenseNoteInput && els.salioExpenseNoteInput.value.trim()) || 'Matumizi ya Salio';
+            if (!Array.isArray(appState.salioExpenses)) appState.salioExpenses = [];
+            appState.salioExpenses.push({
+              id: `salio-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+              date: expDate,
+              note: expNote,
+              amount: expAmt
+            });
+            saveAppState();
+            els.salioExpenseInput.value = '';
+            if (els.salioExpenseNoteInput) els.salioExpenseNoteInput.value = '';
+            renderAll();
+            showBanner(`Gharama "${expNote}" (${formatTZS(expAmt)}) imekatwa kwenye Salio.`, 'success');
+          });
+        }
+
+        document.querySelectorAll('.period-filter-btn').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            activePeriod = btn.getAttribute('data-period') || 'ALL';
+            renderAll();
+          });
+        });
+
+        if (els.filterStartDateInput) {
+          els.filterStartDateInput.addEventListener('change', () => {
+            customStartDate = els.filterStartDateInput.value || '';
+            activePeriod = 'CUSTOM';
+            renderAll();
+          });
+        }
+        if (els.filterEndDateInput) {
+          els.filterEndDateInput.addEventListener('change', () => {
+            customEndDate = els.filterEndDateInput.value || '';
+            activePeriod = 'CUSTOM';
+            renderAll();
+          });
+        }
+        if (els.clearCustomDateBtn) {
+          els.clearCustomDateBtn.addEventListener('click', () => {
+            customStartDate = '';
+            customEndDate = '';
+            if (els.filterStartDateInput) els.filterStartDateInput.value = '';
+            if (els.filterEndDateInput) els.filterEndDateInput.value = '';
+            activePeriod = 'ALL';
+            renderAll();
+          });
+        }
+
+        els.closeBannerBtn.addEventListener('click', hideBanner);
+      }
+
+      const REQUIRED_PASSWORD = 'Fau@06477';
+      const SESSION_AUTH_KEY = 'faustine_stationery_auth_v19';
+      const CLOUD_URL_KEY = 'faustine_stationery_cloud_url_v19';
+
+      function getCloudUrl() {
+        return (localStorage.getItem(CLOUD_URL_KEY) || '').trim();
+      }
+
+      function setCloudUrl(url) {
+        localStorage.setItem(CLOUD_URL_KEY, (url || '').trim());
+      }
+
+      function updateCloudStatusBadge(text, variant = 'neutral') {
+        const badge = document.getElementById('cloudSyncStatusBadge');
+        if (!badge) return;
+        badge.textContent = text;
+        const map = {
+          neutral: 'text-xs font-extrabold px-3 py-1 rounded-full bg-slate-100 text-slate-700 self-start sm:self-auto',
+          syncing: 'text-xs font-extrabold px-3 py-1 rounded-full bg-amber-100 text-amber-950 self-start sm:self-auto',
+          ok: 'text-xs font-extrabold px-3 py-1 rounded-full bg-emerald-100 text-emerald-950 self-start sm:self-auto',
+          err: 'text-xs font-extrabold px-3 py-1 rounded-full bg-rose-100 text-rose-800 self-start sm:self-auto'
+        };
+        badge.className = map[variant] || map.neutral;
+      }
+
+      async function syncFromCloud(silent = false) {
+        const url = getCloudUrl();
+        if (!url) {
+          updateCloudStatusBadge('Hali: Haijaunganishwa (Local Pekee)', 'neutral');
+          return false;
+        }
+        updateCloudStatusBadge('Inavuta data kutoka Cloud...', 'syncing');
+        try {
+          const sep = url.includes('?') ? '&' : '?';
+          const fetchUrl = `${url}${sep}action=load&password=${encodeURIComponent(REQUIRED_PASSWORD)}&_ts=${Date.now()}`;
+          const res = await fetch(fetchUrl, { method: 'GET' });
+          const data = await res.json();
+          if (!data || !data.ok || !data.state) {
+            updateCloudStatusBadge('Hitilafu ya Cloud Sync', 'err');
+            if (!silent) showBanner(data?.error || 'Imeshindikana kuvuta data kutoka Google Sheets.', 'warning');
+            return false;
+          }
+          appState = {
+            percentages: {
+              mtaji: Number.isFinite(Number(data.state.percentages?.mtaji)) ? Number(data.state.percentages.mtaji) : 50,
+              akiba: Number.isFinite(Number(data.state.percentages?.akiba)) ? Number(data.state.percentages.akiba) : 36,
+              salio: Number.isFinite(Number(data.state.percentages?.salio)) ? Number(data.state.percentages.salio) : 14
+            },
+            entries: Array.isArray(data.state.entries) ? data.state.entries : [],
+            purchases: Array.isArray(data.state.purchases) ? data.state.purchases : [],
+            salioExpenses: Array.isArray(data.state.salioExpenses) ? data.state.salioExpenses : []
+          };
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+          renderAll();
+          updateCloudStatusBadge('Imeunganishwa • Data Zimesawazishwa', 'ok');
+          if (!silent) showBanner('Data zimevutwa na kusawazishwa kutoka Google Sheets!', 'success');
+          return true;
+        } catch (err) {
+          updateCloudStatusBadge('Mtandao / URL Haikujibu', 'err');
+          if (!silent) showBanner('Imeshindikana kuwasiliana na Google Sheets. Angalia intaneti au Web App URL.', 'warning');
+          return false;
+        }
+      }
+
+      async function pushStateToCloud(silent = true) {
+        const url = getCloudUrl();
+        if (!url) return false;
+        updateCloudStatusBadge('Inatuma kwenda Cloud...', 'syncing');
+        try {
+          const res = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify({ action: 'save', password: REQUIRED_PASSWORD, state: appState })
+          });
+          const data = await res.json();
+          if (!data || !data.ok) {
+            updateCloudStatusBadge('Imeshindwa Kutuma Cloud', 'err');
+            if (!silent) showBanner(data?.error || 'Imeshindikana kutuma data kwenda Google Sheets.', 'warning');
+            return false;
+          }
+          updateCloudStatusBadge('Imeunganishwa • Imesasishwa Cloud', 'ok');
+          if (!silent) showBanner('Data zote zimetumwa na kuhifadhiwa kwenye Google Sheets!', 'success');
+          return true;
+        } catch (err) {
+          updateCloudStatusBadge('Imeshindwa Kutuma Cloud', 'err');
+          if (!silent) showBanner('Hitilafu ya kutuma data kwenda Google Sheets. Angalia mtandao.', 'warning');
+          return false;
+        }
+      }
+
+      function initAuthAndCloudControls() {
+        const lockScreen = document.getElementById('authLockScreen');
+        const loginForm = document.getElementById('authLoginForm');
+        const pwdInput = document.getElementById('authPasswordInput');
+        const toggleVisBtn = document.getElementById('togglePasswordVisBtn');
+        const errMsg = document.getElementById('authErrorMsg');
+        const lockBtn = document.getElementById('lockAppBtn');
+        const openCloudBtn = document.getElementById('openCloudSetupBtn');
+        const cloudPanel = document.getElementById('cloudSyncPanel');
+        const closeCloudBtn = document.getElementById('closeCloudPanelBtn');
+        const cloudForm = document.getElementById('cloudConfigForm');
+        const cloudUrlInput = document.getElementById('cloudWebAppUrlInput');
+        const pushCloudBtn = document.getElementById('pushCloudNowBtn');
+
+        const savedUrl = getCloudUrl();
+        if (cloudUrlInput && savedUrl) {
+          cloudUrlInput.value = savedUrl;
+          updateCloudStatusBadge('Imeunganishwa • Tayari', 'ok');
+        }
+
+        if (sessionStorage.getItem(SESSION_AUTH_KEY) === 'UNLOCKED') {
+          if (lockScreen) lockScreen.classList.add('hidden');
+          if (savedUrl) syncFromCloud(true);
+        } else if (pwdInput) {
+          setTimeout(() => pwdInput.focus(), 50);
+        }
+
+        if (toggleVisBtn && pwdInput) {
+          toggleVisBtn.addEventListener('click', () => {
+            const isHidden = pwdInput.type === 'password';
+            pwdInput.type = isHidden ? 'text' : 'password';
+            toggleVisBtn.textContent = isHidden ? 'Ficha' : 'Onyesha';
+            pwdInput.focus();
+          });
+        }
+
+        if (loginForm && pwdInput) {
+          loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (pwdInput.value === REQUIRED_PASSWORD) {
+              sessionStorage.setItem(SESSION_AUTH_KEY, 'UNLOCKED');
+              if (errMsg) errMsg.classList.add('hidden');
+              if (lockScreen) lockScreen.classList.add('hidden');
+              pwdInput.value = '';
+              renderAll();
+              if (getCloudUrl()) {
+                await syncFromCloud(true);
+              }
+            } else {
+              if (errMsg) errMsg.classList.remove('hidden');
+              pwdInput.focus();
+            }
+          });
+        }
+
+        if (lockBtn && lockScreen) {
+          lockBtn.addEventListener('click', () => {
+            sessionStorage.removeItem(SESSION_AUTH_KEY);
+            lockScreen.classList.remove('hidden');
+            if (pwdInput) {
+              pwdInput.type = 'password';
+              if (toggleVisBtn) toggleVisBtn.textContent = 'Onyesha';
+              pwdInput.focus();
+            }
+          });
+        }
+
+        if (openCloudBtn && cloudPanel) {
+          openCloudBtn.addEventListener('click', () => {
+            cloudPanel.classList.toggle('hidden');
+          });
+        }
+
+        if (closeCloudBtn && cloudPanel) {
+          closeCloudBtn.addEventListener('click', () => {
+            cloudPanel.classList.add('hidden');
+          });
+        }
+
+        if (cloudForm && cloudUrlInput) {
+          cloudForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const val = cloudUrlInput.value.trim();
+            setCloudUrl(val);
+            if (!val) {
+              updateCloudStatusBadge('Hali: Haijaunganishwa (Local Pekee)', 'neutral');
+              showBanner('Cloud Sync imezimwa (mfumo unatumia hifadhi ya kifaa hiki pekee).', 'info');
+              return;
+            }
+            await syncFromCloud(false);
+          });
+        }
+
+        if (pushCloudBtn) {
+          pushCloudBtn.addEventListener('click', async () => {
+            if (!getCloudUrl()) {
+              showBanner('Weka kwanza Web App URL ya Google Apps Script.', 'warning');
+              return;
+            }
+            await pushStateToCloud(false);
+          });
+        }
+      }
+
+      window.addEventListener('DOMContentLoaded', () => {
+        initAuthAndCloudControls();
+        const today = getTodayISO();
+        els.stDateInput.value = today;
+        els.purDateInput.value = today;
+        els.wifiDateInput.value = today;
+        if (els.salioExpenseDateInput) els.salioExpenseDateInput.value = today;
+        bindEvents();
+        renderAll();
+      });
+    })();
+  </script>
+</body>
+</html>

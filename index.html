@@ -77,26 +77,14 @@
           Weka nenosiri (Password) kuingia kwenye dashibodi ya biashara na kusawazisha vifaa vyako.
         </p>
       </div>
-
       <form id="authLoginForm" class="space-y-4">
         <div>
           <label for="authPasswordInput" class="block text-xs font-extrabold uppercase tracking-wider text-slate-700 mb-1.5">
             Nenosiri (Password)
           </label>
           <div class="relative">
-            <input
-              id="authPasswordInput"
-              type="password"
-              required
-              autocomplete="current-password"
-              placeholder="Ingiza password yako..."
-              class="w-full px-4 py-3 pr-20 text-sm font-bold rounded-xl border border-slate-300 focus:border-[#0f2942] focus:ring-2 focus:ring-[#0f2942]/15 outline-none bg-[#f8fafc] focus:bg-white"
-            />
-            <button
-              id="togglePasswordVisBtn"
-              type="button"
-              class="absolute right-2.5 top-1/2 -translate-y-1/2 px-2.5 py-1 rounded-lg text-[11px] font-extrabold text-slate-600 hover:bg-slate-200/80 transition cursor-pointer"
-            >
+            <input id="authPasswordInput" type="password" required autocomplete="current-password" placeholder="Ingiza password yako..." class="w-full px-4 py-3 pr-20 text-sm font-bold rounded-xl border border-slate-300 focus:border-[#0f2942] focus:ring-2 focus:ring-[#0f2942]/15 outline-none bg-[#f8fafc] focus:bg-white" />
+            <button id="togglePasswordVisBtn" type="button" class="absolute right-2.5 top-1/2 -translate-y-1/2 px-2.5 py-1 rounded-lg text-[11px] font-extrabold text-slate-600 hover:bg-slate-200/80 transition cursor-pointer">
               Onyesha
             </button>
           </div>
@@ -104,10 +92,7 @@
         <p id="authErrorMsg" class="hidden text-xs font-bold text-rose-700 bg-rose-50 border border-rose-200 rounded-xl px-3.5 py-2.5">
           Nenosiri uliloingiza si sahihi. Jaribu tena.
         </p>
-        <button
-          type="submit"
-          class="w-full py-3 rounded-xl text-sm font-extrabold bg-[#0f2942] hover:bg-[#163654] active:scale-[0.99] text-white shadow-sm transition cursor-pointer"
-        >
+        <button type="submit" class="w-full py-3 rounded-xl text-sm font-extrabold bg-[#0f2942] hover:bg-[#163654] active:scale-[0.99] text-white shadow-sm transition cursor-pointer">
           Fungua Mfumo (Login)
         </button>
       </form>
@@ -158,7 +143,6 @@
           </p>
         </div>
       </div>
-
       <div class="flex flex-wrap items-center gap-2">
         <button id="exportCsvBtn" type="button" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-teal-600 hover:bg-teal-500 active:scale-[0.99] text-white shadow-xs transition cursor-pointer">
           Pakua CSV
@@ -207,12 +191,7 @@
         </span>
       </div>
       <form id="cloudConfigForm" class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
-        <input
-          id="cloudWebAppUrlInput"
-          type="url"
-          placeholder="Bandika Google Apps Script Web App URL hapa (https://script.google.com/macros/s/.../exec)"
-          class="flex-1 px-3.5 py-2.5 text-xs sm:text-sm font-medium rounded-xl border border-slate-300 focus:border-sky-600 outline-none bg-[#f8fafc] focus:bg-white"
-        />
+        <input id="cloudWebAppUrlInput" type="url" placeholder="Bandika Google Apps Script Web App URL hapa (https://script.google.com/macros/s/.../exec)" class="flex-1 px-3.5 py-2.5 text-xs sm:text-sm font-medium rounded-xl border border-slate-300 focus:border-sky-600 outline-none bg-[#f8fafc] focus:bg-white" />
         <div class="flex flex-wrap items-center gap-2">
           <button type="submit" class="px-4 py-2.5 rounded-xl text-xs font-extrabold bg-[#0f2942] hover:bg-[#163654] text-white transition cursor-pointer">
             Hifadhi &amp; Vuta Data
@@ -286,17 +265,43 @@
           <div>
             <div class="flex items-center justify-between gap-2">
               <span class="text-xs font-extrabold uppercase tracking-wider text-slate-800">Salio (Binafsi / Buffer)</span>
-              <span id="salioShareBadge" class="text-xs font-bold px-2 py-0.5 rounded-full bg-slate-200 text-slate-900">14%</span>
+              <div class="flex items-center gap-1.5">
+                <span id="salioShareBadge" class="text-xs font-bold px-2 py-0.5 rounded-full bg-slate-200 text-slate-900">14%</span>
+                <button id="resetSalioExpensesBtn" type="button" title="Futa makato yote ya Salio na urudishe Salio lote la awali" class="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-rose-100 hover:bg-rose-200 text-rose-800 border border-rose-300 transition cursor-pointer">
+                  Reset Salio
+                </button>
+              </div>
             </div>
             <p id="salioTotalDisplay" class="text-2xl font-extrabold text-[#0f2942] mt-2">0 TZS</p>
+            <p id="salioCardSubText" class="text-[11px] font-semibold text-slate-600 mt-1">
+              Awali: 0 TZS &bull; Makato: 0 TZS
+            </p>
           </div>
-          <p class="text-xs text-slate-600 mt-2">Matumizi ya kila siku bila kugusa Mtaji wala Akiba.</p>
-          <form id="salioExpenseForm" class="mt-3 pt-2.5 border-t border-slate-300/80 flex items-center gap-2">
-            <input id="salioExpenseInput" type="number" min="1" step="1" placeholder="Gharama ya matumizi (TZS)" aria-label="Gharama ya matumizi ya Salio (TZS)" class="w-full px-2.5 py-1.5 text-xs font-bold rounded-lg border border-slate-300 bg-white text-slate-900 focus:border-[#0f2942] outline-none" />
-            <button type="submit" class="px-3 py-1.5 rounded-lg text-xs font-extrabold bg-[#0f2942] hover:bg-[#163654] text-white shrink-0 transition cursor-pointer">
-              Kata Salio
-            </button>
+
+          <form id="salioExpenseForm" class="mt-3 pt-2.5 border-t border-slate-300/80 space-y-2">
+            <div class="grid grid-cols-2 gap-1.5">
+              <input id="salioExpenseDateInput" type="date" aria-label="Tarehe ya matumizi ya Salio" class="w-full px-2 py-1 text-[11px] font-semibold rounded-lg border border-slate-300 bg-white text-slate-900 focus:border-[#0f2942] outline-none" />
+              <input id="salioExpenseNoteInput" type="text" maxlength="60" placeholder="Sababu (mf. Chakula)" aria-label="Sababu ya matumizi ya Salio" class="w-full px-2 py-1 text-[11px] font-medium rounded-lg border border-slate-300 bg-white text-slate-900 focus:border-[#0f2942] outline-none" />
+            </div>
+            <div class="flex items-center gap-1.5">
+              <input id="salioExpenseInput" type="number" min="1" step="1" placeholder="Kiasi (TZS)" aria-label="Gharama ya matumizi ya Salio (TZS)" class="w-full px-2.5 py-1.5 text-xs font-bold rounded-lg border border-slate-300 bg-white text-slate-900 focus:border-[#0f2942] outline-none" />
+              <button type="submit" class="px-2.5 py-1.5 rounded-lg text-xs font-extrabold bg-[#0f2942] hover:bg-[#163654] text-white shrink-0 transition cursor-pointer">
+                Kata Salio
+              </button>
+              <button id="undoLastSalioBtn" type="button" title="Futa mkato wa mwisho wa Salio" class="px-2.5 py-1.5 rounded-lg text-xs font-extrabold bg-amber-100 hover:bg-amber-200 text-amber-950 border border-amber-300 shrink-0 transition cursor-pointer">
+                Futa Mwisho
+              </button>
+            </div>
           </form>
+
+          <!-- Kumbukumbu fupi za makato ya Salio ndani ya kadi (kwa kufuta moja moja) -->
+          <div id="salioHistoryBox" class="mt-2.5 pt-2 border-t border-slate-300/70 hidden">
+            <div class="flex items-center justify-between text-[10px] font-extrabold uppercase tracking-wider text-slate-600 mb-1">
+              <span>Makato ya Salio (<span id="salioExpensesCountLabel">0</span>)</span>
+              <span class="text-slate-500">Bonyeza Futa ukikosea</span>
+            </div>
+            <div id="salioExpensesList" class="max-h-28 overflow-y-auto space-y-1 pr-0.5"></div>
+          </div>
         </div>
       </div>
 
@@ -658,7 +663,6 @@
             Mpangilio uliopangwa kwa uwazi: <strong>Ziada Halisi</strong>, <strong>Kipindi</strong>, <strong>Afya ya Mtaji</strong>, <strong>Kasi ya Akiba</strong>, na <strong>Huduma Kinara</strong>.
           </p>
         </div>
-
         <div class="bg-[#f4f6f9] p-1 rounded-xl border border-slate-200/90 inline-flex items-center gap-1 self-start lg:self-auto" role="group" aria-label="Chagua Kipindi">
           <button type="button" data-period="ALL" class="period-filter-btn px-3 py-1.5 rounded-lg text-xs font-extrabold bg-[#0f2942] text-white transition cursor-pointer">Zote</button>
           <button type="button" data-period="TODAY" class="period-filter-btn px-3 py-1.5 rounded-lg text-xs font-extrabold text-slate-700 hover:bg-white transition cursor-pointer">Leo</button>
@@ -889,10 +893,10 @@
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div>
           <h2 class="text-lg sm:text-xl font-extrabold text-[#0f2942]">
-            5. Kumbukumbu Zilizohifadhiwa &amp; Uchujaji (Mapato &amp; Manunuzi)
+            5. Kumbukumbu Zilizohifadhiwa &amp; Uchujaji (Mapato, Manunuzi &amp; Salio)
           </h2>
           <p class="text-xs text-slate-500">
-            Zinahifadhiwa moja kwa moja kwenye browser yako (<code class="text-slate-700 font-semibold">faustine_stationery_service_v1</code>). Chuja rekodi ili kuchambua kwa kina.
+            Zinahifadhiwa moja kwa moja kwenye browser yako (<code class="text-slate-700 font-semibold">faustine_stationery_service_v1</code>). Chuja rekodi ili kuchambua kwa kina au kufuta rekodi uliyokosea.
           </p>
         </div>
         <span id="recordsCountBadge" class="text-xs font-extrabold px-3 py-1 rounded-full bg-slate-100 text-slate-800 self-start sm:self-auto">
@@ -912,9 +916,9 @@
               <option value="STATIONERY">Stationery Pekee</option>
               <option value="WIFI">Wi-Fi (.NET) Pekee</option>
               <option value="PURCHASE">Manunuzi (Mtaji) Pekee</option>
+              <option value="SALIO_EXPENSE">Matumizi (Salio) Pekee</option>
             </select>
           </div>
-
           <div>
             <label for="filterServiceSelect" class="block text-[11px] font-extrabold uppercase tracking-wider text-slate-700 mb-1">
               Huduma ya Stationery
@@ -928,26 +932,23 @@
               <option value="Design, Scanning & Other Services">Design, Scanning &amp; Other Services</option>
             </select>
           </div>
-
           <div>
             <label for="filterTableStartDate" class="block text-[11px] font-extrabold uppercase tracking-wider text-slate-700 mb-1">
               Kuanzia Tarehe
             </label>
             <input id="filterTableStartDate" type="date" class="w-full px-3 py-2 text-xs sm:text-sm font-semibold rounded-xl border border-slate-300 bg-white text-slate-900 focus:border-[#0f2942] outline-none" />
           </div>
-
           <div>
             <label for="filterTableEndDate" class="block text-[11px] font-extrabold uppercase tracking-wider text-slate-700 mb-1">
               Hadi Tarehe
             </label>
             <input id="filterTableEndDate" type="date" class="w-full px-3 py-2 text-xs sm:text-sm font-semibold rounded-xl border border-slate-300 bg-white text-slate-900 focus:border-[#0f2942] outline-none" />
           </div>
-
           <div>
             <label for="filterSearchInput" class="block text-[11px] font-extrabold uppercase tracking-wider text-slate-700 mb-1">
               Tafuta Maelezo / Bidhaa
             </label>
-            <input id="filterSearchInput" type="text" placeholder="Mfano: Rimu, Vocha, Wino..." class="w-full px-3 py-2 text-xs sm:text-sm font-medium rounded-xl border border-slate-300 bg-white text-slate-900 focus:border-[#0f2942] outline-none" />
+            <input id="filterSearchInput" type="text" placeholder="Mfano: Rimu, Vocha, Salio..." class="w-full px-3 py-2 text-xs sm:text-sm font-medium rounded-xl border border-slate-300 bg-white text-slate-900 focus:border-[#0f2942] outline-none" />
           </div>
         </div>
 
@@ -964,6 +965,9 @@
             </span>
             <span class="px-2.5 py-1 rounded-lg bg-white border border-slate-200">
               Manunuzi: <strong id="filteredSumPurchaseLabel" class="text-rose-700">0 TZS</strong>
+            </span>
+            <span class="px-2.5 py-1 rounded-lg bg-white border border-slate-200">
+              Makato Salio: <strong id="filteredSumSalioExpLabel" class="text-amber-800">0 TZS</strong>
             </span>
           </div>
           <button id="resetAllFiltersBtn" type="button" class="px-3.5 py-1.5 rounded-xl text-xs font-extrabold bg-[#0f2942] hover:bg-[#163654] text-white transition cursor-pointer self-start sm:self-auto">
@@ -982,7 +986,7 @@
               <th class="py-3 px-3 text-right">Kiasi (TZS)</th>
               <th class="py-3 px-3 text-right text-teal-800">Mtaji (+/-)</th>
               <th class="py-3 px-3 text-right text-amber-800">Akiba</th>
-              <th class="py-3 px-3 text-right text-slate-800">Salio</th>
+              <th class="py-3 px-3 text-right text-slate-800">Salio (+/-)</th>
               <th class="py-3 px-3 text-right">Futa</th>
             </tr>
           </thead>
@@ -1007,13 +1011,11 @@
       let activePeriod = 'ALL';
       let customStartDate = '';
       let customEndDate = '';
-
       let tableCategoryFilter = 'ALL';
       let tableServiceFilter = 'ALL';
       let tableStartDateFilter = '';
       let tableEndDateFilter = '';
       let tableSearchQuery = '';
-
       let trendChart = null;
       let monthlyTrendChart = null;
       let wifiTrendChart = null;
@@ -1037,6 +1039,12 @@
         mtajiBreakdownText: document.getElementById('mtajiBreakdownText'),
         akibaTotalDisplay: document.getElementById('akibaTotalDisplay'),
         salioTotalDisplay: document.getElementById('salioTotalDisplay'),
+        salioCardSubText: document.getElementById('salioCardSubText'),
+        resetSalioExpensesBtn: document.getElementById('resetSalioExpensesBtn'),
+        undoLastSalioBtn: document.getElementById('undoLastSalioBtn'),
+        salioHistoryBox: document.getElementById('salioHistoryBox'),
+        salioExpensesCountLabel: document.getElementById('salioExpensesCountLabel'),
+        salioExpensesList: document.getElementById('salioExpensesList'),
         akibaGoalPercentText: document.getElementById('akibaGoalPercentText'),
         akibaGoalRemainingText: document.getElementById('akibaGoalRemainingText'),
         akibaGoalBar: document.getElementById('akibaGoalBar'),
@@ -1063,6 +1071,8 @@
         purAvgDailyLabel: document.getElementById('purAvgDailyLabel'),
         purMaxDayLabel: document.getElementById('purMaxDayLabel'),
         salioExpenseForm: document.getElementById('salioExpenseForm'),
+        salioExpenseDateInput: document.getElementById('salioExpenseDateInput'),
+        salioExpenseNoteInput: document.getElementById('salioExpenseNoteInput'),
         salioExpenseInput: document.getElementById('salioExpenseInput'),
         wifiTotalDisplay: document.getElementById('wifiTotalDisplay'),
         wifiEntryForm: document.getElementById('wifiEntryForm'),
@@ -1134,6 +1144,7 @@
         filteredSumStationeryLabel: document.getElementById('filteredSumStationeryLabel'),
         filteredSumWifiLabel: document.getElementById('filteredSumWifiLabel'),
         filteredSumPurchaseLabel: document.getElementById('filteredSumPurchaseLabel'),
+        filteredSumSalioExpLabel: document.getElementById('filteredSumSalioExpLabel'),
         resetAllFiltersBtn: document.getElementById('resetAllFiltersBtn'),
         recordsTableBody: document.getElementById('recordsTableBody')
       };
@@ -1276,8 +1287,11 @@
         const baseDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
         if (remainingGoal === 0) {
           return {
-            dailyAkibaPace, remainingGoal, status: 'REACHED',
-            badgeText: 'Lengo Limefikiwa!', daysText: 'Siku 0',
+            dailyAkibaPace,
+            remainingGoal,
+            status: 'REACHED',
+            badgeText: 'Lengo Limefikiwa!',
+            daysText: 'Siku 0',
             fullDateText: formatSwahiliFullDate(baseDate),
             summarySentence: `Umefikia lengo la Akiba la 1,000,000 TZS (${formatSwahiliFullDate(baseDate)}).`
           };
@@ -1287,15 +1301,22 @@
           const projectedDate = new Date(baseDate.getFullYear(), baseDate.getMonth(), baseDate.getDate() + estDays);
           const fullDateStr = formatSwahiliFullDate(projectedDate);
           return {
-            dailyAkibaPace, remainingGoal, status: 'PROJECTED', estDays,
-            badgeText: `Bado ${formatTZS(remainingGoal)}`, daysText: `~Siku ${estDays}`,
+            dailyAkibaPace,
+            remainingGoal,
+            status: 'PROJECTED',
+            estDays,
+            badgeText: `Bado ${formatTZS(remainingGoal)}`,
+            daysText: `~Siku ${estDays}`,
             fullDateText: fullDateStr,
             summarySentence: `Kwa kasi ya sasa ya ${formatTZS(dailyAkibaPace)}/siku (~siku ${estDays} zilizobaki), utafikia 1,000,000 TZS mnamo ${fullDateStr}.`
           };
         }
         return {
-          dailyAkibaPace, remainingGoal, status: 'NO_PACE',
-          badgeText: 'Lengo: 1,000,000 TZS', daysText: '—',
+          dailyAkibaPace,
+          remainingGoal,
+          status: 'NO_PACE',
+          badgeText: 'Lengo: 1,000,000 TZS',
+          daysText: '—',
           fullDateText: 'Bado makadirio',
           summarySentence: 'Rekodi mapato ya Stationery ili mfumo ukokotee siku, tarehe, mwezi na mwaka wa kufikisha 1,000,000 TZS.'
         };
@@ -1316,8 +1337,11 @@
           const only = stDays[0];
           const advice = netSurplus < 0
             ? 'Linda mtaji na punguza gharama za ziada; ongeza huduma za haraka kama Printing, Photocopy na vocha za Wi-Fi.'
-            : 'Endelea kurekodi mfululizo kila siku ili kulinganisha na wastani, na tangaza huduma zako Ubungo Msewe / wateja wa karibu.';
-          return { healthStatus: `IKO HAI — Siku ya Kwanza (${formatTZS(only.stationery)} tarehe ${only.date})`, actionAdvice: advice };
+            : 'Endelea kurekodi mfululizo kila siku ili kulinganisha na wastani, na tangaza huduma zako Ubungo / wateja wa karibu.';
+          return {
+            healthStatus: `IKO HAI — Siku ya Kwanza (${formatTZS(only.stationery)} tarehe ${only.date})`,
+            actionAdvice: advice
+          };
         }
         if (stDays.length >= 2) {
           const latest = stDays[stDays.length - 1];
@@ -1334,14 +1358,20 @@
             }
             tips.push('tangaza Printing, Photocopy, Typing na vocha za Wi-Fi (.NET) kwa wateja wa karibu');
             tips.push('toa huduma ya haraka na ufuatiliaji wa wateja wa kawaida (repeat clients)');
-            return { healthStatus: reasonText, actionAdvice: `Nifanye nini ipande: ${tips.join(', ')}.` };
+            return {
+              healthStatus: reasonText,
+              actionAdvice: `Nifanye nini ipande: ${tips.join(', ')}.`
+            };
           }
           return {
             healthStatus: `IKO HAI NA INAKUA (+${pct.toFixed(0)}% / +${formatTZS(diff)} kuliko ${previous.date})`,
             actionAdvice: 'Nifanye nini ipande zaidi: Dumisha ubora wa huduma, hakikisha vifaa muhimu (karatasi/wino/Wi-Fi) havikauki, na ongeza huduma za ziada kama design, lamination na vifurushi vya Wi-Fi.'
           };
         }
-        return { healthStatus: 'IKO HAI', actionAdvice: 'Endelea kufuatilia mapato na gharama kila siku ili kuikuza biashara.' };
+        return {
+          healthStatus: 'IKO HAI',
+          actionAdvice: 'Endelea kufuatilia mapato na gharama kila siku ili kuikuza biashara.'
+        };
       }
 
       function computeSummaries() {
@@ -1364,7 +1394,17 @@
         function ensureMonth(dateKey) {
           const monthKey = /^\d{4}-\d{2}/.test(dateKey) ? dateKey.slice(0, 7) : getTodayISO().slice(0, 7);
           if (!monthMap.has(monthKey)) {
-            monthMap.set(monthKey, { month: monthKey, stationery: 0, wifi: 0, total: 0, mtajiAllocated: 0, purchases: 0, mtajiRemaining: 0, akiba: 0, salio: 0 });
+            monthMap.set(monthKey, {
+              month: monthKey,
+              stationery: 0,
+              wifi: 0,
+              total: 0,
+              mtajiAllocated: 0,
+              purchases: 0,
+              mtajiRemaining: 0,
+              akiba: 0,
+              salio: 0
+            });
           }
           return monthMap.get(monthKey);
         }
@@ -1418,11 +1458,16 @@
           const pDate = pur.date || getTodayISO();
           purDayMap.set(pDate, (purDayMap.get(pDate) || 0) + cost);
         });
-        appState.salioExpenses.forEach((exp) => {
-          salioExpensesTotal += Number(exp.amount) || 0;
-        });
-        const salioAvailable = salioTotal - salioExpensesTotal;
 
+        appState.salioExpenses.forEach((exp) => {
+          const expCost = Number(exp.amount) || 0;
+          const expDate = exp.date || getTodayISO();
+          salioExpensesTotal += expCost;
+          const dayRecord = ensureDay(expDate);
+          dayRecord.salio -= expCost;
+        });
+
+        const salioAvailable = salioTotal - salioExpensesTotal;
         const purchaseDays = Array.from(purDayMap.entries())
           .map(([date, amount]) => ({ date, amount }))
           .sort((a, b) => a.date.localeCompare(b.date));
@@ -1454,7 +1499,12 @@
           .map((m) => {
             const monthEndDate = getLastDayOfMonthISO(m.month);
             const isClosed = isMonthStrictlyClosedAtMonthEnd(m.month, todayISO);
-            return { ...m, monthEndDate, isClosed, mtajiRemaining: m.mtajiAllocated - m.purchases };
+            return {
+              ...m,
+              monthEndDate,
+              isClosed,
+              mtajiRemaining: m.mtajiAllocated - m.purchases
+            };
           })
           .sort((a, b) => a.month.localeCompare(b.month));
 
@@ -1470,14 +1520,73 @@
         });
 
         return {
-          stationeryTotal, mtajiAllocated, purchasesTotal, mtajiAvailable,
-          akibaTotal, salioTotal: salioAvailable, salioGrossTotal: salioTotal,
-          salioExpensesTotal, purchaseDays, purAvgDailySales, purMaxDay,
-          wifiTotal, dailySeries, monthlySeries, closedMonthlyReports,
-          avgMonthlySales, bestMonth, stationeryDays, activeDaysCount,
-          avgDailySales, bestDay, wifiDays, wifiActiveDaysCount,
-          wifiAvgDailySales, wifiBestDay
+          stationeryTotal,
+          mtajiAllocated,
+          purchasesTotal,
+          mtajiAvailable,
+          akibaTotal,
+          salioTotal: salioAvailable,
+          salioGrossTotal: salioTotal,
+          salioExpensesTotal,
+          purchaseDays,
+          purAvgDailySales,
+          purMaxDay,
+          wifiTotal,
+          dailySeries,
+          monthlySeries,
+          closedMonthlyReports,
+          avgMonthlySales,
+          bestMonth,
+          stationeryDays,
+          activeDaysCount,
+          avgDailySales,
+          bestDay,
+          wifiDays,
+          wifiActiveDaysCount,
+          wifiAvgDailySales,
+          wifiBestDay
         };
+      }
+
+      function renderSalioHistoryBox() {
+        const list = Array.isArray(appState.salioExpenses) ? appState.salioExpenses : [];
+        if (!els.salioHistoryBox || !els.salioExpensesList || !els.salioExpensesCountLabel) return;
+        els.salioExpensesCountLabel.textContent = String(list.length);
+        if (els.resetSalioExpensesBtn) {
+          els.resetSalioExpensesBtn.disabled = list.length === 0;
+          els.resetSalioExpensesBtn.classList.toggle('opacity-40', list.length === 0);
+        }
+        if (els.undoLastSalioBtn) {
+          els.undoLastSalioBtn.disabled = list.length === 0;
+          els.undoLastSalioBtn.classList.toggle('opacity-40', list.length === 0);
+        }
+        if (list.length === 0) {
+          els.salioHistoryBox.classList.add('hidden');
+          els.salioExpensesList.innerHTML = '';
+          return;
+        }
+        els.salioHistoryBox.classList.remove('hidden');
+        const newestFirst = [...list].reverse();
+        els.salioExpensesList.innerHTML = newestFirst
+          .map((exp) => {
+            const label = (exp.note || '').trim() || 'Matumizi ya Salio';
+            const dateStr = exp.date || '';
+            return `
+              <div class="flex items-center justify-between gap-2 bg-white rounded-lg border border-slate-200 px-2 py-1 text-[11px]">
+                <div class="min-w-0 truncate">
+                  <span class="font-bold text-slate-800">${escapeHTML(label)}</span>
+                  <span class="text-slate-400 ml-1">${escapeHTML(dateStr)}</span>
+                </div>
+                <div class="flex items-center gap-1.5 shrink-0">
+                  <span class="font-extrabold text-rose-700">-${Number(exp.amount || 0).toLocaleString('en-US')}</span>
+                  <button type="button" data-delete-salio-id="${escapeHTML(exp.id)}" class="delete-salio-btn px-1.5 py-0.5 rounded bg-rose-50 hover:bg-rose-100 text-rose-700 font-extrabold border border-rose-200 cursor-pointer">
+                    Futa
+                  </button>
+                </div>
+              </div>
+            `;
+          })
+          .join('');
       }
 
       function renderFiveFeatures(summary) {
@@ -1532,6 +1641,7 @@
         els.mtajiBurnPctLabel.textContent = `${burnRatio.toFixed(1)}%`;
         els.mtajiBurnSummaryText.textContent = `Manunuzi: ${formatTZS(summary.purchasesTotal)} / Mtaji Uliotengwa: ${formatTZS(summary.mtajiAllocated)}`;
         els.mtajiBurnBar.style.width = `${clampedBar}%`;
+
         if (summary.mtajiAvailable < 0) {
           els.mtajiHealthBadge.textContent = 'Hali: Deni (Negative)';
           els.mtajiHealthBadge.className = 'text-xs font-extrabold px-3 py-1 rounded-full bg-rose-100 text-rose-800 self-start sm:self-auto';
@@ -1558,6 +1668,7 @@
         if (els.customDateRangeBox) {
           els.customDateRangeBox.classList.toggle('hidden', activePeriod !== 'CUSTOM');
         }
+
         const todayISO = getTodayISO();
         const currentMonthPrefix = todayISO.slice(0, 7);
         const sevenDaysAgo = new Date();
@@ -1634,6 +1745,7 @@
         els.surplusGrossIncomeDisplay.textContent = formatTZS(grossAll);
         els.surplusTotalOutflowDisplay.textContent = formatTZS(totalOutflow);
         els.surplusNetAmountDisplay.textContent = formatTZS(netCashSurplus);
+
         if (netCashSurplus >= 0) {
           els.surplusStatusBadge.textContent = 'Ziada Chanya';
           els.surplusStatusBadge.className = 'text-xs font-extrabold px-3 py-1 rounded-full bg-emerald-100 text-emerald-950 self-start sm:self-auto';
@@ -1649,7 +1761,9 @@
         els.insightAvgDailySales.textContent = formatTZS(summary.avgDailySales);
         els.insightActiveDaysText.textContent = `Kwenye siku ${summary.activeDaysCount} za mauzo`;
         els.wifiAvgDailySales.textContent = formatTZS(summary.wifiAvgDailySales);
-        els.wifiBestDayLabel.textContent = summary.wifiBestDay ? `${formatTZS(summary.wifiBestDay.wifi)} (${summary.wifiBestDay.date})` : '—';
+        els.wifiBestDayLabel.textContent = summary.wifiBestDay
+          ? `${formatTZS(summary.wifiBestDay.wifi)} (${summary.wifiBestDay.date})`
+          : '—';
 
         if (summary.bestDay) {
           els.insightBestDayAmount.textContent = formatTZS(summary.bestDay.stationery);
@@ -1700,7 +1814,10 @@
 
         const mSeries = summary.monthlySeries || [];
         els.monthlyAvgTotalLabel.textContent = `Wastani/Mwezi: ${formatTZS(summary.avgMonthlySales)}`;
-        els.monthlyBestMonthLabel.textContent = summary.bestMonth ? `${summary.bestMonth.month} (${formatTZS(summary.bestMonth.total)})` : '—';
+        els.monthlyBestMonthLabel.textContent = summary.bestMonth
+          ? `${summary.bestMonth.month} (${formatTZS(summary.bestMonth.total)})`
+          : '—';
+
         if (mSeries.length === 0) {
           els.monthlyLatestLabel.textContent = 'Hakuna rekodi';
           els.monthlyLatestTotal.textContent = '0 TZS';
@@ -1714,6 +1831,7 @@
           els.monthlyLatestTotal.textContent = formatTZS(latestMonth.total);
           els.monthlyLatestStationery.textContent = formatTZS(latestMonth.stationery);
           els.monthlyLatestWifi.textContent = formatTZS(latestMonth.wifi);
+
           if (mSeries.length === 1) {
             els.monthlyGrowthLabel.textContent = 'Mwezi 1 tu';
             els.monthlyConclusionText.textContent = `Mwezi ${latestMonth.month} una jumla ya ${formatTZS(latestMonth.total)}. Mwezi unaofuata utaonekana mstari wa ulinganisho.`;
@@ -1792,15 +1910,21 @@
           ? 'text-2xl font-extrabold text-rose-700 mt-2'
           : 'text-2xl font-extrabold text-[#0f2942] mt-2';
 
+        if (els.salioCardSubText) {
+          els.salioCardSubText.textContent = `Awali: ${formatTZS(summary.salioGrossTotal)} • Makato: ${formatTZS(summary.salioExpensesTotal)}`;
+        }
+        renderSalioHistoryBox();
+
         if (els.purAvgDailyLabel) els.purAvgDailyLabel.textContent = formatTZS(summary.purAvgDailySales);
-        if (els.purMaxDayLabel) els.purMaxDayLabel.textContent = summary.purMaxDay ? `${formatTZS(summary.purMaxDay.amount)} (${summary.purMaxDay.date})` : '—';
+        if (els.purMaxDayLabel) els.purMaxDayLabel.textContent = summary.purMaxDay
+          ? `${formatTZS(summary.purMaxDay.amount)} (${summary.purMaxDay.date})`
+          : '—';
 
         const goalPct = Math.min(100, Math.max(0, (summary.akibaTotal / AKIBA_GOAL_TZS) * 100));
         const remainingGoal = Math.max(0, AKIBA_GOAL_TZS - summary.akibaTotal);
         els.akibaGoalPercentText.textContent = `${goalPct.toFixed(1)}% ya 1,000,000 TZS`;
         els.akibaGoalRemainingText.textContent = remainingGoal === 0 ? 'Lengo Limefikiwa!' : `Bado ${formatTZS(remainingGoal)}`;
         els.akibaGoalBar.style.width = `${goalPct}%`;
-
         els.purchasesTotalDisplay.textContent = formatTZS(summary.purchasesTotal);
         els.wifiTotalDisplay.textContent = formatTZS(summary.wifiTotal);
 
@@ -1862,11 +1986,20 @@
             mtajiDelta: -(Number(pur.amount) || 0),
             akibaDelta: null,
             salioDelta: null
+          })),
+          ...(Array.isArray(appState.salioExpenses) ? appState.salioExpenses : []).map((exp) => ({
+            id: exp.id,
+            kind: 'SALIO_EXPENSE',
+            date: exp.date || '',
+            label: (exp.note || '').trim() || 'Matumizi ya Salio',
+            amount: Number(exp.amount) || 0,
+            mtajiDelta: null,
+            akibaDelta: null,
+            salioDelta: -(Number(exp.amount) || 0)
           }))
         ];
 
         const q = (tableSearchQuery || '').trim().toLowerCase();
-
         return combined
           .filter((row) => {
             if (tableCategoryFilter !== 'ALL' && row.kind !== tableCategoryFilter) return false;
@@ -1885,7 +2018,8 @@
       }
 
       function renderRecordsTable() {
-        const totalAllCount = appState.entries.length + appState.purchases.length;
+        const salioList = Array.isArray(appState.salioExpenses) ? appState.salioExpenses : [];
+        const totalAllCount = appState.entries.length + appState.purchases.length + salioList.length;
         const filtered = getFilteredCombinedRecords();
         const count = filtered.length;
 
@@ -1893,25 +2027,29 @@
         let sumStationery = 0;
         let sumWifi = 0;
         let sumPurchase = 0;
+        let sumSalioExp = 0;
+
         filtered.forEach((row) => {
           sumAmount += Number(row.amount) || 0;
           if (row.kind === 'STATIONERY') sumStationery += Number(row.amount) || 0;
           else if (row.kind === 'WIFI') sumWifi += Number(row.amount) || 0;
           else if (row.kind === 'PURCHASE') sumPurchase += Number(row.amount) || 0;
+          else if (row.kind === 'SALIO_EXPENSE') sumSalioExp += Number(row.amount) || 0;
         });
 
         if (els.filteredSumAmountLabel) els.filteredSumAmountLabel.textContent = formatTZS(sumAmount);
         if (els.filteredSumStationeryLabel) els.filteredSumStationeryLabel.textContent = formatTZS(sumStationery);
         if (els.filteredSumWifiLabel) els.filteredSumWifiLabel.textContent = formatTZS(sumWifi);
         if (els.filteredSumPurchaseLabel) els.filteredSumPurchaseLabel.textContent = formatTZS(sumPurchase);
+        if (els.filteredSumSalioExpLabel) els.filteredSumSalioExpLabel.textContent = formatTZS(sumSalioExp);
 
         els.recordsCountBadge.textContent = count === totalAllCount
-          ? `${count} ${count === 1 ? 'rekodi' : 'rekodi'}`
+          ? `${count} rekodi`
           : `${count} kati ya ${totalAllCount} rekodi`;
 
         if (count === 0) {
           const emptyMsg = totalAllCount === 0
-            ? 'Hakuna kumbukumbu zilizohifadhiwa bado. Tumia fomu ya <strong>Stationery</strong>, <strong>Manunuzi ya Vifaa</strong>, au <strong>STATIONERY SERVICE . NET</strong> hapo juu.'
+            ? 'Hakuna kumbukumbu zilizohifadhiwa bado. Tumia fomu ya <strong>Stationery</strong>, <strong>Manunuzi ya Vifaa</strong>, <strong>Kata Salio</strong>, au <strong>STATIONERY SERVICE . NET</strong> hapo juu.'
             : 'Hakuna rekodi zilizopatikana kwa vichujio ulivyoweka. Bonyeza <strong>Safisha Vichujio</strong> kuona zote.';
           els.recordsTableBody.innerHTML = `
             <tr>
@@ -1928,15 +2066,29 @@
               badgeHtml = '<span class="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-[#fce7f3] text-[#9d174d]">Wi-Fi (.NET)</span>';
             } else if (row.kind === 'PURCHASE') {
               badgeHtml = '<span class="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-slate-200 text-slate-900">Manunuzi (Mtaji)</span>';
+            } else if (row.kind === 'SALIO_EXPENSE') {
+              badgeHtml = '<span class="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-100 text-amber-950">Matumizi (Salio)</span>';
             }
+
             const mtajiCell = row.mtajiDelta === null
               ? '—'
               : row.mtajiDelta < 0
                 ? `-${Math.abs(row.mtajiDelta).toLocaleString('en-US')}`
                 : `+${row.mtajiDelta.toLocaleString('en-US')}`;
-            const deleteAttr = row.kind === 'PURCHASE'
-              ? `data-delete-purchase-id="${escapeHTML(row.id)}"`
-              : `data-delete-id="${escapeHTML(row.id)}"`;
+
+            const salioCell = row.salioDelta === null
+              ? '—'
+              : row.salioDelta < 0
+                ? `-${Math.abs(row.salioDelta).toLocaleString('en-US')}`
+                : `+${row.salioDelta.toLocaleString('en-US')}`;
+
+            let deleteAttr = `data-delete-id="${escapeHTML(row.id)}"`;
+            if (row.kind === 'PURCHASE') {
+              deleteAttr = `data-delete-purchase-id="${escapeHTML(row.id)}"`;
+            } else if (row.kind === 'SALIO_EXPENSE') {
+              deleteAttr = `data-delete-salio-id="${escapeHTML(row.id)}"`;
+            }
+
             return `
               <tr class="hover:bg-slate-50/90 transition">
                 <td class="py-3 px-3 font-semibold text-slate-800 whitespace-nowrap">${escapeHTML(row.date)}</td>
@@ -1945,7 +2097,7 @@
                 <td class="py-3 px-3 text-right font-extrabold text-slate-900 whitespace-nowrap">${row.amount.toLocaleString('en-US')}</td>
                 <td class="py-3 px-3 text-right font-semibold ${row.mtajiDelta !== null && row.mtajiDelta < 0 ? 'text-rose-700' : 'text-teal-800'} whitespace-nowrap">${mtajiCell}</td>
                 <td class="py-3 px-3 text-right font-semibold text-amber-800 whitespace-nowrap">${row.akibaDelta === null ? '—' : row.akibaDelta.toLocaleString('en-US')}</td>
-                <td class="py-3 px-3 text-right font-semibold text-slate-800 whitespace-nowrap">${row.salioDelta === null ? '—' : row.salioDelta.toLocaleString('en-US')}</td>
+                <td class="py-3 px-3 text-right font-semibold ${row.salioDelta !== null && row.salioDelta < 0 ? 'text-rose-700' : 'text-slate-800'} whitespace-nowrap">${salioCell}</td>
                 <td class="py-3 px-3 text-right whitespace-nowrap">
                   <button type="button" ${deleteAttr} class="delete-any-btn px-2.5 py-1 rounded-lg text-xs font-bold text-rose-700 hover:bg-rose-50 border border-rose-200/70 transition cursor-pointer">
                     Futa
@@ -1985,7 +2137,9 @@
         if (pocketsLineChart) pocketsLineChart.destroy();
 
         if (els.purchasesTrendCanvas) {
-          const purSeries = (summary.purchaseDays && summary.purchaseDays.length > 0) ? summary.purchaseDays : [{ date: 'Hakuna Data', amount: 0 }];
+          const purSeries = (summary.purchaseDays && summary.purchaseDays.length > 0)
+            ? summary.purchaseDays
+            : [{ date: 'Hakuna Data', amount: 0 }];
           purchasesTrendChart = new Chart(els.purchasesTrendCanvas.getContext('2d'), {
             type: 'line',
             data: {
@@ -2022,11 +2176,21 @@
               interaction: { mode: 'index', intersect: false },
               plugins: {
                 legend: { position: 'top', labels: { font: { family: 'Inter', weight: '600', size: 11 } } },
-                tooltip: { callbacks: { label: (ctx) => `${ctx.dataset.label}: ${Number(ctx.parsed.y || 0).toLocaleString('en-US')} TZS` } }
+                tooltip: {
+                  callbacks: {
+                    label: (ctx) => `${ctx.dataset.label}: ${Number(ctx.parsed.y || 0).toLocaleString('en-US')} TZS`
+                  }
+                }
               },
               scales: {
                 x: { ticks: { font: { family: 'Inter', size: 11 } } },
-                y: { beginAtZero: true, ticks: { font: { family: 'Inter', size: 11 }, callback: (val) => Number(val).toLocaleString('en-US') } }
+                y: {
+                  beginAtZero: true,
+                  ticks: {
+                    font: { family: 'Inter', size: 11 },
+                    callback: (val) => Number(val).toLocaleString('en-US')
+                  }
+                }
               }
             }
           });
@@ -2068,16 +2232,28 @@
             interaction: { mode: 'index', intersect: false },
             plugins: {
               legend: { position: 'top', labels: { font: { family: 'Inter', weight: '600', size: 11 } } },
-              tooltip: { callbacks: { label: (ctx) => `${ctx.dataset.label}: ${Number(ctx.parsed.y || 0).toLocaleString('en-US')} TZS` } }
+              tooltip: {
+                callbacks: {
+                  label: (ctx) => `${ctx.dataset.label}: ${Number(ctx.parsed.y || 0).toLocaleString('en-US')} TZS`
+                }
+              }
             },
             scales: {
               x: { ticks: { font: { family: 'Inter', size: 11 } } },
-              y: { beginAtZero: true, ticks: { font: { family: 'Inter', size: 11 }, callback: (val) => Number(val).toLocaleString('en-US') } }
+              y: {
+                beginAtZero: true,
+                ticks: {
+                  font: { family: 'Inter', size: 11 },
+                  callback: (val) => Number(val).toLocaleString('en-US')
+                }
+              }
             }
           }
         });
 
-        const mSeriesChart = (summary.monthlySeries && summary.monthlySeries.length > 0) ? summary.monthlySeries : [{ month: 'Hakuna Data', total: 0, stationery: 0, wifi: 0 }];
+        const mSeriesChart = (summary.monthlySeries && summary.monthlySeries.length > 0)
+          ? summary.monthlySeries
+          : [{ month: 'Hakuna Data', total: 0, stationery: 0, wifi: 0 }];
         monthlyTrendChart = new Chart(els.monthlyTrendCanvas.getContext('2d'), {
           type: 'line',
           data: {
@@ -2130,11 +2306,21 @@
             interaction: { mode: 'index', intersect: false },
             plugins: {
               legend: { position: 'top', labels: { font: { family: 'Inter', weight: '600', size: 11 } } },
-              tooltip: { callbacks: { label: (ctx) => `${ctx.dataset.label}: ${Number(ctx.parsed.y || 0).toLocaleString('en-US')} TZS` } }
+              tooltip: {
+                callbacks: {
+                  label: (ctx) => `${ctx.dataset.label}: ${Number(ctx.parsed.y || 0).toLocaleString('en-US')} TZS`
+                }
+              }
             },
             scales: {
               x: { ticks: { font: { family: 'Inter', size: 11 } } },
-              y: { beginAtZero: true, ticks: { font: { family: 'Inter', size: 11 }, callback: (val) => Number(val).toLocaleString('en-US') } }
+              y: {
+                beginAtZero: true,
+                ticks: {
+                  font: { family: 'Inter', size: 11 },
+                  callback: (val) => Number(val).toLocaleString('en-US')
+                }
+              }
             }
           }
         });
@@ -2175,11 +2361,21 @@
             interaction: { mode: 'index', intersect: false },
             plugins: {
               legend: { position: 'top', labels: { font: { family: 'Inter', weight: '600', size: 11 } } },
-              tooltip: { callbacks: { label: (ctx) => `${ctx.dataset.label}: ${Number(ctx.parsed.y || 0).toLocaleString('en-US')} TZS` } }
+              tooltip: {
+                callbacks: {
+                  label: (ctx) => `${ctx.dataset.label}: ${Number(ctx.parsed.y || 0).toLocaleString('en-US')} TZS`
+                }
+              }
             },
             scales: {
               x: { ticks: { font: { family: 'Inter', size: 11 } } },
-              y: { beginAtZero: true, ticks: { font: { family: 'Inter', size: 11 }, callback: (val) => Number(val).toLocaleString('en-US') } }
+              y: {
+                beginAtZero: true,
+                ticks: {
+                  font: { family: 'Inter', size: 11 },
+                  callback: (val) => Number(val).toLocaleString('en-US')
+                }
+              }
             }
           }
         });
@@ -2196,10 +2392,18 @@
           options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: { legend: { position: 'top', labels: { font: { family: 'Inter', weight: '600', size: 11 } } } },
+            plugins: {
+              legend: { position: 'top', labels: { font: { family: 'Inter', weight: '600', size: 11 } } }
+            },
             scales: {
               x: { ticks: { font: { family: 'Inter', size: 10 } } },
-              y: { beginAtZero: true, ticks: { font: { family: 'Inter', size: 10 }, callback: (val) => Number(val).toLocaleString('en-US') } }
+              y: {
+                beginAtZero: true,
+                ticks: {
+                  font: { family: 'Inter', size: 10 },
+                  callback: (val) => Number(val).toLocaleString('en-US')
+                }
+              }
             }
           }
         });
@@ -2217,10 +2421,18 @@
           options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: { legend: { position: 'top', labels: { font: { family: 'Inter', weight: '600', size: 11 } } } },
+            plugins: {
+              legend: { position: 'top', labels: { font: { family: 'Inter', weight: '600', size: 11 } } }
+            },
             scales: {
               x: { ticks: { font: { family: 'Inter', size: 10 } } },
-              y: { beginAtZero: false, ticks: { font: { family: 'Inter', size: 10 }, callback: (val) => Number(val).toLocaleString('en-US') } }
+              y: {
+                beginAtZero: false,
+                ticks: {
+                  font: { family: 'Inter', size: 10 },
+                  callback: (val) => Number(val).toLocaleString('en-US')
+                }
+              }
             }
           }
         });
@@ -2240,8 +2452,32 @@
         showBanner('Rekodi ya manunuzi imefutwa na Mtaji umerudishwa sawa.', 'info');
       }
 
+      function deleteSalioExpenseById(id) {
+        if (!Array.isArray(appState.salioExpenses)) return;
+        const removed = appState.salioExpenses.find((item) => item.id === id);
+        appState.salioExpenses = appState.salioExpenses.filter((item) => item.id !== id);
+        saveAppState();
+        renderAll();
+        const amtText = removed ? ` (${formatTZS(removed.amount)})` : '';
+        showBanner(`Mkato wa Salio${amtText} umefutwa na kiasi kimerudishwa kwenye Salio.`, 'info');
+      }
+
+      function resetAllSalioExpenses() {
+        if (!Array.isArray(appState.salioExpenses) || appState.salioExpenses.length === 0) {
+          showBanner('Hakuna makato yoyote ya Salio ya ku-reset.', 'warning');
+          return;
+        }
+        const ok = window.confirm('Una uhakika unataka kufuta makato YOTE ya Salio na kurudisha Salio lote la awali?');
+        if (!ok) return;
+        appState.salioExpenses = [];
+        saveAppState();
+        renderAll();
+        showBanner('Salio limefanyiwa Reset! Makato yote yamefutwa na Salio la awali limerudi kamili.', 'success');
+      }
+
       function bindEvents() {
         els.stAmountInput.addEventListener('input', updateSplitPreview);
+
         [
           ['mtaji', els.mtajiPctInput],
           ['akiba', els.akibaPctInput],
@@ -2343,11 +2579,45 @@
           if (id) deletePurchaseById(id);
         });
 
+        if (els.salioExpensesList) {
+          els.salioExpensesList.addEventListener('click', (e) => {
+            const btn = e.target.closest('.delete-salio-btn');
+            if (!btn) return;
+            const id = btn.getAttribute('data-delete-salio-id');
+            if (id) deleteSalioExpenseById(id);
+          });
+        }
+
+        if (els.resetSalioExpensesBtn) {
+          els.resetSalioExpensesBtn.addEventListener('click', resetAllSalioExpenses);
+        }
+
+        if (els.undoLastSalioBtn) {
+          els.undoLastSalioBtn.addEventListener('click', () => {
+            if (!Array.isArray(appState.salioExpenses) || appState.salioExpenses.length === 0) {
+              showBanner('Hakuna mkato wa mwisho wa Salio wa kufuta.', 'warning');
+              return;
+            }
+            const lastItem = appState.salioExpenses[appState.salioExpenses.length - 1];
+            if (lastItem && lastItem.id) {
+              deleteSalioExpenseById(lastItem.id);
+            }
+          });
+        }
+
         els.recordsTableBody.addEventListener('click', (e) => {
           const btn = e.target.closest('.delete-any-btn');
           if (!btn) return;
           const purId = btn.getAttribute('data-delete-purchase-id');
-          if (purId) { deletePurchaseById(purId); return; }
+          if (purId) {
+            deletePurchaseById(purId);
+            return;
+          }
+          const salioId = btn.getAttribute('data-delete-salio-id');
+          if (salioId) {
+            deleteSalioExpenseById(salioId);
+            return;
+          }
           const entryId = btn.getAttribute('data-delete-id');
           if (entryId) deleteEntryById(entryId);
         });
@@ -2405,11 +2675,12 @@
         }
 
         els.exportCsvBtn.addEventListener('click', () => {
-          if (appState.entries.length === 0 && appState.purchases.length === 0) {
+          const salioList = Array.isArray(appState.salioExpenses) ? appState.salioExpenses : [];
+          if (appState.entries.length === 0 && appState.purchases.length === 0 && salioList.length === 0) {
             showBanner('Hakuna rekodi za kuhamisha kwenye CSV.', 'warning');
             return;
           }
-          const headers = ['Tarehe', 'Aina', 'Huduma_Au_Kifurushi_Au_Bidhaa', 'Kiasi_TZS', 'Mtaji_Mabadiliko_TZS', 'Akiba_TZS', 'Salio_TZS'];
+          const headers = ['Tarehe', 'Aina', 'Huduma_Au_Kifurushi_Au_Bidhaa', 'Kiasi_TZS', 'Mtaji_Mabadiliko_TZS', 'Akiba_TZS', 'Salio_Mabadiliko_TZS'];
           const rows = [
             ...appState.entries.map((item) => {
               const isWifi = item.category === 'WIFI';
@@ -2431,6 +2702,15 @@
               -(Number(pur.amount) || 0),
               0,
               0
+            ]),
+            ...salioList.map((exp) => [
+              exp.date || '',
+              'Matumizi (Salio)',
+              `"${String(exp.note || 'Matumizi ya Salio').replace(/"/g, '""')}"`,
+              exp.amount || 0,
+              0,
+              0,
+              -(Number(exp.amount) || 0)
             ])
           ];
           const csvString = [headers.join(','), ...rows.map((r) => r.join(','))].join('\n');
@@ -2453,7 +2733,8 @@
             exportedAt: new Date().toISOString(),
             percentages: appState.percentages,
             entries: appState.entries,
-            purchases: appState.purchases
+            purchases: appState.purchases,
+            salioExpenses: Array.isArray(appState.salioExpenses) ? appState.salioExpenses : []
           };
           const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
           const url = URL.createObjectURL(blob);
@@ -2480,6 +2761,7 @@
               }
               appState.entries = parsed.entries;
               appState.purchases = Array.isArray(parsed.purchases) ? parsed.purchases : [];
+              appState.salioExpenses = Array.isArray(parsed.salioExpenses) ? parsed.salioExpenses : [];
               if (parsed.percentages) {
                 appState.percentages = {
                   mtaji: Number.isFinite(Number(parsed.percentages.mtaji)) ? Number(parsed.percentages.mtaji) : 50,
@@ -2489,7 +2771,7 @@
               }
               saveAppState();
               renderAll();
-              showBanner(`Data zimerudishwa! Rekodi ${appState.entries.length} na manunuzi ${appState.purchases.length} yamepakiwa.`, 'success');
+              showBanner(`Data zimerudishwa! Rekodi ${appState.entries.length}, manunuzi ${appState.purchases.length}, na makato ya Salio ${appState.salioExpenses.length} yamepakiwa.`, 'success');
             } catch (err) {
               showBanner('Imeshindikana kusoma faili la JSON.', 'warning');
             } finally {
@@ -2611,16 +2893,20 @@
               showBanner('Weka kiasi kikubwa kuliko 0 TZS ili kukata Salio.', 'warning');
               return;
             }
+            const expDate = (els.salioExpenseDateInput && els.salioExpenseDateInput.value) || getTodayISO();
+            const expNote = (els.salioExpenseNoteInput && els.salioExpenseNoteInput.value.trim()) || 'Matumizi ya Salio';
             if (!Array.isArray(appState.salioExpenses)) appState.salioExpenses = [];
             appState.salioExpenses.push({
               id: `salio-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
-              date: getTodayISO(),
+              date: expDate,
+              note: expNote,
               amount: expAmt
             });
             saveAppState();
             els.salioExpenseInput.value = '';
+            if (els.salioExpenseNoteInput) els.salioExpenseNoteInput.value = '';
             renderAll();
-            showBanner(`Gharama ya ${formatTZS(expAmt)} imekatwa moja kwa moja kwenye Salio.`, 'success');
+            showBanner(`Gharama "${expNote}" (${formatTZS(expAmt)}) imekatwa kwenye Salio.`, 'success');
           });
         }
 
@@ -2853,6 +3139,7 @@
         els.stDateInput.value = today;
         els.purDateInput.value = today;
         els.wifiDateInput.value = today;
+        if (els.salioExpenseDateInput) els.salioExpenseDateInput.value = today;
         bindEvents();
         renderAll();
       });

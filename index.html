@@ -41,7 +41,6 @@
         <div class="pt-1 flex justify-center">
           <svg viewBox="0 0 420 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Logo ya Faustin Stationery Services" class="w-36 h-28 rounded-2xl shadow-sm border border-slate-200 bg-[#f6f6f4]">
             <rect width="420" height="340" rx="20" fill="#f6f6f4" />
-            <!-- Printer (Left) -->
             <g transform="translate(88, 36)">
               <polygon points="32,8 84,8 96,20 96,62 32,62" fill="#ffffff" stroke="#111827" stroke-width="7" stroke-linejoin="round" />
               <polyline points="84,8 84,20 96,20" fill="none" stroke="#111827" stroke-width="6" stroke-linejoin="round" />
@@ -54,7 +53,6 @@
               <line x1="46" y1="115" x2="82" y2="115" stroke="#111827" stroke-width="5" stroke-linecap="round" />
               <line x1="46" y1="125" x2="74" y2="125" stroke="#111827" stroke-width="5" stroke-linecap="round" />
             </g>
-            <!-- Monitor (Right) -->
             <g transform="translate(226, 48)">
               <rect x="8" y="8" width="112" height="78" rx="8" fill="#ffffff" stroke="#111827" stroke-width="7" stroke-linejoin="round" />
               <path d="M8,86 L120,86 L120,98 C120,103 116,107 111,107 L17,107 C12,107 8,103 8,98 Z" fill="#ffffff" stroke="#111827" stroke-width="7" stroke-linejoin="round" />
@@ -62,7 +60,6 @@
               <rect x="52" y="107" width="24" height="16" fill="#111827" />
               <rect x="36" y="120" width="56" height="8" rx="4" fill="#111827" />
             </g>
-            <!-- Brand Text -->
             <text x="210" y="218" text-anchor="middle" fill="#1d85c8" font-family="Inter, Arial, sans-serif" font-size="44" font-weight="800" letter-spacing="1">FAUSTIN</text>
             <text x="210" y="254" text-anchor="middle" fill="#111827" font-family="Inter, Arial, sans-serif" font-size="25" font-weight="700" letter-spacing="5.5">STATIONERY</text>
             <text x="210" y="286" text-anchor="middle" fill="#111827" font-family="Inter, Arial, sans-serif" font-size="23" font-weight="700" letter-spacing="6">SERVICES</text>
@@ -910,7 +907,7 @@
             5. Kumbukumbu Zilizohifadhiwa &amp; Uchujaji (Mapato, Manunuzi &amp; Salio)
           </h2>
           <p class="text-xs text-slate-500">
-            Zinahifadhiwa moja kwa moja kwenye browser yako (<code class="text-slate-700 font-semibold">faustine_stationery_service_v1</code>). Chuja rekodi ili kuchambua kwa kina au kufuta rekodi uliyokosea.
+            Zinahifadhiwa moja kwa moja kwenye browser yako (<code class="text-slate-700 font-semibold">faustine_stationery_service_v1</code>). Chuja rekodi ili kuchambua kwa kina, kuhariri, au kufuta rekodi uliyokosea.
           </p>
         </div>
         <span id="recordsCountBadge" class="text-xs font-extrabold px-3 py-1 rounded-full bg-slate-100 text-slate-800 self-start sm:self-auto">
@@ -1005,7 +1002,7 @@
               <th class="py-3 px-3 text-right text-teal-800">Mtaji (+/-)</th>
               <th class="py-3 px-3 text-right text-amber-800">Akiba</th>
               <th class="py-3 px-3 text-right text-slate-800">Salio (+/-)</th>
-              <th class="py-3 px-3 text-right">Futa</th>
+              <th class="py-3 px-3 text-right">Vitendo</th>
             </tr>
           </thead>
           <tbody id="recordsTableBody" class="divide-y divide-slate-100 text-xs sm:text-sm"></tbody>
@@ -1031,7 +1028,15 @@
         </button>
       </div>
 
-      <div class="p-4 sm:p-5 space-y-3 max-h-[65vh] overflow-y-auto">
+      <div class="p-4 sm:p-5 space-y-3 max-h-[68vh] overflow-y-auto">
+        <div class="relative">
+          <input
+            id="salioPopupSearchInput"
+            type="text"
+            placeholder="Tafuta sababu au tarehe ndani ya list ya Salio..."
+            class="w-full px-3.5 py-2 text-xs font-semibold rounded-xl border border-slate-300 bg-[#f8fafc] focus:bg-white focus:border-[#0f2942] outline-none"
+          />
+        </div>
         <div id="salioExpensesList" class="space-y-2"></div>
       </div>
 
@@ -1048,7 +1053,7 @@
 
   <!-- POP-UP MODAL YA LIST YA MANUNUZI YA VIFAA -->
   <div id="purchasesListModal" class="fixed inset-0 z-50 hidden bg-slate-950/60 backdrop-blur-[1px] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="purchasesModalTitle">
-    <div class="w-full max-w-xl bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden">
+    <div class="w-full max-w-2xl bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden">
       <div class="px-5 py-4 bg-[#0f2942] text-white flex items-center justify-between gap-3">
         <div>
           <h3 id="purchasesModalTitle" class="text-sm sm:text-base font-extrabold">
@@ -1063,15 +1068,23 @@
         </button>
       </div>
 
-      <div class="p-4 sm:p-5 max-h-[65vh] overflow-y-auto">
+      <div class="p-4 sm:p-5 space-y-3 max-h-[68vh] overflow-y-auto">
+        <div>
+          <input
+            id="purchasesPopupSearchInput"
+            type="text"
+            placeholder="Tafuta kifaa/bidhaa au tarehe ndani ya manunuzi..."
+            class="w-full px-3.5 py-2 text-xs font-semibold rounded-xl border border-slate-300 bg-[#f8fafc] focus:bg-white focus:border-[#0f2942] outline-none"
+          />
+        </div>
         <div class="overflow-x-auto rounded-xl border border-slate-200/80">
           <table class="w-full text-left border-collapse">
             <thead>
               <tr class="border-b border-slate-200 text-[11px] font-extrabold uppercase tracking-wider text-slate-500 bg-[#f8fafc]">
                 <th class="py-2.5 px-3">Tarehe</th>
                 <th class="py-2.5 px-3">Kifaa / Bidhaa</th>
-                <th class="py-2.5 px-3 text-right text-teal-900">Gharama / Mtaji Uliokatwa (TZS)</th>
-                <th class="py-2.5 px-3 text-right">Futa</th>
+                <th class="py-2.5 px-3 text-right text-teal-900">Gharama / Mtaji (TZS)</th>
+                <th class="py-2.5 px-3 text-right">Vitendo</th>
               </tr>
             </thead>
             <tbody id="purchasesTableBody" class="divide-y divide-slate-100 text-xs sm:text-sm bg-white"></tbody>
@@ -1084,6 +1097,54 @@
           Maliza &amp; Funga
         </button>
       </div>
+    </div>
+  </div>
+
+  <!-- POP-UP MODAL YA KUHARIRI REKODI (EDIT RECORD MODAL) -->
+  <div id="editRecordModal" class="fixed inset-0 z-50 hidden bg-slate-950/65 backdrop-blur-[1px] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="editRecordModalTitle">
+    <div class="w-full max-w-md bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden">
+      <div class="px-5 py-4 bg-[#0f2942] text-white flex items-center justify-between gap-3">
+        <div>
+          <h3 id="editRecordModalTitle" class="text-sm sm:text-base font-extrabold">Hariri Rekodi</h3>
+          <p id="editRecordTypeSubtitle" class="text-[11px] text-slate-300">Rekebisha taarifa na uhifadhi mabadiliko</p>
+        </div>
+        <button id="closeEditModalBtn" type="button" class="px-3 py-1.5 rounded-lg text-xs font-extrabold bg-white/15 hover:bg-white/25 text-white transition cursor-pointer">
+          Funga
+        </button>
+      </div>
+
+      <form id="editRecordForm" class="p-4 sm:p-5 space-y-3.5">
+        <div>
+          <label for="editRecordDateInput" class="block text-xs font-bold text-slate-700 mb-1">Tarehe</label>
+          <input id="editRecordDateInput" type="date" required class="w-full px-3 py-2 text-xs sm:text-sm font-semibold rounded-xl border border-slate-300 bg-white focus:border-[#0f2942] outline-none" />
+        </div>
+
+        <div id="editRecordLabelWrapper">
+          <label id="editRecordLabelTitle" for="editRecordLabelInput" class="block text-xs font-bold text-slate-700 mb-1">Maelezo / Huduma / Bidhaa</label>
+          <input id="editRecordLabelInput" type="text" maxlength="80" required class="w-full px-3 py-2 text-xs sm:text-sm font-semibold rounded-xl border border-slate-300 bg-white focus:border-[#0f2942] outline-none" />
+          <select id="editRecordServiceSelect" class="hidden w-full px-3 py-2 text-xs sm:text-sm font-semibold rounded-xl border border-slate-300 bg-white focus:border-[#0f2942] outline-none">
+            <option value="Printing & Photocopy">Printing &amp; Photocopy</option>
+            <option value="Typing & Document Formatting">Typing &amp; Document Formatting</option>
+            <option value="Binding & Lamination">Binding &amp; Lamination</option>
+            <option value="Stationery Supplies & Sales">Stationery Supplies &amp; Sales</option>
+            <option value="Design, Scanning & Other Services">Design, Scanning &amp; Other Services</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="editRecordAmountInput" class="block text-xs font-bold text-slate-700 mb-1">Kiasi (TZS)</label>
+          <input id="editRecordAmountInput" type="number" min="1" step="1" required class="w-full px-3 py-2 text-sm font-extrabold rounded-xl border border-slate-300 bg-[#f8fafc] focus:bg-white focus:border-[#0f2942] outline-none" />
+        </div>
+
+        <div class="pt-2 flex items-center justify-end gap-2">
+          <button id="cancelEditModalBtn" type="button" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 transition cursor-pointer">
+            Ghairi
+          </button>
+          <button type="submit" class="px-4 py-2 rounded-xl text-xs font-extrabold bg-teal-700 hover:bg-teal-600 text-white transition cursor-pointer">
+            Hifadhi Mabadiliko
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 
@@ -1107,6 +1168,9 @@
       let tableStartDateFilter = '';
       let tableEndDateFilter = '';
       let tableSearchQuery = '';
+      let salioPopupSearch = '';
+      let purchasesPopupSearch = '';
+      let editingTarget = null;
 
       let trendChart = null;
       let monthlyTrendChart = null;
@@ -1611,6 +1675,8 @@
         renderSalioHistoryBox();
         const modal = document.getElementById('salioListModal');
         if (modal) modal.classList.remove('hidden');
+        const searchEl = document.getElementById('salioPopupSearchInput');
+        if (searchEl) setTimeout(() => searchEl.focus(), 40);
       }
 
       function closeSalioPopup() {
@@ -1622,11 +1688,88 @@
         renderPurchasesTable();
         const modal = document.getElementById('purchasesListModal');
         if (modal) modal.classList.remove('hidden');
+        const searchEl = document.getElementById('purchasesPopupSearchInput');
+        if (searchEl) setTimeout(() => searchEl.focus(), 40);
       }
 
       function closePurchasesPopup() {
         const modal = document.getElementById('purchasesListModal');
         if (modal) modal.classList.add('hidden');
+      }
+
+      function openEditModal(target) {
+        const modal = document.getElementById('editRecordModal');
+        const titleEl = document.getElementById('editRecordModalTitle');
+        const subEl = document.getElementById('editRecordTypeSubtitle');
+        const dateInp = document.getElementById('editRecordDateInput');
+        const labelInp = document.getElementById('editRecordLabelInput');
+        const serviceSel = document.getElementById('editRecordServiceSelect');
+        const labelTitle = document.getElementById('editRecordLabelTitle');
+        const amtInp = document.getElementById('editRecordAmountInput');
+        if (!modal || !dateInp || !labelInp || !serviceSel || !amtInp) return;
+
+        if (target.kind === 'STATIONERY') {
+          const item = appState.entries.find((e) => e.id === target.id);
+          if (!item) return;
+          editingTarget = { kind: 'STATIONERY', id: item.id };
+          if (titleEl) titleEl.textContent = 'Hariri Mapato ya Stationery';
+          if (subEl) subEl.textContent = 'Ukibadili kiasi, Mtaji, Akiba na Salio vitakokotolewa upya kulingana na asilimia.';
+          if (labelTitle) labelTitle.textContent = 'Huduma ya Stationery';
+          dateInp.value = item.date || getTodayISO();
+          labelInp.classList.add('hidden');
+          labelInp.required = false;
+          serviceSel.classList.remove('hidden');
+          serviceSel.value = item.label || 'Printing & Photocopy';
+          amtInp.value = String(Number(item.amount) || 0);
+        } else if (target.kind === 'WIFI') {
+          const item = appState.entries.find((e) => e.id === target.id);
+          if (!item) return;
+          editingTarget = { kind: 'WIFI', id: item.id };
+          if (titleEl) titleEl.textContent = 'Hariri Mapato ya Wi-Fi (.NET)';
+          if (subEl) subEl.textContent = 'Rekebisha tarehe, kifurushi, au kiasi cha Wi-Fi.';
+          if (labelTitle) labelTitle.textContent = 'Kifurushi / Maelezo ya Wi-Fi';
+          dateInp.value = item.date || getTodayISO();
+          serviceSel.classList.add('hidden');
+          labelInp.classList.remove('hidden');
+          labelInp.required = true;
+          labelInp.value = item.label || '';
+          amtInp.value = String(Number(item.amount) || 0);
+        } else if (target.kind === 'PURCHASE') {
+          const pur = appState.purchases.find((p) => p.id === target.id);
+          if (!pur) return;
+          editingTarget = { kind: 'PURCHASE', id: pur.id };
+          if (titleEl) titleEl.textContent = 'Hariri Manunuzi ya Vifaa';
+          if (subEl) subEl.textContent = 'Mtaji uliobaki na chart ya manunuzi vitasasishwa papo hapo.';
+          if (labelTitle) labelTitle.textContent = 'Kifaa / Bidhaa Iliyonunuliwa';
+          dateInp.value = pur.date || getTodayISO();
+          serviceSel.classList.add('hidden');
+          labelInp.classList.remove('hidden');
+          labelInp.required = true;
+          labelInp.value = pur.item || '';
+          amtInp.value = String(Number(pur.amount) || 0);
+        } else if (target.kind === 'SALIO_EXPENSE') {
+          const exp = (appState.salioExpenses || []).find((s) => s.id === target.id);
+          if (!exp) return;
+          editingTarget = { kind: 'SALIO_EXPENSE', id: exp.id };
+          if (titleEl) titleEl.textContent = 'Hariri Mkato wa Salio';
+          if (subEl) subEl.textContent = 'Salio halisi na orodha ya makato vitasasishwa papo hapo.';
+          if (labelTitle) labelTitle.textContent = 'Sababu / Maelezo';
+          dateInp.value = exp.date || getTodayISO();
+          serviceSel.classList.add('hidden');
+          labelInp.classList.remove('hidden');
+          labelInp.required = true;
+          labelInp.value = exp.note || '';
+          amtInp.value = String(Number(exp.amount) || 0);
+        }
+
+        modal.classList.remove('hidden');
+        setTimeout(() => amtInp.focus(), 40);
+      }
+
+      function closeEditModal() {
+        const modal = document.getElementById('editRecordModal');
+        if (modal) modal.classList.add('hidden');
+        editingTarget = null;
       }
 
       function renderSalioHistoryBox() {
@@ -1667,7 +1810,22 @@
           return;
         }
 
-        const newestFirst = [...list].reverse();
+        const q = (salioPopupSearch || '').trim().toLowerCase();
+        const newestFirst = [...list].reverse().filter((exp) => {
+          if (!q) return true;
+          const hay = `${exp.note || ''} ${exp.date || ''} ${exp.amount || ''}`.toLowerCase();
+          return hay.includes(q);
+        });
+
+        if (newestFirst.length === 0) {
+          listContainer.innerHTML = `
+            <div class="rounded-xl bg-slate-50 border border-slate-200 px-4 py-5 text-center text-xs text-slate-500">
+              Hakuna matokeo ya utafutaji "${escapeHTML(salioPopupSearch)}" kwenye list ya Salio.
+            </div>
+          `;
+          return;
+        }
+
         listContainer.innerHTML = newestFirst
           .map((exp) => {
             const label = (exp.note || '').trim() || 'Matumizi ya Salio';
@@ -1678,8 +1836,11 @@
                   <p class="font-bold text-slate-800 truncate">${escapeHTML(label)}</p>
                   <p class="text-[11px] text-slate-400">${escapeHTML(dateStr)}</p>
                 </div>
-                <div class="flex items-center gap-2 shrink-0">
-                  <span class="font-extrabold text-rose-700">-${Number(exp.amount || 0).toLocaleString('en-US')} TZS</span>
+                <div class="flex items-center gap-1.5 shrink-0">
+                  <span class="font-extrabold text-rose-700 mr-1">-${Number(exp.amount || 0).toLocaleString('en-US')} TZS</span>
+                  <button type="button" data-edit-kind="SALIO_EXPENSE" data-edit-id="${escapeHTML(exp.id)}" class="edit-record-btn px-2 py-1 rounded-lg text-[11px] font-extrabold bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-200 cursor-pointer">
+                    Hariri
+                  </button>
                   <button type="button" data-delete-salio-id="${escapeHTML(exp.id)}" class="delete-salio-btn px-2 py-1 rounded-lg text-[11px] font-extrabold bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 cursor-pointer">
                     Futa
                   </button>
@@ -2060,14 +2221,37 @@
           `;
           return;
         }
-        const sortedDesc = [...appState.purchases].sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+
+        const q = (purchasesPopupSearch || '').trim().toLowerCase();
+        const sortedDesc = [...appState.purchases]
+          .sort((a, b) => (b.date || '').localeCompare(a.date || ''))
+          .filter((pur) => {
+            if (!q) return true;
+            const hay = `${pur.item || ''} ${pur.date || ''} ${pur.amount || ''}`.toLowerCase();
+            return hay.includes(q);
+          });
+
+        if (sortedDesc.length === 0) {
+          els.purchasesTableBody.innerHTML = `
+            <tr>
+              <td colspan="4" class="py-6 px-4 text-center text-xs sm:text-sm text-slate-500">
+                Hakuna kifaa/bidhaa inayolingana na "${escapeHTML(purchasesPopupSearch)}".
+              </td>
+            </tr>
+          `;
+          return;
+        }
+
         els.purchasesTableBody.innerHTML = sortedDesc
           .map((pur) => `
             <tr class="hover:bg-teal-50/35 transition">
               <td class="py-2.5 px-3 font-semibold text-slate-800 whitespace-nowrap">${escapeHTML(pur.date || '')}</td>
               <td class="py-2.5 px-3 font-medium text-slate-700">${escapeHTML(pur.item || '')}</td>
               <td class="py-2.5 px-3 text-right font-extrabold text-teal-900 whitespace-nowrap">-${Number(pur.amount || 0).toLocaleString('en-US')}</td>
-              <td class="py-2.5 px-3 text-right whitespace-nowrap">
+              <td class="py-2.5 px-3 text-right whitespace-nowrap space-x-1.5">
+                <button type="button" data-edit-kind="PURCHASE" data-edit-id="${escapeHTML(pur.id)}" class="edit-record-btn px-2.5 py-1 rounded-lg text-xs font-bold text-amber-900 bg-amber-50 hover:bg-amber-100 border border-amber-200/80 transition cursor-pointer">
+                  Hariri
+                </button>
                 <button type="button" data-delete-purchase-id="${escapeHTML(pur.id)}" class="delete-purchase-btn px-2.5 py-1 rounded-lg text-xs font-bold text-rose-700 hover:bg-rose-50 border border-rose-200/70 transition cursor-pointer">
                   Futa
                 </button>
@@ -2210,7 +2394,10 @@
                 <td class="py-3 px-3 text-right font-semibold ${row.mtajiDelta !== null && row.mtajiDelta < 0 ? 'text-rose-700' : 'text-teal-800'} whitespace-nowrap">${mtajiCell}</td>
                 <td class="py-3 px-3 text-right font-semibold text-amber-800 whitespace-nowrap">${row.akibaDelta === null ? '—' : row.akibaDelta.toLocaleString('en-US')}</td>
                 <td class="py-3 px-3 text-right font-semibold ${row.salioDelta !== null && row.salioDelta < 0 ? 'text-rose-700' : 'text-slate-800'} whitespace-nowrap">${salioCell}</td>
-                <td class="py-3 px-3 text-right whitespace-nowrap">
+                <td class="py-3 px-3 text-right whitespace-nowrap space-x-1.5">
+                  <button type="button" data-edit-kind="${escapeHTML(row.kind)}" data-edit-id="${escapeHTML(row.id)}" class="edit-record-btn px-2.5 py-1 rounded-lg text-xs font-bold text-amber-900 bg-amber-50 hover:bg-amber-100 border border-amber-200/80 transition cursor-pointer">
+                    Hariri
+                  </button>
                   <button type="button" ${deleteAttr} class="delete-any-btn px-2.5 py-1 rounded-lg text-xs font-bold text-rose-700 hover:bg-rose-50 border border-rose-200/70 transition cursor-pointer">
                     Futa
                   </button>
@@ -2651,11 +2838,19 @@
         const modalResetSalioBtn = document.getElementById('modalResetSalioBtn');
         const salioListModal = document.getElementById('salioListModal');
         const salioListEl = document.getElementById('salioExpensesList');
+        const salioPopupSearchInput = document.getElementById('salioPopupSearchInput');
 
         if (openSalioPopupBtn) openSalioPopupBtn.addEventListener('click', openSalioPopup);
         if (closeSalioPopupBtn) closeSalioPopupBtn.addEventListener('click', closeSalioPopup);
         if (doneSalioPopupBtn) doneSalioPopupBtn.addEventListener('click', closeSalioPopup);
         if (modalResetSalioBtn) modalResetSalioBtn.addEventListener('click', resetAllSalioExpenses);
+
+        if (salioPopupSearchInput) {
+          salioPopupSearchInput.addEventListener('input', () => {
+            salioPopupSearch = salioPopupSearchInput.value || '';
+            renderSalioHistoryBox();
+          });
+        }
 
         if (salioListModal) {
           salioListModal.addEventListener('click', (e) => {
@@ -2665,6 +2860,14 @@
 
         if (salioListEl) {
           salioListEl.addEventListener('click', (e) => {
+            const editBtn = e.target.closest('.edit-record-btn');
+            if (editBtn) {
+              openEditModal({
+                kind: editBtn.getAttribute('data-edit-kind'),
+                id: editBtn.getAttribute('data-edit-id')
+              });
+              return;
+            }
             const btn = e.target.closest('.delete-salio-btn');
             if (!btn) return;
             const id = btn.getAttribute('data-delete-salio-id');
@@ -2677,10 +2880,18 @@
         const closePurchasesPopupBtn = document.getElementById('closePurchasesPopupBtn');
         const donePurchasesPopupBtn = document.getElementById('donePurchasesPopupBtn');
         const purchasesListModal = document.getElementById('purchasesListModal');
+        const purchasesPopupSearchInput = document.getElementById('purchasesPopupSearchInput');
 
         if (openPurchasesPopupBtn) openPurchasesPopupBtn.addEventListener('click', openPurchasesPopup);
         if (closePurchasesPopupBtn) closePurchasesPopupBtn.addEventListener('click', closePurchasesPopup);
         if (donePurchasesPopupBtn) donePurchasesPopupBtn.addEventListener('click', closePurchasesPopup);
+
+        if (purchasesPopupSearchInput) {
+          purchasesPopupSearchInput.addEventListener('input', () => {
+            purchasesPopupSearch = purchasesPopupSearchInput.value || '';
+            renderPurchasesTable();
+          });
+        }
 
         if (purchasesListModal) {
           purchasesListModal.addEventListener('click', (e) => {
@@ -2689,14 +2900,97 @@
         }
 
         els.purchasesTableBody.addEventListener('click', (e) => {
+          const editBtn = e.target.closest('.edit-record-btn');
+          if (editBtn) {
+            openEditModal({
+              kind: editBtn.getAttribute('data-edit-kind'),
+              id: editBtn.getAttribute('data-edit-id')
+            });
+            return;
+          }
           const btn = e.target.closest('.delete-purchase-btn');
           if (!btn) return;
           const id = btn.getAttribute('data-delete-purchase-id');
           if (id) deletePurchaseById(id);
         });
 
+        // Pop-up ya Kuhariri Rekodi (Edit Record Modal)
+        const editRecordModal = document.getElementById('editRecordModal');
+        const closeEditModalBtn = document.getElementById('closeEditModalBtn');
+        const cancelEditModalBtn = document.getElementById('cancelEditModalBtn');
+        const editRecordForm = document.getElementById('editRecordForm');
+
+        if (closeEditModalBtn) closeEditModalBtn.addEventListener('click', closeEditModal);
+        if (cancelEditModalBtn) cancelEditModalBtn.addEventListener('click', closeEditModal);
+        if (editRecordModal) {
+          editRecordModal.addEventListener('click', (e) => {
+            if (e.target === editRecordModal) closeEditModal();
+          });
+        }
+
+        if (editRecordForm) {
+          editRecordForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (!editingTarget) return;
+            const dateInp = document.getElementById('editRecordDateInput');
+            const labelInp = document.getElementById('editRecordLabelInput');
+            const serviceSel = document.getElementById('editRecordServiceSelect');
+            const amtInp = document.getElementById('editRecordAmountInput');
+
+            const newDate = (dateInp && dateInp.value) || getTodayISO();
+            const newAmt = Math.max(0, Math.round(Number(amtInp && amtInp.value) || 0));
+            if (newAmt <= 0) {
+              showBanner('Weka kiasi kilicho kikubwa kuliko 0 TZS.', 'warning');
+              return;
+            }
+
+            if (editingTarget.kind === 'STATIONERY') {
+              const target = appState.entries.find((item) => item.id === editingTarget.id);
+              if (target) {
+                const split = calculateStationerySplit(newAmt);
+                target.date = newDate;
+                target.label = (serviceSel && serviceSel.value) || target.label;
+                target.amount = split.amount;
+                target.mtaji = split.mtaji;
+                target.akiba = split.akiba;
+                target.salio = split.salio;
+              }
+            } else if (editingTarget.kind === 'WIFI') {
+              const target = appState.entries.find((item) => item.id === editingTarget.id);
+              if (target) {
+                target.date = newDate;
+                target.label = (labelInp && labelInp.value.trim()) || 'STATIONERY SERVICE . NET';
+                target.amount = newAmt;
+              }
+            } else if (editingTarget.kind === 'PURCHASE') {
+              const target = appState.purchases.find((p) => p.id === editingTarget.id);
+              if (target) {
+                target.date = newDate;
+                target.item = (labelInp && labelInp.value.trim()) || 'Vifaa vya Stationery';
+                target.amount = newAmt;
+              }
+            } else if (editingTarget.kind === 'SALIO_EXPENSE') {
+              const target = (appState.salioExpenses || []).find((s) => s.id === editingTarget.id);
+              if (target) {
+                target.date = newDate;
+                target.note = (labelInp && labelInp.value.trim()) || 'Matumizi ya Salio';
+                target.amount = newAmt;
+              }
+            }
+
+            saveAppState();
+            closeEditModal();
+            renderAll();
+            showBanner('Mabadiliko ya rekodi yamehifadhiwa na kusawazishwa!', 'success');
+          });
+        }
+
         document.addEventListener('keydown', (e) => {
           if (e.key === 'Escape') {
+            if (editRecordModal && !editRecordModal.classList.contains('hidden')) {
+              closeEditModal();
+              return;
+            }
             if (salioListModal && !salioListModal.classList.contains('hidden')) closeSalioPopup();
             if (purchasesListModal && !purchasesListModal.classList.contains('hidden')) closePurchasesPopup();
           }
@@ -2720,6 +3014,14 @@
         }
 
         els.recordsTableBody.addEventListener('click', (e) => {
+          const editBtn = e.target.closest('.edit-record-btn');
+          if (editBtn) {
+            openEditModal({
+              kind: editBtn.getAttribute('data-edit-kind'),
+              id: editBtn.getAttribute('data-edit-id')
+            });
+            return;
+          }
           const btn = e.target.closest('.delete-any-btn');
           if (!btn) return;
           const purId = btn.getAttribute('data-delete-purchase-id');

@@ -21,7 +21,7 @@
     --akiba: #059669;
     --salio: #d97706;
     --expense: #dc2626;
-    --wifi: #7c3aed;
+    --wifi: #ec4899;
     --shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.06);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
@@ -140,8 +140,20 @@
     border-radius: 12px; padding: 14px 15px; backdrop-filter: blur(4px);
   }
   .intel-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.5px; color: #cbd5e1; font-weight: 700; }
-  .intel-val { font-size: 1.06rem; font-weight: 900; color: #ffffff; margin-top: 5px; line-height: 1.35; }
+  .intel-val { font-size: 1.04rem; font-weight: 900; color: #ffffff; margin-top: 5px; line-height: 1.35; }
   .intel-sub { font-size: 0.78rem; color: #bfdbfe; margin-top: 4px; line-height: 1.35; }
+
+  /* FILTER SUMMARY BAR */
+  .filter-summary-bar {
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+    background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 12px; padding: 12px 16px; margin-bottom: 14px;
+  }
+  .filter-stat-pill {
+    font-size: 0.86rem; font-weight: 800; color: var(--primary-dark);
+  }
+  .filter-stat-pill span {
+    color: var(--primary-light);
+  }
 
   /* BUCKETS & SUMMARY */
   .bucket {
@@ -193,14 +205,14 @@
   /* TABLES */
   .table-wrap { overflow-x: auto; border-radius: 10px; border: 1px solid var(--border); }
   table { width: 100%; border-collapse: collapse; font-size: 0.86rem; }
-  th, td { text-align: left; padding: 11px 12px; border-bottom: 1px solid var(--border); }
+  th, td { text-align: left; padding: 11px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
   th { background: #f8fafc; font-weight: 700; color: #475569; font-size: 0.79rem; text-transform: uppercase; letter-spacing: 0.3px; }
   tr:last-child td { border-bottom: none; }
   tr:hover td { background: #f8fafc; }
 
   .badge { padding: 3px 9px; border-radius: 999px; font-size: 0.74rem; font-weight: 700; display: inline-block; }
   .b-stat { background: #dbeafe; color: #1e40af; }
-  .b-wifi { background: #ede9fe; color: #5b21b6; }
+  .b-wifi { background: #fce7f3; color: #be185d; }
   .b-exp { background: #fee2e2; color: #991b1b; }
   .b-sal { background: #fef3c7; color: #92400e; }
   .b-low { background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; }
@@ -217,8 +229,9 @@
   .chart-interp {
     margin-top: 10px; padding: 9px 12px; border-radius: 10px;
     background: #f8fafc; border-left: 3.5px solid var(--primary);
-    font-size: 0.82rem; color: #334155;
+    font-size: 0.82rem; color: #334155; line-height: 1.45;
   }
+  .chart-interp.pink-border { border-left-color: var(--wifi); }
 
   /* MODAL */
   .modal-backdrop {
@@ -377,7 +390,7 @@
   <div class="tabs">
     <button class="tab-btn active" onclick="openTab('dashboard', this)">📊 Dashibodi &amp; Ingiza</button>
     <button class="tab-btn" onclick="openTab('takwimu', this)">📈 Uchambuzi &amp; Executive AI</button>
-    <button class="tab-btn" onclick="openTab('historia', this)">📒 Historia Kamili</button>
+    <button class="tab-btn" onclick="openTab('historia', this)">📒 Data Kamili</button>
     <button class="tab-btn" onclick="openTab('ripoti', this)">📅 Ripoti &amp; WhatsApp</button>
     <button class="tab-btn" id="tabSettingsBtn" onclick="openTab('mipangilio', this)">⚙️ Mipangilio &amp; Sync</button>
   </div>
@@ -540,73 +553,87 @@
 
     <div class="card">
       <div class="card-header">
-        <div class="card-title">📈 Mwenendo wa Biashara (Line Graphs &amp; Uchambuzi Muhimu)</div>
+        <div class="card-title">📈 Mwenendo wa Biashara (Line Graphs &amp; Wastani)</div>
         <div>
-          <select id="chartRange" onchange="renderCharts()" style="margin-bottom:0; padding:7px 12px; font-weight:600;">
-            <option value="14">Siku 14 Zilizopita</option>
-            <option value="30" selected>Siku 30 Zilizopita</option>
-            <option value="90">Siku 90 Zilizopita</option>
+          <select id="chartRange" onchange="renderCharts()" style="margin-bottom:0; padding:7px 12px; font-weight:700;">
+            <option value="day">Leo</option>
+            <option value="week">Wiki</option>
+            <option value="month" selected>Mwezi</option>
           </select>
         </div>
       </div>
       <div class="grid-4" id="kpiCards" style="margin-bottom:0;"></div>
     </div>
 
+    <!-- GRAFU TENGANISHI: STATIONERY PEKE YAKE & WI-FI (PINK) PEKE YAKE -->
     <div class="grid-2">
       <div class="card">
-        <div class="card-title" style="margin-bottom:10px;">📉 Mwenendo wa Mauzo ya Kila Siku (Stationery vs Wi-Fi)</div>
-        <div class="chart-box"><canvas id="chartDailyTrendLine"></canvas></div>
-        <div class="chart-interp" id="interpDailyTrend"></div>
+        <div class="card-title" style="margin-bottom:10px; color:#1d4ed8;">🖨️ Mwenendo wa Mauzo ya Stationery (Na Wastani)</div>
+        <div class="chart-box"><canvas id="chartStationeryOnlyLine"></canvas></div>
+        <div class="chart-interp" id="interpStationeryOnly"></div>
       </div>
 
       <div class="card">
-        <div class="card-title" style="margin-bottom:10px;">⚖️ Mtaji Uliokusanywa vs Manunuzi ya Vifaa</div>
-        <div class="chart-box"><canvas id="chartMtajiVsExpLine"></canvas></div>
-        <div class="chart-interp" id="interpMtajiExp"></div>
+        <div class="card-title" style="margin-bottom:10px; color:#db2777;">🌐 Mwenendo wa STATIONERY SERVICE . NET / Wi-Fi (Na Wastani)</div>
+        <div class="chart-box"><canvas id="chartWifiOnlyLine"></canvas></div>
+        <div class="chart-interp pink-border" id="interpWifiOnly"></div>
       </div>
     </div>
 
     <div class="grid-2">
       <div class="card">
-        <div class="card-title" style="margin-bottom:10px;">🚀 Ukuaji wa Biashara (Cumulative Growth)</div>
-        <div class="chart-box"><canvas id="chartBusinessGrowthLine"></canvas></div>
-        <div class="chart-interp" id="interpGrowth"></div>
+        <div class="card-title" style="margin-bottom:10px;">⚖️ Mtaji Uliokusanywa vs Manunuzi ya Vifaa (Na Wastani)</div>
+        <div class="chart-box"><canvas id="chartMtajiVsExpLine"></canvas></div>
+        <div class="chart-interp" id="interpMtajiExp"></div>
       </div>
 
       <div class="card">
-        <div class="card-title" style="margin-bottom:10px;">🛡️ Uchambuzi wa Afya &amp; Matumizi (Expense &amp; Burn Ratio)</div>
-        <div class="chart-box"><canvas id="chartBurnRatioLine"></canvas></div>
-        <div class="chart-interp" id="interpBurn"></div>
+        <div class="card-title" style="margin-bottom:10px;">🚀 Ukuaji Halisi wa Biashara (Na Wastani)</div>
+        <div class="chart-box"><canvas id="chartBusinessGrowthLine"></canvas></div>
+        <div class="chart-interp" id="interpGrowth"></div>
       </div>
     </div>
   </div>
 
-  <!-- ================= TAB 3: HISTORIA KAMILI ================= -->
+  <!-- ================= TAB 3: DATA KAMILI ================= -->
   <div id="historia" class="section">
     <div class="card">
       <div class="card-header">
-        <div class="card-title">📒 Daftari la Miamala Yote</div>
-        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <div class="card-title">📒 Data Kamili ya Miamala</div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+          <select id="filterTimePeriod" onchange="renderHistory()" style="width:auto; margin:0; padding:7px 11px; font-weight:700;">
+            <option value="all">Muda: Zote</option>
+            <option value="today">Muda: Leo</option>
+            <option value="week">Muda: Wiki (Siku 7)</option>
+            <option value="month">Muda: Mwezi Huu</option>
+          </select>
           <select id="filterType" onchange="renderHistory()" style="width:auto; margin:0; padding:7px 11px;">
-            <option value="all">Miamala Yote</option>
+            <option value="all">Aina Zote</option>
             <option value="stationery">Mapato Stationery</option>
             <option value="wifi">Mapato Wi-Fi (.NET)</option>
             <option value="expense">Manunuzi ya Vifaa (Mtaji)</option>
             <option value="salio">Matumizi ya Salio</option>
           </select>
-          <input type="month" id="filterMonth" onchange="renderHistory()" style="width:auto; margin:0; padding:7px 11px;">
+          <input type="month" id="filterMonth" onchange="renderHistory()" style="width:auto; margin:0; padding:7px 11px;" title="Chagua mwezi maalum">
           <button class="btn btn-outline btn-sm" onclick="exportCSV()">⬇️ Pakua CSV</button>
         </div>
       </div>
+
+      <!-- MUHTASARI WA IDADI NA JUMLA BAADA YA FILTERING -->
+      <div class="filter-summary-bar" id="historyFilterSummary">
+        <div class="filter-stat-pill">Idadi ya Miamala Iliyochujwa: <span id="filteredCountVal">0</span></div>
+        <div class="filter-stat-pill">Jumla ya Kiasi Kilichochujwa: <span id="filteredTotalVal">0 TZS</span></div>
+      </div>
+
       <div class="table-wrap">
         <table>
           <thead>
             <tr>
-              <th>Tarehe</th>
+              <th>ID &amp; Tarehe</th>
               <th>Aina</th>
-              <th>Maelezo</th>
+              <th>Maelezo Kamili &amp; Kifaa</th>
               <th>Kiasi (TZS)</th>
-              <th>Mgawanyo / Athari</th>
+              <th>Mgawanyo / Athari Kamili</th>
               <th>Hatua</th>
             </tr>
           </thead>
@@ -972,6 +999,8 @@
   // ====== DATA & HIFADHI ======
   const STORAGE_KEY = "faustine_stationery_db_v2";
   const DEFAULT_GOAL = 1000000;
+  const MONTH_NAMES_SW = ["Januari","Februari","Machi","Aprili","Mei","Juni","Julai","Agosti","Septemba","Oktoba","Novemba","Desemba"];
+  const WEEKDAY_NAMES_SW = ["Jumapili","Jumatatu","Jumanne","Jumatano","Alhamisi","Ijumaa","Jumamosi"];
 
   let db = {
     settings: { mtaji: 50, akiba: 36, salio: 14, goalAmount: DEFAULT_GOAL, syncUrl: "", geminiApiKey: "", customLogo: "" },
@@ -1025,21 +1054,21 @@
   function fmtTZS(num) {
     return Math.round(num).toLocaleString("en-US") + " TZS";
   }
+  function toLocalDateStr(dateObj) {
+    return dateObj.getFullYear() + "-" + String(dateObj.getMonth() + 1).padStart(2, "0") + "-" + String(dateObj.getDate()).padStart(2, "0");
+  }
   function getTodayStr() {
-    const d = new Date();
-    return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+    return toLocalDateStr(new Date());
   }
   function getMonthKey(dateStr) {
     return String(dateStr || "").slice(0, 7);
   }
   function getMonthName(ym) {
     const [y, m] = (ym || "2026-01").split("-");
-    const names = ["Januari","Februari","Machi","Aprili","Mei","Juni","Julai","Agosti","Septemba","Oktoba","Novemba","Desemba"];
-    return (names[parseInt(m, 10) - 1] || "Mwezi") + " " + y;
+    return (MONTH_NAMES_SW[parseInt(m, 10) - 1] || "Mwezi") + " " + y;
   }
   function getWeekdaySwahili(dateObj) {
-    const days = ["Jumapili","Jumatatu","Jumanne","Jumatano","Alhamisi","Ijumaa","Jumamosi"];
-    return days[dateObj.getDay()] || "";
+    return WEEKDAY_NAMES_SW[dateObj.getDay()] || "";
   }
   function showToast(msg) {
     const t = document.getElementById("toast");
@@ -1507,6 +1536,14 @@
     showToast(`🎯 Lengo jipya limewekwa: ${fmtTZS(val)}`);
   }
 
+  function formatCleanGoalDateText(dateObj, daysLeft) {
+    const weekday = getWeekdaySwahili(dateObj);
+    const dayNum = dateObj.getDate();
+    const monthOnly = MONTH_NAMES_SW[dateObj.getMonth()] || "";
+    const yearNum = dateObj.getFullYear();
+    return `Siku ${daysLeft} • ${weekday}, ${dayNum} ${monthOnly} ${yearNum}`;
+  }
+
   function computeGoalProjection() {
     const totals = calculateTotals();
     const goal = getGoalAmount();
@@ -1540,10 +1577,7 @@
         avgDailyAkiba,
         avgActiveDayAkiba,
         daysLeft: 0,
-        fullDateCombo: `Siku 0 — ${getWeekdaySwahili(now)}, ${getTodayStr()}, ${getMonthName(getMonthKey(getTodayStr()))}, ${now.getFullYear()}`,
-        targetDateStr: getTodayStr(),
-        targetMonthName: getMonthName(getMonthKey(getTodayStr())),
-        targetYear: now.getFullYear(),
+        fullDateCombo: formatCleanGoalDateText(now, 0),
         paceStatus: "Lengo Limefikiwa (100%)"
       };
     }
@@ -1557,9 +1591,6 @@
         avgActiveDayAkiba,
         daysLeft: null,
         fullDateCombo: "Haijakadiriwa bado (Ingiza mapato)",
-        targetDateStr: "-",
-        targetMonthName: "-",
-        targetYear: "-",
         paceStatus: "Inasubiri Miamala"
       };
     }
@@ -1567,12 +1598,6 @@
     const daysLeft = Math.ceil(remaining / avgDailyAkiba);
     const projDate = new Date();
     projDate.setDate(projDate.getDate() + daysLeft);
-    const y = projDate.getFullYear();
-    const m = String(projDate.getMonth() + 1).padStart(2, "0");
-    const d = String(projDate.getDate()).padStart(2, "0");
-    const dateStr = `${y}-${m}-${d}`;
-    const monthName = getMonthName(`${y}-${m}`);
-    const weekdayName = getWeekdaySwahili(projDate);
 
     return {
       goal,
@@ -1581,10 +1606,7 @@
       avgDailyAkiba,
       avgActiveDayAkiba,
       daysLeft,
-      fullDateCombo: `Siku ${daysLeft} • ${weekdayName}, ${dateStr}, ${monthName}, ${y}`,
-      targetDateStr: dateStr,
-      targetMonthName: monthName,
-      targetYear: y,
+      fullDateCombo: formatCleanGoalDateText(projDate, daysLeft),
       paceStatus: avgDailyAkiba >= (remaining / Math.max(1, daysLeft)) ? "Kasi Inatosha" : "Ongeza Kasi ya Akiba"
     };
   }
@@ -1905,53 +1927,92 @@
     renderCashUp();
   }
 
-  // ====== UCHAMBUZI & LINE GRAPHS (CHART.JS) ======
+  // ====== UCHAMBUZI & LINE GRAPHS (WITH DOTTED AVERAGE LINE) ======
+  function buildAverageInterpretation(labelName, series, avgVal) {
+    const valid = series.filter(v => typeof v === "number" && !isNaN(v));
+    if (valid.length === 0 || avgVal === 0) {
+      return `<strong>Uchambuzi (${labelName}):</strong> Wastani ni ${fmtTZS(avgVal)}. Hakuna mabadiliko makubwa kwenye kipindi hiki.`;
+    }
+    const aboveCount = valid.filter(v => v > avgVal).length;
+    const latestVal = valid[valid.length - 1];
+    const positionMsg = latestVal >= avgVal
+      ? `hatua ya mwisho (${fmtTZS(latestVal)}) iko juu ya wastani`
+      : `hatua ya mwisho (${fmtTZS(latestVal)}) iko chini ya wastani`;
+    return `<strong>Uchambuzi (${labelName}):</strong> Wastani ni <strong>${fmtTZS(avgVal)}</strong> (mstari wa nukta). Vipindi <strong>${aboveCount}/${valid.length}</strong> vimevuka wastani, na ${positionMsg}.`;
+  }
+
+  function makeSingleLineWithAvgConfig(labels, dataSeries, lineColor, bgColor, seriesLabel, avgLabel) {
+    const avgVal = dataSeries.length > 0
+      ? dataSeries.reduce((a, b) => a + b, 0) / dataSeries.length
+      : 0;
+    const avgSeries = dataSeries.map(() => Number(avgVal.toFixed(2)));
+
+    return {
+      avgVal,
+      config: {
+        type: "line",
+        data: {
+          labels,
+          datasets: [
+            {
+              label: seriesLabel,
+              data: dataSeries,
+              borderColor: lineColor,
+              backgroundColor: bgColor,
+              fill: true,
+              tension: 0.35,
+              pointRadius: 3
+            },
+            {
+              label: `${avgLabel} (${fmtTZS(avgVal)})`,
+              data: avgSeries,
+              borderColor: "#475569",
+              borderDash: [6, 6],
+              borderWidth: 2,
+              pointRadius: 0,
+              fill: false,
+              tension: 0
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { position: "bottom" } },
+          scales: { y: { beginAtZero: true } }
+        }
+      }
+    };
+  }
+
   function renderCharts() {
     renderExecutiveIntelligence();
-    const days = parseInt(document.getElementById("chartRange").value, 10) || 30;
-    const totals = calculateTotals();
+    const period = document.getElementById("chartRange").value || "month";
 
-    const curMonth = getMonthKey(getTodayStr());
-    const monthTxs = db.transactions.filter(t => getMonthKey(t.date) === curMonth);
-    const activeDays = new Set(monthTxs.filter(t => t.type === "stationery" || t.type === "wifi").map(t => t.date)).size || 1;
-    const mStat = monthTxs.filter(t => t.type === "stationery").reduce((s, t) => s + t.amount, 0);
-    const mWifi = monthTxs.filter(t => t.type === "wifi").reduce((s, t) => s + t.amount, 0);
-    const mExp = monthTxs.filter(t => t.type === "expense").reduce((s, t) => s + t.amount, 0);
-    const netStationery = mStat - mExp;
+    const now = new Date();
+    const dateList = [];
+    if (period === "day") {
+      dateList.push(toLocalDateStr(now));
+    } else if (period === "week") {
+      for (let i = 6; i >= 0; i--) {
+        const d = new Date(now);
+        d.setDate(now.getDate() - i);
+        dateList.push(toLocalDateStr(d));
+      }
+    } else {
+      const year = now.getFullYear();
+      const month = now.getMonth();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      for (let day = 1; day <= daysInMonth; day++) {
+        dateList.push(toLocalDateStr(new Date(year, month, day)));
+      }
+    }
 
-    document.getElementById("kpiCards").innerHTML = `
-      <div style="background:#eff6ff;padding:13px;border-radius:12px;border:1px solid #bfdbfe;">
-        <div class="bucket-label" style="color:#1e40af;">Wastani wa Mauzo / Siku</div>
-        <div style="font-size:1.15rem;font-weight:900;color:#1e3a8a;margin-top:4px;">${fmtTZS((mStat + mWifi) / activeDays)}</div>
-        <div class="bucket-sub">Siku ${activeDays} zenye miamala mwezi huu</div>
-      </div>
-      <div style="background:#ecfdf5;padding:13px;border-radius:12px;border:1px solid #a7f3d0;">
-        <div class="bucket-label" style="color:#065f46;">Faida Halisi Stationery</div>
-        <div style="font-size:1.15rem;font-weight:900;color:#059669;margin-top:4px;">${fmtTZS(netStationery)}</div>
-        <div class="bucket-sub">Mapato minus Manunuzi (Mwezi huu)</div>
-      </div>
-      <div style="background:#f5f3ff;padding:13px;border-radius:12px;border:1px solid #ddd6fe;">
-        <div class="bucket-label" style="color:#5b21b6;">Mchango wa Wi-Fi (.NET)</div>
-        <div style="font-size:1.15rem;font-weight:900;color:#7c3aed;margin-top:4px;">${(mStat + mWifi) > 0 ? ((mWifi / (mStat + mWifi)) * 100).toFixed(1) : 0}%</div>
-        <div class="bucket-sub">Ya mapato yote ya mwezi huu</div>
-      </div>
-      <div style="background:#fef2f2;padding:13px;border-radius:12px;border:1px solid #fecaca;">
-        <div class="bucket-label" style="color:#991b1b;">Uwiano wa Manunuzi</div>
-        <div style="font-size:1.15rem;font-weight:900;color:#dc2626;margin-top:4px;">${mStat > 0 ? ((mExp / mStat) * 100).toFixed(1) : 0}%</div>
-        <div class="bucket-sub">Ya mapato ya Stationery mwezi huu</div>
-      </div>
-    `;
-
-    const dateLabels = [];
-    const statSeries = [], wifiSeries = [], mtajiSeries = [], expSeries = [], growthSeries = [], burnRatioSeries = [];
+    const labels = dateList.map(ds => period === "day" ? `Leo (${ds.slice(5)})` : ds.slice(5));
+    const statSeries = [], wifiSeries = [], mtajiSeries = [], expSeries = [], growthSeries = [];
     let cumGrowth = 0;
 
-    for (let i = days - 1; i >= 0; i--) {
-      const d = new Date();
-      d.setDate(d.getDate() - i);
-      const ds = d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
-      dateLabels.push(ds.slice(5));
-
+    dateList.forEach(ds => {
       let sDay = 0, wDay = 0, mDay = 0, eDay = 0, salDay = 0;
       db.transactions.forEach(t => {
         if (t.date === ds) {
@@ -1968,142 +2029,193 @@
         }
       });
 
-      const dayRev = sDay + wDay;
-      const dayOut = eDay + salDay;
-      cumGrowth += (dayRev - dayOut);
-
+      cumGrowth += ((sDay + wDay) - (eDay + salDay));
       statSeries.push(sDay);
       wifiSeries.push(wDay);
       mtajiSeries.push(mDay);
       expSeries.push(eDay);
       growthSeries.push(cumGrowth);
-      burnRatioSeries.push(dayRev > 0 ? Number(((dayOut / dayRev) * 100).toFixed(1)) : 0);
-    }
+    });
 
-    const totalPeriodStat = statSeries.reduce((a, b) => a + b, 0);
-    const totalPeriodWifi = wifiSeries.reduce((a, b) => a + b, 0);
-    const totalPeriodMtaji = mtajiSeries.reduce((a, b) => a + b, 0);
-    const totalPeriodExp = expSeries.reduce((a, b) => a + b, 0);
+    const pStatSum = statSeries.reduce((a, b) => a + b, 0);
+    const pWifiSum = wifiSeries.reduce((a, b) => a + b, 0);
+    const pExpSum = expSeries.reduce((a, b) => a + b, 0);
+    const activeCount = Math.max(1, dateList.filter((_, idx) => (statSeries[idx] + wifiSeries[idx]) > 0).length);
 
-    document.getElementById("interpDailyTrend").innerHTML =
-      `<strong>Ufafanuzi:</strong> Katika siku ${days}, Stationery imeingiza ${fmtTZS(totalPeriodStat)} na Wi-Fi (.NET) ${fmtTZS(totalPeriodWifi)}. Mstari unaopanda unaonyesha siku zenye mauzo makubwa zaidi.`;
-
-    document.getElementById("interpMtajiExp").innerHTML =
-      `<strong>Ufafanuzi:</strong> Mtaji uliokusanywa ni ${fmtTZS(totalPeriodMtaji)} dhidi ya manunuzi ${fmtTZS(totalPeriodExp)}. Hakikisha mstari wa Mtaji unabaki juu ya Manunuzi ili stock isikwame.`;
-
-    document.getElementById("interpGrowth").innerHTML =
-      `<strong>Ufafanuzi:</strong> Ukuaji wa jumla (Cumulative Net) kwa kipindi hiki umefika ${fmtTZS(cumGrowth)}. Mwelekeo wa kupanda unathibitisha biashara inatanuka vizuri.`;
-
-    const avgBurn = burnRatioSeries.length ? (burnRatioSeries.reduce((a, b) => a + b, 0) / burnRatioSeries.length).toFixed(1) : "0.0";
-    document.getElementById("interpBurn").innerHTML =
-      `<strong>Ufafanuzi:</strong> Wastani wa matumizi/manunuzi dhidi ya mapato ya siku ni ${avgBurn}%. Kiwango cha chini kinamaanisha akiba na mtaji vinabaki salama zaidi.`;
+    document.getElementById("kpiCards").innerHTML = `
+      <div style="background:#eff6ff;padding:13px;border-radius:12px;border:1px solid #bfdbfe;">
+        <div class="bucket-label" style="color:#1e40af;">Wastani wa Mauzo</div>
+        <div style="font-size:1.15rem;font-weight:900;color:#1e3a8a;margin-top:4px;">${fmtTZS((pStatSum + pWifiSum) / activeCount)}</div>
+        <div class="bucket-sub">Kwa siku hai (${activeCount})</div>
+      </div>
+      <div style="background:#ecfdf5;padding:13px;border-radius:12px;border:1px solid #a7f3d0;">
+        <div class="bucket-label" style="color:#065f46;">Faida Halisi Kipindi</div>
+        <div style="font-size:1.15rem;font-weight:900;color:#059669;margin-top:4px;">${fmtTZS(pStatSum + pWifiSum - pExpSum)}</div>
+        <div class="bucket-sub">Mapato minus Manunuzi</div>
+      </div>
+      <div style="background:#fdf2f8;padding:13px;border-radius:12px;border:1px solid #fbcfe8;">
+        <div class="bucket-label" style="color:#be185d;">Jumla ya Wi-Fi (.NET)</div>
+        <div style="font-size:1.15rem;font-weight:900;color:#db2777;margin-top:4px;">${fmtTZS(pWifiSum)}</div>
+        <div class="bucket-sub">Katika kipindi kilichochaguliwa</div>
+      </div>
+      <div style="background:#fef2f2;padding:13px;border-radius:12px;border:1px solid #fecaca;">
+        <div class="bucket-label" style="color:#991b1b;">Jumla ya Manunuzi</div>
+        <div style="font-size:1.15rem;font-weight:900;color:#dc2626;margin-top:4px;">${fmtTZS(pExpSum)}</div>
+        <div class="bucket-sub">Yaliyokatwa kwenye Mtaji</div>
+      </div>
+    `;
 
     Object.values(charts).forEach(c => { if (c) c.destroy(); });
 
-    const lineOpts = {
-      responsive: true,
-      maintainAspectRatio: false,
-      tension: 0.35,
-      plugins: { legend: { position: "bottom" } },
-      scales: { y: { beginAtZero: true } }
-    };
+    // 1. Stationery Only Line Chart + Dotted Average
+    const statChartObj = makeSingleLineWithAvgConfig(
+      labels, statSeries, "#1d4ed8", "rgba(29, 78, 216, 0.14)", "Mauzo Stationery (TZS)", "Wastani Stationery"
+    );
+    charts.stationeryOnly = new Chart(document.getElementById("chartStationeryOnlyLine"), statChartObj.config);
+    document.getElementById("interpStationeryOnly").innerHTML =
+      buildAverageInterpretation("Stationery", statSeries, statChartObj.avgVal);
 
-    charts.dailyTrend = new Chart(document.getElementById("chartDailyTrendLine"), {
-      type: "line",
-      data: {
-        labels: dateLabels,
-        datasets: [
-          { label: "Stationery (TZS)", data: statSeries, borderColor: "#1d4ed8", backgroundColor: "rgba(29,78,216,0.12)", fill: true, pointRadius: 2.5 },
-          { label: "Wi-Fi .NET (TZS)", data: wifiSeries, borderColor: "#7c3aed", backgroundColor: "rgba(124,58,237,0.10)", fill: false, pointRadius: 2.5 }
-        ]
-      },
-      options: lineOpts
-    });
+    // 2. Wi-Fi (.NET) Only Line Chart (PINK) + Dotted Average
+    const wifiChartObj = makeSingleLineWithAvgConfig(
+      labels, wifiSeries, "#ec4899", "rgba(236, 72, 153, 0.16)", "Mauzo Wi-Fi .NET (TZS)", "Wastani Wi-Fi"
+    );
+    charts.wifiOnly = new Chart(document.getElementById("chartWifiOnlyLine"), wifiChartObj.config);
+    document.getElementById("interpWifiOnly").innerHTML =
+      buildAverageInterpretation("Wi-Fi (.NET)", wifiSeries, wifiChartObj.avgVal);
 
+    // 3. Mtaji vs Manunuzi + Dotted Average of Mtaji
+    const mtajiAvg = mtajiSeries.length > 0 ? mtajiSeries.reduce((a, b) => a + b, 0) / mtajiSeries.length : 0;
     charts.mtajiExp = new Chart(document.getElementById("chartMtajiVsExpLine"), {
       type: "line",
       data: {
-        labels: dateLabels,
+        labels,
         datasets: [
-          { label: "Mtaji Uliokusanywa", data: mtajiSeries, borderColor: "#059669", backgroundColor: "rgba(5,150,105,0.12)", fill: true, pointRadius: 2.5 },
-          { label: "Manunuzi ya Vifaa", data: expSeries, borderColor: "#dc2626", backgroundColor: "rgba(220,38,38,0.10)", fill: false, pointRadius: 2.5 }
-        ]
-      },
-      options: lineOpts
-    });
-
-    charts.growth = new Chart(document.getElementById("chartBusinessGrowthLine"), {
-      type: "line",
-      data: {
-        labels: dateLabels,
-        datasets: [
-          { label: "Ukuaji Halisi wa Biashara (TZS)", data: growthSeries, borderColor: "#0284c7", backgroundColor: "rgba(2,132,199,0.16)", fill: true, pointRadius: 2.5 }
+          {
+            label: "Mtaji Uliokusanywa",
+            data: mtajiSeries,
+            borderColor: "#059669",
+            backgroundColor: "rgba(5, 150, 105, 0.12)",
+            fill: true,
+            tension: 0.35,
+            pointRadius: 2.5
+          },
+          {
+            label: "Manunuzi ya Vifaa",
+            data: expSeries,
+            borderColor: "#dc2626",
+            backgroundColor: "rgba(220, 38, 38, 0.08)",
+            fill: false,
+            tension: 0.35,
+            pointRadius: 2.5
+          },
+          {
+            label: `Wastani Mtaji (${fmtTZS(mtajiAvg)})`,
+            data: mtajiSeries.map(() => Number(mtajiAvg.toFixed(2))),
+            borderColor: "#475569",
+            borderDash: [6, 6],
+            borderWidth: 2,
+            pointRadius: 0,
+            fill: false,
+            tension: 0
+          }
         ]
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        tension: 0.35,
-        plugins: { legend: { position: "bottom" } }
-      }
-    });
-
-    charts.burn = new Chart(document.getElementById("chartBurnRatioLine"), {
-      type: "line",
-      data: {
-        labels: dateLabels,
-        datasets: [
-          { label: "Uwiano wa Gharama / Mapato (%)", data: burnRatioSeries, borderColor: "#d97706", backgroundColor: "rgba(217,119,6,0.14)", fill: true, pointRadius: 2.5 }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        tension: 0.35,
         plugins: { legend: { position: "bottom" } },
         scales: { y: { beginAtZero: true } }
       }
     });
+    document.getElementById("interpMtajiExp").innerHTML =
+      buildAverageInterpretation("Mtaji vs Manunuzi", mtajiSeries, mtajiAvg);
+
+    // 4. Business Cumulative Growth + Dotted Average
+    const growthChartObj = makeSingleLineWithAvgConfig(
+      labels, growthSeries, "#0284c7", "rgba(2, 132, 199, 0.14)", "Ukuaji Halisi (TZS)", "Wastani Ukuaji"
+    );
+    charts.growth = new Chart(document.getElementById("chartBusinessGrowthLine"), growthChartObj.config);
+    document.getElementById("interpGrowth").innerHTML =
+      buildAverageInterpretation("Ukuaji wa Biashara", growthSeries, growthChartObj.avgVal);
   }
 
-  // ====== HISTORIA KAMILI ======
+  // ====== DATA KAMILI (FILTERING + SUMMARY + FULL DETAILS) ======
+  function isWithinTimePeriod(dateStr, period) {
+    if (!dateStr || period === "all") return true;
+    const todayStr = getTodayStr();
+    if (period === "today") return dateStr === todayStr;
+    if (period === "month") return getMonthKey(dateStr) === getMonthKey(todayStr);
+    if (period === "week") {
+      const now = new Date();
+      const cutoff = new Date(now);
+      cutoff.setDate(now.getDate() - 6);
+      const cutoffStr = toLocalDateStr(cutoff);
+      return dateStr >= cutoffStr && dateStr <= todayStr;
+    }
+    return true;
+  }
+
   function renderHistory() {
+    const fPeriod = document.getElementById("filterTimePeriod").value;
     const fType = document.getElementById("filterType").value;
     const fMonth = document.getElementById("filterMonth").value;
+
     let list = [...db.transactions].sort((a, b) => (b.date || "").localeCompare(a.date || ""));
 
+    if (fPeriod !== "all") list = list.filter(t => isWithinTimePeriod(t.date, fPeriod));
     if (fType !== "all") list = list.filter(t => t.type === fType);
     if (fMonth) list = list.filter(t => getMonthKey(t.date) === fMonth);
 
+    const filteredCount = list.length;
+    const filteredSum = list.reduce((acc, item) => acc + Number(item.amount || 0), 0);
+    document.getElementById("filteredCountVal").textContent = filteredCount.toLocaleString("en-US");
+    document.getElementById("filteredTotalVal").textContent = fmtTZS(filteredSum);
+
     const tbody = document.getElementById("historyBody");
-    if (list.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:20px;">Hakuna miamala iliyopatikana.</td></tr>`;
+    if (filteredCount === 0) {
+      tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:20px;">Hakuna data kamili inayolingana na vichujio ulivyochagua.</td></tr>`;
       return;
     }
 
     tbody.innerHTML = list.map(t => {
-      let badge = "", desc = t.note || "", effect = "";
+      let badge = "";
+      let fullDesc = "";
+      let fullEffect = "";
+
       if (t.type === "stationery") {
         badge = `<span class="badge b-stat">Stationery</span>`;
-        effect = t.split ? `Mtaji: ${fmtTZS(t.split.mtaji)} | Akiba: ${fmtTZS(t.split.akiba)} | Salio: ${fmtTZS(t.split.salio)}` : "";
+        fullDesc = `<strong>Mapato ya Stationery:</strong> ${t.note || "Hakuna maelezo ya ziada"}`;
+        const sp = t.split || {
+          mtaji: Math.round(t.amount * ((db.settings.mtaji ?? 50) / 100)),
+          akiba: Math.round(t.amount * ((db.settings.akiba ?? 36) / 100)),
+          salio: 0
+        };
+        if (!t.split) sp.salio = t.amount - sp.mtaji - sp.akiba;
+        fullEffect = `Mtaji: <strong>${fmtTZS(sp.mtaji)}</strong> • Akiba: <strong>${fmtTZS(sp.akiba)}</strong> • Salio: <strong>${fmtTZS(sp.salio)}</strong>`;
       } else if (t.type === "wifi") {
-        badge = `<span class="badge b-wifi">Wi-Fi .NET</span>`;
-        effect = "Mfuko Tenga wa Wi-Fi";
+        badge = `<span class="badge b-wifi">Wi-Fi (.NET)</span>`;
+        fullDesc = `<strong>STATIONERY SERVICE . NET:</strong> ${t.note || "Mapato ya huduma ya Wi-Fi"}`;
+        fullEffect = `Mfuko Tenga wa Wi-Fi: <strong>+${fmtTZS(t.amount)}</strong>`;
       } else if (t.type === "expense") {
         badge = `<span class="badge b-exp">Manunuzi</span>`;
-        desc = `<strong>${t.item || "Kifaa"}</strong>${t.note ? " — " + t.note : ""}`;
-        effect = "Imekatwa kwenye Mtaji";
+        fullDesc = `<strong>Kifaa:</strong> ${t.item || "Kifaa"}${t.note ? "<br><span style='color:var(--muted);'>Maelezo: " + t.note + "</span>" : ""}`;
+        fullEffect = `Imekatwa kwenye Mtaji: <strong>-${fmtTZS(t.amount)}</strong>`;
       } else if (t.type === "salio") {
         badge = `<span class="badge b-sal">Matumizi Salio</span>`;
-        effect = "Imekatwa kwenye Salio";
+        fullDesc = `<strong>Sababu ya Matumizi:</strong> ${t.note || "Matumizi ya Salio"}`;
+        fullEffect = `Imekatwa kwenye Salio: <strong>-${fmtTZS(t.amount)}</strong>`;
       }
+
       return `
         <tr>
-          <td>${t.date}</td>
+          <td>
+            <div style="font-weight:700;">${t.date || "-"}</div>
+            <div style="font-size:0.72rem;color:var(--muted);">Ref: ${String(t.id || "").slice(-6)}</div>
+          </td>
           <td>${badge}</td>
-          <td>${desc}</td>
-          <td style="font-weight:700;">${fmtTZS(t.amount)}</td>
-          <td style="font-size:0.79rem;color:var(--muted);">${effect}</td>
+          <td>${fullDesc}</td>
+          <td style="font-weight:800;">${fmtTZS(t.amount)}</td>
+          <td style="font-size:0.8rem;color:#334155;">${fullEffect}</td>
           <td><button class="btn btn-outline btn-sm" onclick="deleteTx('${t.id}')">Futa</button></td>
         </tr>
       `;

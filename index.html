@@ -519,7 +519,6 @@
 
   <!-- ================= TAB 2: UCHAMBUZI & EXECUTIVE INTELLIGENCE ================= -->
   <div id="takwimu" class="section">
-    <!-- EXECUTIVE & INTELLIGENCE ANALYSIS PANEL -->
     <div class="intel-box">
       <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
         <div>
@@ -705,13 +704,13 @@
       <div class="card">
         <div class="card-title" style="margin-bottom:10px;">💾 Hifadhi Nakala (Backup) &amp; Usalama</div>
         <p style="font-size:0.83rem; color:var(--muted); margin-bottom:12px;">
-          Pakua au rejesha faili la JSON la mfumo wako bila kugoma.
+          Inasaidia kurejesha faili za JSON (ikiwemo <code>entries</code> na <code>percentages</code>) bila kugoma.
         </p>
         <div style="display:flex; gap:10px; flex-wrap:wrap;">
           <button class="btn btn-outline" onclick="downloadBackup()">⬇️ Pakua Backup (JSON)</button>
           <label class="btn btn-outline" style="margin:0; cursor:pointer;">
             ⬆️ Rejesha Backup (JSON)
-            <input type="file" accept=".json,application/json,text/plain" onchange="restoreBackup(event)" style="display:none;">
+            <input type="file" accept=".json,.txt,application/json,text/plain" onchange="restoreBackup(event)" style="display:none;">
           </label>
           <button class="btn btn-expense" onclick="resetAllData()">🗑️ Futa Data Zote</button>
         </div>
@@ -1523,8 +1522,6 @@
       const lastD = new Date(dates[dates.length - 1] + "T00:00:00");
       const diff = Math.round((lastD - firstD) / 86400000) + 1;
       spanDays = Math.max(1, diff);
-    } else if (dates.length === 1) {
-      spanDays = 1;
     }
 
     const activeDaysCount = Math.max(1, new Set(dates).size);
@@ -1537,6 +1534,7 @@
         currentAkiba,
         remaining: 0,
         avgDailyAkiba,
+        avgActiveDayAkiba,
         daysLeft: 0,
         targetDateStr: getTodayStr(),
         targetMonthName: getMonthName(getMonthKey(getTodayStr())),
@@ -1595,9 +1593,6 @@
     if (!grid || !nar) return;
 
     const daysLabel = p.daysLeft === null ? "-" : (p.daysLeft === 0 ? "Leo (0)" : `Siku ${p.daysLeft}`);
-    const dateLabel = p.targetDateStr;
-    const monthLabel = p.targetMonthName;
-    const yearLabel = p.targetYear;
 
     grid.innerHTML = `
       <div class="intel-card">
@@ -1607,17 +1602,17 @@
       </div>
       <div class="intel-card">
         <div class="intel-label">📆 Tarehe ya Kufanikisha</div>
-        <div class="intel-val">${dateLabel}</div>
+        <div class="intel-val">${p.targetDateStr}</div>
         <div class="intel-sub">Wastani: ${fmtTZS(p.avgDailyAkiba)} / siku</div>
       </div>
       <div class="intel-card">
         <div class="intel-label">🗓️ Mwezi Unaotarajiwa</div>
-        <div class="intel-val">${monthLabel}</div>
+        <div class="intel-val">${p.targetMonthName}</div>
         <div class="intel-sub">Akiba sasa: ${fmtTZS(p.currentAkiba)}</div>
       </div>
       <div class="intel-card">
         <div class="intel-label">🏆 Mwaka wa Kufanikisha</div>
-        <div class="intel-val">${yearLabel}</div>
+        <div class="intel-val">${p.targetYear}</div>
         <div class="intel-sub">${((p.currentAkiba / p.goal) * 100).toFixed(1)}% ya lengo imekamilika</div>
       </div>
     `;
@@ -1809,8 +1804,8 @@
           akibaIn += Number(t.split.akiba || 0);
           salioIn += Number(t.split.salio || 0);
         } else {
-          const pM = (db.settings.mtaji || 50) / 100;
-          const pA = (db.settings.akiba || 36) / 100;
+          const pM = (db.settings.mtaji ?? 50) / 100;
+          const pA = (db.settings.akiba ?? 36) / 100;
           const mVal = Math.round(t.amount * pM);
           const aVal = Math.round(t.amount * pA);
           const sVal = t.amount - mVal - aVal;
@@ -2278,7 +2273,7 @@
     if (!raw || typeof raw !== "object") return null;
     if (raw.payload && typeof raw.payload === "object") return raw.payload;
     if (raw.data && typeof raw.data === "object" && !Array.isArray(raw.data)) return raw.data;
-    if (Array.isArray(raw.transactions) || Array.isArray(raw.txs) || raw.settings) return raw;
+    if (Array.isArray(raw.transactions) || Array.isArray(raw.txs) || Array.isArray(raw.entries) || raw.settings || raw.percentages) return raw;
     return null;
   }
 
@@ -2286,22 +2281,24 @@
     const keepLocalUrl = db.settings.syncUrl;
     const keepLocalKey = db.settings.geminiApiKey;
 
-    const rawTxs = cloudObj.transactions || cloudObj.txs || cloudObj.records || [];
-    const normalizedTxs = Array.isArray(rawTxs) ? rawTxs.map(normalizeTransaction).filter(Boolean) : db.transactions;
-
+    const rawTxs = extractTransactionsDeep(cloudObj, []);
     const cloudSettings = cloudObj.settings || {};
+    const cloudPercentages = cloudObj.percentages || {};
     const hasCloudLogo = Object.prototype.hasOwnProperty.call(cloudSettings, "customLogo");
 
     db = {
       ...db,
       ...cloudObj,
-      transactions: normalizedTxs,
+      transactions: rawTxs.length > 0 ? rawTxs : db.transactions,
       closedReports: Array.isArray(cloudObj.closedReports) ? cloudObj.closedReports : db.closedReports,
       shoppingList: Array.isArray(cloudObj.shoppingList) ? cloudObj.shoppingList : db.shoppingList,
       reconciliations: Array.isArray(cloudObj.reconciliations) ? cloudObj.reconciliations : db.reconciliations,
       settings: {
         ...db.settings,
         ...cloudSettings,
+        mtaji: cloudPercentages.mtaji ?? cloudSettings.mtaji ?? db.settings.mtaji,
+        akiba: cloudPercentages.akiba ?? cloudSettings.akiba ?? db.settings.akiba,
+        salio: cloudPercentages.salio ?? cloudSettings.salio ?? db.settings.salio,
         syncUrl: cloudSettings.syncUrl || keepLocalUrl || "",
         geminiApiKey: cloudSettings.geminiApiKey || keepLocalKey || "",
         customLogo: hasCloudLogo ? (cloudSettings.customLogo || "") : (db.settings.customLogo || "")
@@ -2359,7 +2356,7 @@
       const cloudData = extractCloudPayload(rawJson);
 
       if (cloudData) {
-        const cloudTxsCount = (cloudData.transactions || cloudData.txs || []).length;
+        const cloudTxsCount = extractTransactionsDeep(cloudData, []).length;
         const cloudTs = Number(cloudData.updatedAt || 0);
         const localTs = Number(db.updatedAt || 0);
 
@@ -2418,36 +2415,119 @@
   }
 
   function normalizeTransaction(rawTx) {
-    if (!rawTx || typeof rawTx !== "object") return null;
-    const amount = parseFloat(rawTx.amount ?? rawTx.kiasi ?? rawTx.value ?? 0);
-    if (!amount || isNaN(amount)) return null;
-    const rawType = String(rawTx.type || rawTx.aina || rawTx.source || "stationery").toLowerCase();
-    let type = "stationery";
-    if (rawType.includes("wifi") || rawType.includes("net")) type = "wifi";
-    else if (rawType.includes("exp") || rawType.includes("manunuzi") || rawType.includes("kifaa")) type = "expense";
-    else if (rawType.includes("salio") || rawType.includes("matumizi")) type = "salio";
+    if (!rawTx || typeof rawTx !== "object" || Array.isArray(rawTx)) return null;
 
-    const date = String(rawTx.date || rawTx.tarehe || getTodayStr()).slice(0, 10);
+    const rawAmt = rawTx.amount ?? rawTx.kiasi ?? rawTx.value ?? rawTx.price ?? rawTx.total ?? rawTx.sum;
+    const cleanedAmt = typeof rawAmt === "string"
+      ? parseFloat(rawAmt.replace(/[^0-9.-]/g, ""))
+      : parseFloat(rawAmt);
+
+    if (!cleanedAmt || isNaN(cleanedAmt) || cleanedAmt <= 0) return null;
+
+    const rawType = String(
+      rawTx.type || rawTx.category || rawTx.aina || rawTx.source || rawTx.bucket || "stationery"
+    ).toLowerCase().trim();
+
+    let type = "stationery";
+    if (rawType.includes("wifi") || rawType.includes(".net") || rawType.includes("internet")) {
+      type = "wifi";
+    } else if (
+      rawType.includes("exp") ||
+      rawType.includes("manunuzi") ||
+      rawType.includes("purchase") ||
+      rawType.includes("kifaa") ||
+      rawType.includes("restock")
+    ) {
+      type = "expense";
+    } else if (
+      rawType.includes("salio") ||
+      rawType.includes("matumizi") ||
+      rawType.includes("withdraw")
+    ) {
+      type = "salio";
+    }
+
+    const rawDate = rawTx.date || rawTx.tarehe || rawTx.createdAt || rawTx.timestamp || getTodayStr();
+    const date = String(rawDate).slice(0, 10);
+
     let split = rawTx.split || null;
     if (type === "stationery" && !split) {
-      const pM = (db.settings.mtaji || 50) / 100;
-      const pA = (db.settings.akiba || 36) / 100;
+      const pM = (db.settings.mtaji ?? 50) / 100;
+      const pA = (db.settings.akiba ?? 36) / 100;
+      const mVal = rawTx.mtaji !== undefined ? parseFloat(rawTx.mtaji) : Math.round(cleanedAmt * pM);
+      const aVal = rawTx.akiba !== undefined ? parseFloat(rawTx.akiba) : Math.round(cleanedAmt * pA);
+      const sVal = rawTx.salio !== undefined ? parseFloat(rawTx.salio) : (cleanedAmt - mVal - aVal);
       split = {
-        mtaji: Math.round(amount * pM),
-        akiba: Math.round(amount * pA),
-        salio: amount - Math.round(amount * pM) - Math.round(amount * pA)
+        mtaji: isNaN(mVal) ? Math.round(cleanedAmt * pM) : mVal,
+        akiba: isNaN(aVal) ? Math.round(cleanedAmt * pA) : aVal,
+        salio: isNaN(sVal) ? (cleanedAmt - Math.round(cleanedAmt * pM) - Math.round(cleanedAmt * pA)) : sVal
       };
     }
 
+    const labelText = rawTx.label || rawTx.note || rawTx.maelezo || rawTx.reason || rawTx.description || "";
+    const itemText = rawTx.item || rawTx.kifaa || rawTx.product || (type === "expense" ? labelText : "");
+
     return {
-      id: String(rawTx.id || (Date.now() + Math.random().toString(36).slice(2, 7))),
+      id: String(rawTx.id || ("tx-" + Date.now() + "-" + Math.random().toString(36).slice(2, 7))),
       type,
       date,
-      amount,
-      item: rawTx.item || rawTx.kifaa || "",
-      note: rawTx.note || rawTx.maelezo || rawTx.reason || "",
+      amount: cleanedAmt,
+      item: itemText,
+      note: labelText,
       split
     };
+  }
+
+  function extractTransactionsDeep(node, results = []) {
+    if (!node) return results;
+
+    if (Array.isArray(node)) {
+      node.forEach(item => {
+        const tx = normalizeTransaction(item);
+        if (tx) results.push(tx);
+        else extractTransactionsDeep(item, results);
+      });
+      return results;
+    }
+
+    if (typeof node === "object") {
+      const knownArrays = [
+        node.entries,
+        node.transactions,
+        node.txs,
+        node.records,
+        node.history,
+        node.items,
+        node.data
+      ];
+      for (const arr of knownArrays) {
+        if (Array.isArray(arr) && arr.length > 0) {
+          arr.forEach(item => {
+            const tx = normalizeTransaction(item);
+            if (tx) results.push(tx);
+          });
+          if (results.length > 0) return results;
+        }
+      }
+
+      const possibleAmt = node.amount ?? node.kiasi ?? node.value ?? node.price ?? node.total;
+      const hasMeta = node.date || node.tarehe || node.label || node.note || node.maelezo || node.category || node.type || node.aina;
+      if (possibleAmt !== undefined && typeof possibleAmt !== "object" && hasMeta) {
+        const tx = normalizeTransaction(node);
+        if (tx) {
+          results.push(tx);
+          return results;
+        }
+      }
+
+      Object.values(node).forEach(val => {
+        if (val && typeof val === "object") {
+          extractTransactionsDeep(val, results);
+        }
+      });
+    }
+
+    return results;
   }
 
   function restoreBackup(e) {
@@ -2459,45 +2539,41 @@
         const text = String(ev.target.result || "").replace(/^\uFEFF/, "").trim();
         const parsed = JSON.parse(text);
 
-        let rawTxs = [];
-        let parsedSettings = {};
-        let parsedClosed = [];
-        let parsedShop = [];
-        let parsedRec = [];
+        const container = (parsed && typeof parsed === "object" && !Array.isArray(parsed) && parsed.payload && typeof parsed.payload === "object")
+          ? parsed.payload
+          : (parsed && typeof parsed === "object" && !Array.isArray(parsed) ? parsed : {});
 
-        if (Array.isArray(parsed)) {
-          rawTxs = parsed;
-        } else if (parsed && typeof parsed === "object") {
-          const container = (parsed.payload && typeof parsed.payload === "object") ? parsed.payload : parsed;
-          rawTxs = container.transactions || container.txs || container.records || container.data || [];
-          parsedSettings = container.settings || {};
-          parsedClosed = container.closedReports || container.reports || [];
-          parsedShop = container.shoppingList || container.shopping || container.lowStock || [];
-          parsedRec = container.reconciliations || container.cashUps || [];
-        } else {
-          return alert("Faili la backup si sahihi.");
-        }
+        const cleanTxs = extractTransactionsDeep(container, []);
+        const parsedPercentages = container.percentages || {};
+        const parsedSettings = container.settings || {};
 
-        const cleanTxs = Array.isArray(rawTxs) ? rawTxs.map(normalizeTransaction).filter(Boolean) : [];
         db.transactions = cleanTxs;
         db.settings = {
           ...db.settings,
           ...parsedSettings,
+          mtaji: parsedPercentages.mtaji ?? parsedSettings.mtaji ?? db.settings.mtaji,
+          akiba: parsedPercentages.akiba ?? parsedSettings.akiba ?? db.settings.akiba,
+          salio: parsedPercentages.salio ?? parsedSettings.salio ?? db.settings.salio,
           syncUrl: parsedSettings.syncUrl || db.settings.syncUrl || "",
           geminiApiKey: parsedSettings.geminiApiKey || db.settings.geminiApiKey || "",
           customLogo: parsedSettings.customLogo || db.settings.customLogo || ""
         };
-        if (Array.isArray(parsedClosed)) db.closedReports = parsedClosed;
-        if (Array.isArray(parsedShop)) db.shoppingList = parsedShop;
-        if (Array.isArray(parsedRec)) db.reconciliations = parsedRec;
+
+        if (Array.isArray(container.closedReports)) db.closedReports = container.closedReports;
+        if (Array.isArray(container.shoppingList)) db.shoppingList = container.shoppingList;
+        if (Array.isArray(container.reconciliations)) db.reconciliations = container.reconciliations;
 
         saveDB();
-        document.getElementById("setSyncUrl").value = db.settings.syncUrl || "";
-        document.getElementById("setMtaji").value = db.settings.mtaji;
-        document.getElementById("setAkiba").value = db.settings.akiba;
-        document.getElementById("setSalio").value = db.settings.salio;
+        if (document.getElementById("setSyncUrl")) document.getElementById("setSyncUrl").value = db.settings.syncUrl || "";
+        if (document.getElementById("setMtaji")) document.getElementById("setMtaji").value = db.settings.mtaji;
+        if (document.getElementById("setAkiba")) document.getElementById("setAkiba").value = db.settings.akiba;
+        if (document.getElementById("setSalio")) document.getElementById("setSalio").value = db.settings.salio;
+
         renderBrandLogos();
         renderAll();
+        if (document.getElementById("takwimu").classList.contains("active")) {
+          renderCharts();
+        }
         showToast(`✅ Backup imerejeshwa kikamilifu! (Miamala: ${cleanTxs.length})`);
       } catch (err) {
         alert("Imeshindwa kusoma faili la JSON: " + err.message);

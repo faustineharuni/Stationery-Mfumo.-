@@ -143,6 +143,29 @@
   .intel-val { font-size: 1.04rem; font-weight: 900; color: #ffffff; margin-top: 5px; line-height: 1.35; }
   .intel-sub { font-size: 0.78rem; color: #bfdbfe; margin-top: 4px; line-height: 1.35; }
 
+  /* LIVE SPLIT PREVIEW BOX */
+  .live-split-box {
+    display: none;
+    background: #f8fafc;
+    border: 1px dashed #93c5fd;
+    border-radius: 10px;
+    padding: 10px 12px;
+    margin-bottom: 12px;
+    font-size: 0.82rem;
+  }
+  .live-split-title {
+    font-weight: 800;
+    color: #1e3a8a;
+    margin-bottom: 4px;
+  }
+  .live-split-items {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    font-weight: 700;
+    color: #334155;
+  }
+
   /* FILTER SUMMARY BAR */
   .filter-summary-bar {
     display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
@@ -227,9 +250,9 @@
   /* CHARTS & INTERPRETATION */
   .chart-box { position: relative; height: 245px; width: 100%; }
   .chart-interp {
-    margin-top: 10px; padding: 9px 12px; border-radius: 10px;
-    background: #f8fafc; border-left: 3.5px solid var(--primary);
-    font-size: 0.82rem; color: #334155; line-height: 1.45;
+    margin-top: 10px; padding: 11px 13px; border-radius: 10px;
+    background: #f8fafc; border-left: 4px solid var(--primary);
+    font-size: 0.83rem; color: #1e293b; line-height: 1.55;
   }
   .chart-interp.pink-border { border-left-color: var(--wifi); }
 
@@ -433,7 +456,7 @@
         </div>
         <form onsubmit="addIncome(event)">
           <label>Chanzo cha Mapato</label>
-          <select id="incSource" required>
+          <select id="incSource" onchange="updateIncomeLivePreview()" required>
             <option value="stationery">Stationery (Inagawanywa Mtaji, Akiba, Salio)</option>
             <option value="wifi">STATIONERY SERVICE . NET (Wi-Fi Tenga)</option>
           </select>
@@ -444,9 +467,16 @@
             </div>
             <div>
               <label>Kiasi (TZS)</label>
-              <input type="number" id="incAmount" min="100" step="any" placeholder="Mfano: 45000" required>
+              <input type="number" id="incAmount" min="100" step="any" placeholder="Mfano: 45000" oninput="updateIncomeLivePreview()" required>
             </div>
           </div>
+
+          <!-- LIVE SPLIT PREVIEW -->
+          <div id="incomeLivePreview" class="live-split-box">
+            <div class="live-split-title">⚡ Mgawanyo wa Papo Hapo (Kabla ya Kuhifadhi):</div>
+            <div id="liveSplitBreakdown" class="live-split-items"></div>
+          </div>
+
           <label>Maelezo (Hiari)</label>
           <input type="text" id="incNote" placeholder="Mfano: Printing, Photocopy, Binding / Vocha za Wi-Fi">
           <button type="submit" class="btn btn-primary btn-block">Hifadhi Mapato</button>
@@ -1089,6 +1119,34 @@
     if (tabId === "ripoti") renderReports();
   }
 
+  // ====== LIVE CALCULATION PREVIEW YA MAPATO ======
+  function updateIncomeLivePreview() {
+    const source = document.getElementById("incSource")?.value;
+    const rawAmt = parseFloat(document.getElementById("incAmount")?.value);
+    const box = document.getElementById("incomeLivePreview");
+    const breakdown = document.getElementById("liveSplitBreakdown");
+    if (!box || !breakdown) return;
+
+    if (source !== "stationery" || isNaN(rawAmt) || rawAmt <= 0) {
+      box.style.display = "none";
+      breakdown.innerHTML = "";
+      return;
+    }
+
+    const pM = (db.settings.mtaji ?? 50) / 100;
+    const pA = (db.settings.akiba ?? 36) / 100;
+    const mVal = Math.round(rawAmt * pM);
+    const aVal = Math.round(rawAmt * pA);
+    const sVal = rawAmt - mVal - aVal;
+
+    breakdown.innerHTML = `
+      <span style="color:var(--mtaji);">Mtaji (${db.settings.mtaji}%): ${fmtTZS(mVal)}</span>
+      <span style="color:var(--akiba);">Akiba (${db.settings.akiba}%): ${fmtTZS(aVal)}</span>
+      <span style="color:var(--salio);">Salio (${db.settings.salio}%): ${fmtTZS(sVal)}</span>
+    `;
+    box.style.display = "block";
+  }
+
   // ====== KUONGEZA MIAMALA ======
   function addIncome(e) {
     e.preventDefault();
@@ -1121,6 +1179,7 @@
     saveDB();
     document.getElementById("incAmount").value = "";
     document.getElementById("incNote").value = "";
+    updateIncomeLivePreview();
     renderAll();
     showToast("✅ Mapato yamehifadhiwa kikamilifu!");
   }
@@ -1927,18 +1986,54 @@
     renderCashUp();
   }
 
-  // ====== UCHAMBUZI & LINE GRAPHS (WITH DOTTED AVERAGE LINE) ======
-  function buildAverageInterpretation(labelName, series, avgVal) {
+  // ====== UCHAMBUZI & LINE GRAPHS (DETAILED INTERPRETATIONS + DOTTED AVERAGE LINE) ======
+  function buildDetailedInterpretation(typeKey, series, labels, avgVal, extraContext = {}) {
     const valid = series.filter(v => typeof v === "number" && !isNaN(v));
-    if (valid.length === 0 || avgVal === 0) {
-      return `<strong>Uchambuzi (${labelName}):</strong> Wastani ni ${fmtTZS(avgVal)}. Hakuna mabadiliko makubwa kwenye kipindi hiki.`;
+    if (valid.length === 0) {
+      return `<strong>Uchambuzi wa Kina:</strong> Hakuna takwimu za kutosha katika kipindi hiki kufanya tathmini ya mwenendo dhidi ya wastani.`;
     }
-    const aboveCount = valid.filter(v => v > avgVal).length;
+
+    const totalVal = valid.reduce((a, b) => a + b, 0);
+    if (totalVal === 0 && avgVal === 0 && typeKey !== "growth") {
+      return `<strong>Uchambuzi wa Kina:</strong> Wastani wa kipindi hiki ni <strong>0 TZS</strong> (mstari wa nukta), ikionyesha hakuna miamala iliyorekodiwa kwenye kipengele hiki kwa muda uliochaguliwa. Weka mapato au manunuzi ili kufuatilia kasi ya siku hadi siku.`;
+    }
+
+    const aboveIndices = [];
+    const belowIndices = [];
+    valid.forEach((v, idx) => {
+      if (v > avgVal) aboveIndices.push(idx);
+      else belowIndices.push(idx);
+    });
+
+    const maxVal = Math.max(...valid);
+    const maxIdx = valid.indexOf(maxVal);
+    const peakLabel = labels[maxIdx] || "-";
     const latestVal = valid[valid.length - 1];
-    const positionMsg = latestVal >= avgVal
-      ? `hatua ya mwisho (${fmtTZS(latestVal)}) iko juu ya wastani`
-      : `hatua ya mwisho (${fmtTZS(latestVal)}) iko chini ya wastani`;
-    return `<strong>Uchambuzi (${labelName}):</strong> Wastani ni <strong>${fmtTZS(avgVal)}</strong> (mstari wa nukta). Vipindi <strong>${aboveCount}/${valid.length}</strong> vimevuka wastani, na ${positionMsg}.`;
+    const latestLabel = labels[valid.length - 1] || "-";
+    const diffFromAvg = latestVal - avgVal;
+    const diffPct = avgVal > 0 ? ((Math.abs(diffFromAvg) / avgVal) * 100).toFixed(1) : "0.0";
+
+    const trendStatus = diffFromAvg >= 0
+      ? `uko <strong>juu ya wastani kwa ${fmtTZS(diffFromAvg)} (+${diffPct}%)</strong>`
+      : `uko <strong>chini ya wastani kwa ${fmtTZS(Math.abs(diffFromAvg))} (-${diffPct}%)</strong>`;
+
+    if (typeKey === "stationery") {
+      return `<strong>Tafsiri ya Mauzo ya Stationery:</strong> Wastani wa mauzo katika kipindi hiki ni <strong>${fmtTZS(avgVal)}</strong> (mstari wa nukta). Mauzo yamevuka wastani katika vipindi <strong>${aboveIndices.length} kati ya ${valid.length}</strong>, huku kilele cha juu kikifikiwa <strong>${peakLabel} (${fmtTZS(maxVal)})</strong>. Kufikia <strong>${latestLabel}</strong>, mwenendo wa Stationery ${trendStatus} — dhibiti upatikanaji wa karatasi, wino na huduma za wateja ili kudumisha au kuvuka wastani huu.`;
+    }
+
+    if (typeKey === "wifi") {
+      return `<strong>Tafsiri ya STATIONERY SERVICE . NET (Wi-Fi):</strong> Wastani wa mapato ya Wi-Fi ni <strong>${fmtTZS(avgVal)}</strong> (mstari wa nukta). Kipato kimevuka wastani katika vipindi <strong>${aboveIndices.length} kati ya ${valid.length}</strong>, na kilele kimeonekana <strong>${peakLabel} (${fmtTZS(maxVal)})</strong>. Kufikia <strong>${latestLabel}</strong>, mapato ya Wi-Fi ${trendStatus} — hakikisha intaneti (TTCL Fiber / Omada / BillFi) iko thabiti muda wote ili kuongeza mauzo ya vocha/vifurushi.`;
+    }
+
+    if (typeKey === "mtaji_vs_exp") {
+      const expSeries = extraContext.expSeries || [];
+      const totalExp = expSeries.reduce((a, b) => a + b, 0);
+      const totalMtaji = valid.reduce((a, b) => a + b, 0);
+      const coverage = totalExp > 0 ? ((totalMtaji / totalExp) * 100).toFixed(1) : "100.0";
+      return `<strong>Tafsiri ya Mtaji vs Manunuzi:</strong> Wastani wa Mtaji unaoingia ni <strong>${fmtTZS(avgVal)}</strong> (mstari wa nukta), na umefikia <strong>${fmtTZS(totalMtaji)}</strong> dhidi ya jumla ya manunuzi <strong>${fmtTZS(totalExp)}</strong> (uwiano wa ufunikaji: <strong>${coverage}%</strong>). Kilele cha Mtaji kilikuwa <strong>${peakLabel} (${fmtTZS(maxVal)})</strong>. Hakikisha manunuzi makubwa ya vifaa yanalingana na akiba ya Mtaji ili biashara isikwame wakati wa ku-restock.`;
+    }
+
+    return `<strong>Tafsiri ya Ukuaji Halisi wa Biashara:</strong> Wastani wa ukuaji wa mwenendo katika kipindi hiki ni <strong>${fmtTZS(avgVal)}</strong> (mstari wa nukta), na kiwango cha mwisho (<strong>${latestLabel}</strong>) kimefikia <strong>${fmtTZS(latestVal)}</strong>, ambacho ${trendStatus}. Hii inaonyesha mchango wa jumla wa mapato baada ya kutoa manunuzi ya vifaa na matumizi ya Salio.`;
   }
 
   function makeSingleLineWithAvgConfig(labels, dataSeries, lineColor, bgColor, seriesLabel, avgLabel) {
@@ -2073,7 +2168,7 @@
     );
     charts.stationeryOnly = new Chart(document.getElementById("chartStationeryOnlyLine"), statChartObj.config);
     document.getElementById("interpStationeryOnly").innerHTML =
-      buildAverageInterpretation("Stationery", statSeries, statChartObj.avgVal);
+      buildDetailedInterpretation("stationery", statSeries, labels, statChartObj.avgVal);
 
     // 2. Wi-Fi (.NET) Only Line Chart (PINK) + Dotted Average
     const wifiChartObj = makeSingleLineWithAvgConfig(
@@ -2081,7 +2176,7 @@
     );
     charts.wifiOnly = new Chart(document.getElementById("chartWifiOnlyLine"), wifiChartObj.config);
     document.getElementById("interpWifiOnly").innerHTML =
-      buildAverageInterpretation("Wi-Fi (.NET)", wifiSeries, wifiChartObj.avgVal);
+      buildDetailedInterpretation("wifi", wifiSeries, labels, wifiChartObj.avgVal);
 
     // 3. Mtaji vs Manunuzi + Dotted Average of Mtaji
     const mtajiAvg = mtajiSeries.length > 0 ? mtajiSeries.reduce((a, b) => a + b, 0) / mtajiSeries.length : 0;
@@ -2128,7 +2223,7 @@
       }
     });
     document.getElementById("interpMtajiExp").innerHTML =
-      buildAverageInterpretation("Mtaji vs Manunuzi", mtajiSeries, mtajiAvg);
+      buildDetailedInterpretation("mtaji_vs_exp", mtajiSeries, labels, mtajiAvg, { expSeries });
 
     // 4. Business Cumulative Growth + Dotted Average
     const growthChartObj = makeSingleLineWithAvgConfig(
@@ -2136,7 +2231,7 @@
     );
     charts.growth = new Chart(document.getElementById("chartBusinessGrowthLine"), growthChartObj.config);
     document.getElementById("interpGrowth").innerHTML =
-      buildAverageInterpretation("Ukuaji wa Biashara", growthSeries, growthChartObj.avgVal);
+      buildDetailedInterpretation("growth", growthSeries, labels, growthChartObj.avgVal);
   }
 
   // ====== DATA KAMILI (FILTERING + SUMMARY + FULL DETAILS) ======
@@ -2541,6 +2636,7 @@
     db.settings.akiba = a;
     db.settings.salio = s;
     saveDB();
+    updateIncomeLivePreview();
     showToast("✅ Asilimia zimehifadhiwa!");
   }
 
@@ -2791,6 +2887,7 @@
       ? "✅ Gemini API Key imehifadhiwa (Hybrid Mode iko tayari)."
       : "ℹ️ Gemini API Key haijawekwa (Mfumo unatumia Local Engine).";
 
+    updateIncomeLivePreview();
     updateAiModeBadge();
     checkAutoMonthClose();
     renderAll();

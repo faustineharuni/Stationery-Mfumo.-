@@ -1841,7 +1841,7 @@
     const key = (db.settings && db.settings.geminiApiKey) ? db.settings.geminiApiKey.trim() : "";
     if (!key) return { ok: false, reason: "Hakuna Gemini API Key iliyohifadhiwa." };
 
-    const prompt = `Mshauri wa biashara kwa Faustin Stationery Services (TZ). Jibu kwa Kiswahili kifupi na chenye vitendo.\nData:\n${localContextSummary}\nSwali: ${userQuestion}`;
+    const prompt = `Mshauri wa biashara kwa Faustin Stationery Services (TZ). Jibu kwa Kiswahili kifupi sana, direct kwenye point, bila kutumia alama za nyota (* au **) wala Markdown.\nData:\n${localContextSummary}\nSwali: ${userQuestion}`;
     const modelsToTry = ["gemini-3.8-flash", "gemini-4-hydrogen", "gemini-3.5-flash-lite"];
 
     let lastErr = "Imeshindwa kupata jibu kutoka Gemini.";
@@ -1869,10 +1869,11 @@
             }
             break;
           }
-          const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-          if (text) {
+          const rawText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+          if (rawText) {
+            const cleanText = rawText.replace(/\*/g, "").trim();
             const suffix = attempt > 1 ? `${modelName} • retry` : modelName;
-            return { ok: true, text: text.trim(), model: suffix };
+            return { ok: true, text: cleanText, model: suffix };
           }
         } catch (err) {
           clearTimeout(timer);

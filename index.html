@@ -31,14 +31,14 @@
   /* LOGO STYLING */
   .brand-logo-card {
     background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 14px;
-    padding: 10px 14px; display: inline-flex; align-items: center; gap: 12px;
+    padding: 8px 12px; display: inline-flex; align-items: center; gap: 10px;
   }
   .login-logo-wrap {
     background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px;
     padding: 14px 16px; margin: 0 auto 14px; display: flex; flex-direction: column; align-items: center;
   }
   .custom-logo-img {
-    width: 54px; height: 54px; object-fit: contain; border-radius: 10px; background: #fff; padding: 4px; border: 1px solid #e2e8f0;
+    width: 58px; height: 58px; object-fit: contain; border-radius: 10px; background: #fff; padding: 3px; border: 1px solid #e2e8f0;
   }
 
   /* LOGIN GATE */
@@ -52,11 +52,18 @@
   }
   .login-box h2 { font-size: 1.15rem; font-weight: 800; color: var(--primary-dark); letter-spacing: -0.3px; margin-top: 4px; }
   .login-box p { font-size: 0.84rem; color: var(--muted); margin: 6px 0 18px; }
+  .pass-wrapper { position: relative; margin-bottom: 12px; }
   .login-input {
-    width: 100%; padding: 13px 15px; border: 2px solid var(--border); border-radius: 12px;
-    font-size: 1rem; text-align: center; letter-spacing: 1px; margin-bottom: 12px; outline: none;
+    width: 100%; padding: 13px 86px 13px 14px; border: 2px solid var(--border); border-radius: 12px;
+    font-size: 1rem; text-align: center; letter-spacing: 1px; margin-bottom: 0; outline: none;
   }
   .login-input:focus { border-color: var(--primary-light); }
+  .toggle-pass-btn {
+    position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+    background: #f1f5f9; border: 1px solid #cbd5e1; color: #0f172a;
+    padding: 6px 10px; border-radius: 8px; font-size: 0.76rem; font-weight: 700; cursor: pointer;
+  }
+  .toggle-pass-btn:hover { background: #e2e8f0; }
   .login-btn {
     width: 100%; padding: 13px; background: var(--primary); color: #fff; border: none; border-radius: 12px;
     font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: background 0.2s;
@@ -119,6 +126,23 @@
   .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
   .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(225px, 1fr)); gap: 14px; margin-bottom: 18px; }
 
+  /* INTELLIGENCE BANNER */
+  .intel-box {
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+    color: #fff; border-radius: 16px; padding: 18px 20px; margin-bottom: 18px;
+    box-shadow: 0 12px 24px -6px rgba(15, 23, 42, 0.28);
+  }
+  .intel-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; margin-top: 12px;
+  }
+  .intel-card {
+    background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 12px; padding: 12px 14px; backdrop-filter: blur(4px);
+  }
+  .intel-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.5px; color: #cbd5e1; font-weight: 700; }
+  .intel-val { font-size: 1.08rem; font-weight: 900; color: #ffffff; margin-top: 4px; }
+  .intel-sub { font-size: 0.76rem; color: #93c5fd; margin-top: 2px; }
+
   /* BUCKETS & SUMMARY */
   .bucket {
     background: var(--card); border-radius: 14px; padding: 16px 18px; border: 1px solid var(--border);
@@ -155,8 +179,6 @@
   .btn:active { transform: scale(0.98); }
   .btn-primary { background: var(--primary); color: #fff; }
   .btn-primary:hover { background: var(--primary-light); }
-  .btn-wifi { background: var(--wifi); color: #fff; }
-  .btn-wifi:hover { background: #6d28d9; }
   .btn-expense { background: var(--expense); color: #fff; }
   .btn-expense:hover { background: #b91c1c; }
   .btn-salio { background: var(--salio); color: #fff; }
@@ -295,7 +317,6 @@
     box-shadow: 0 10px 25px rgba(0,0,0,0.25); z-index: 3000; display: none;
   }
 
-  /* PRINT STYLES */
   @media print {
     body { background: #fff !important; padding: 0 !important; }
     #loginGate, header, .tabs, .no-print, .toast, .modal-backdrop, .ai-fab, .ai-drawer { display: none !important; }
@@ -315,7 +336,10 @@
     <h2>FAUSTIN STATIONERY SERVICES</h2>
     <p>Weka nenosiri lako ili kufungua mfumo wa hesabu na uchambuzi wa biashara.</p>
     <form onsubmit="unlockApp(event)">
-      <input type="password" id="loginPassword" class="login-input" placeholder="Weka Nenosiri..." required autofocus>
+      <div class="pass-wrapper">
+        <input type="password" id="loginPassword" class="login-input" placeholder="Weka Nenosiri..." required autofocus>
+        <button type="button" class="toggle-pass-btn" id="togglePassBtn" onclick="togglePasswordVisibility()">👁️ Onyesha</button>
+      </div>
       <button type="submit" class="login-btn">Fungua Mfumo</button>
     </form>
     <div id="loginError" class="login-err"></div>
@@ -328,13 +352,13 @@
       <div class="brand-logo-card" id="headerLogoContainer"></div>
       <div>
         <div class="brand-title">FAUSTIN STATIONERY SERVICES</div>
-        <div class="brand-sub">Mfumo wa Mapato, Mifuko 3, Manunuzi, Cash-Up, Hybrid AI &amp; STATIONERY SERVICE . NET</div>
+        <div class="brand-sub">Mfumo wa Mapato, Mifuko 3, Manunuzi, Cash-Up, Executive AI &amp; STATIONERY SERVICE . NET</div>
       </div>
     </div>
     <div class="header-right">
       <div class="date-badge" id="todayBadge"></div>
       <div class="header-actions">
-        <div class="sync-pill" onclick="openTab('mipangilio', document.getElementById('tabSettingsBtn'))" title="Hali ya Usawazishaji (Cloud Sync)">
+        <div class="sync-pill" onclick="syncNow(true)" title="Bofya kusawazisha data sasa">
           <span class="sync-dot" id="syncDot"></span>
           <span id="syncText">Local Only</span>
         </div>
@@ -347,7 +371,7 @@
 
   <div class="tabs">
     <button class="tab-btn active" onclick="openTab('dashboard', this)">📊 Dashibodi &amp; Ingiza</button>
-    <button class="tab-btn" onclick="openTab('takwimu', this)">📈 Uchambuzi &amp; Chati</button>
+    <button class="tab-btn" onclick="openTab('takwimu', this)">📈 Uchambuzi &amp; Executive AI</button>
     <button class="tab-btn" onclick="openTab('historia', this)">📒 Historia Kamili</button>
     <button class="tab-btn" onclick="openTab('ripoti', this)">📅 Ripoti &amp; WhatsApp</button>
     <button class="tab-btn" id="tabSettingsBtn" onclick="openTab('mipangilio', this)">⚙️ Mipangilio &amp; Sync</button>
@@ -362,10 +386,10 @@
         <div class="bucket-sub" id="subMtaji">Jumla: 0 | Manunuzi: 0</div>
       </div>
       <div class="bucket akiba">
-        <div class="bucket-label">Akiba (Lengo: 1,000,000)</div>
+        <div class="bucket-label">Akiba (Lengo: <span id="goalLabelDisplay">1,000,000</span>)</div>
         <div class="bucket-val" id="balAkiba" style="color:var(--akiba)">0 TZS</div>
         <div class="prog-wrap"><div class="prog-bar" id="akibaBar"></div></div>
-        <div class="bucket-sub" id="subAkiba">0% ya lengo (Baki 1,000,000)</div>
+        <div class="bucket-sub" id="subAkiba">0% ya lengo</div>
       </div>
       <div class="bucket salio">
         <div class="bucket-label">Salio Lililobaki (Stationery)</div>
@@ -385,7 +409,6 @@
 
     <!-- FOMU ZA KUINGIZA DATA -->
     <div class="grid-2">
-      <!-- 1. MAPATO YA SIKU -->
       <div class="card">
         <div class="card-header">
           <div class="card-title">💰 Ingiza Mapato ya Siku</div>
@@ -412,7 +435,6 @@
         </form>
       </div>
 
-      <!-- 2. MANUNUZI YA VIFAA (MTAJI) + LOW STOCK / RESTOCK & PRINT -->
       <div class="card">
         <div class="card-header">
           <div class="card-title">🛒 Manunuzi ya Vifaa (Yanatoka Mtaji)</div>
@@ -495,8 +517,24 @@
     </div>
   </div>
 
-  <!-- ================= TAB 2: UCHAMBUZI & CHATI ================= -->
+  <!-- ================= TAB 2: UCHAMBUZI & EXECUTIVE INTELLIGENCE ================= -->
   <div id="takwimu" class="section">
+    <!-- EXECUTIVE & INTELLIGENCE ANALYSIS PANEL -->
+    <div class="intel-box">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+        <div>
+          <div style="font-size:1.08rem; font-weight:900;">🧠 Executive &amp; Intelligence Analysis</div>
+          <div style="font-size:0.8rem; color:#cbd5e1;">Utabiri wa kisayansi wa Siku, Tarehe, Mwezi na Mwaka wa kufanikisha lengo lako la Akiba</div>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="font-size:0.78rem; color:#e2e8f0; font-weight:700;">Lengo (TZS):</span>
+          <input type="number" id="customGoalInput" min="1000" step="50000" style="width:130px; margin:0; padding:6px 10px; font-weight:800; color:#0f172a;" onchange="updateGoalAmount()">
+        </div>
+      </div>
+      <div class="intel-grid" id="executiveIntelGrid"></div>
+      <div id="executiveNarrative" style="margin-top:12px; font-size:0.84rem; color:#e2e8f0; background:rgba(255,255,255,0.08); padding:10px 14px; border-radius:10px;"></div>
+    </div>
+
     <div class="card">
       <div class="card-header">
         <div class="card-title">📈 Uchambuzi wa Kina wa Biashara (Chati &amp; Mwenendo)</div>
@@ -607,7 +645,6 @@
   <!-- ================= TAB 5: MIPANGILIO & CLOUD SYNC ================= -->
   <div id="mipangilio" class="section">
     <div class="grid-2">
-      <!-- USAWAZISHAJI WA VIFAA VINGI (GOOGLE SHEETS SYNC) -->
       <div class="card">
         <div class="card-title" style="margin-bottom:10px;">☁️ Usawazishaji wa Vifaa Vingi (Google Apps Script)</div>
         <p style="font-size:0.84rem; color:var(--muted); margin-bottom:12px;">
@@ -622,7 +659,6 @@
         <div id="syncStatusMsg" style="font-size:0.82rem; color:var(--muted); margin-top:10px;"></div>
       </div>
 
-      <!-- MGAWANYO WA ASILIMIA -->
       <div class="card">
         <div class="card-title" style="margin-bottom:10px;">⚖️ Asilimia za Mgawanyo (Stationery)</div>
         <p style="font-size:0.84rem; color:var(--muted); margin-bottom:12px;">
@@ -647,31 +683,29 @@
     </div>
 
     <div class="grid-2">
-      <!-- LOGO UPLOAD & HYBRID AI GEMINI API KEY -->
       <div class="card">
         <div class="card-title" style="margin-bottom:10px;">🖼️ Logo ya Biashara &amp; Hybrid AI Key</div>
         <p style="font-size:0.83rem; color:var(--muted); margin-bottom:10px;">
-          Logo rasmi ya <strong>FAUSTIN STATIONERY SERVICES</strong> tayari imewekwa kwenye Login na Dashboard. Unaweza pia kupakia picha yako ya logo hapa chini:
+          Ukibadilisha logo hapa, mfumo unaipunguza ukubwa na kuituma kwenye Cloud ili ikibonyezwa Sync kwenye komputa ibadilike papo hapo:
         </p>
         <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px;">
           <label class="btn btn-outline btn-sm" style="margin:0; cursor:pointer;">
             📤 Pakia Picha ya Logo
             <input type="file" accept="image/*" onchange="uploadCustomLogo(event)" style="display:none;">
           </label>
-          <button type="button" class="btn btn-outline btn-sm" onclick="resetCustomLogo()">↩️ Tumia Logo Chaguo-Msingi</button>
+          <button type="button" class="btn btn-outline btn-sm" onclick="resetCustomLogo()">↩️ Logo Chaguo-Msingi</button>
         </div>
 
         <label>Gemini API Key (Hiari — kwa Hybrid AI)</label>
         <input type="password" id="setGeminiKey" placeholder="AIzaSy...">
-        <button class="btn btn-primary btn-sm" onclick="saveGeminiKey()">Hifadhi Gemini API Key</button>
+        <button type="button" class="btn btn-primary btn-sm" onclick="saveGeminiKey()">Hifadhi Gemini API Key</button>
         <div id="geminiKeyStatus" style="font-size:0.78rem; color:var(--muted); margin-top:6px;"></div>
       </div>
 
-      <!-- BACKUP & RESET -->
       <div class="card">
         <div class="card-title" style="margin-bottom:10px;">💾 Hifadhi Nakala (Backup) &amp; Usalama</div>
         <p style="font-size:0.83rem; color:var(--muted); margin-bottom:12px;">
-          Inasaidia kurejesha faili za JSON za mfumo wako bila kugoma.
+          Pakua au rejesha faili la JSON la mfumo wako bila kugoma.
         </p>
         <div style="display:flex; gap:10px; flex-wrap:wrap;">
           <button class="btn btn-outline" onclick="downloadBackup()">⬇️ Pakua Backup (JSON)</button>
@@ -701,14 +735,14 @@
   </div>
 
   <div id="aiMessages" class="ai-messages">
-    <div class="ai-msg bot">Habari Faustine! Mimi ni Hybrid AI Assistant wako (Local Data + Gemini API). Ninaweza kukagua Mifuko 3, Wi-Fi (.NET), Low Stock / Restock, Cash-Up, na kuandaa Smart WhatsApp Digest.</div>
+    <div class="ai-msg bot">Habari Faustine! Mimi ni Hybrid AI Assistant wako. Ninaweza kukagua Mifuko 3, Executive Intelligence (tarehe/mwezi/mwaka wa lengo), Low Stock, Cash-Up, na Smart WhatsApp Digest.</div>
   </div>
 
   <div class="ai-chips">
     <button type="button" class="ai-chip" onclick="askAiPreset('Muhtasari wa leo na mifuko mitatu')">📊 Mifuko &amp; Leo</button>
     <button type="button" class="ai-chip" onclick="askAiPreset('Hali ya Low Stock na Restock ikoje?')">📦 Low Stock</button>
     <button type="button" class="ai-chip" onclick="askAiPreset('Andaa Smart WhatsApp Digest ya leo')">⚡ WA Digest</button>
-    <button type="button" class="ai-chip" onclick="askAiPreset('Nitafikisha lini lengo la Akiba 1,000,000?')">🎯 Lengo Akiba</button>
+    <button type="button" class="ai-chip" onclick="askAiPreset('Siku, tarehe, mwezi na mwaka wa kufikisha lengo la Akiba?')">🎯 Tarehe Lengo</button>
   </div>
 
   <form class="ai-form" onsubmit="handleAiSubmit(event)">
@@ -828,7 +862,7 @@
 <div id="toast" class="toast"></div>
 
 <script>
-  // ====== LOGO EMBLEM (FAUSTIN STATIONERY SERVICES) ======
+  // ====== LOGO EMBLEM & COMPRESSION ======
   const BRAND_SVG = `
     <svg width="46" height="36" viewBox="0 0 120 88" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Faustin Stationery Services Logo">
       <rect x="6" y="28" width="52" height="30" rx="6" fill="#0284c7" stroke="#0f172a" stroke-width="4"/>
@@ -865,24 +899,52 @@
     if (!file) return;
     const reader = new FileReader();
     reader.onload = function(ev) {
-      db.settings.customLogo = ev.target.result;
-      saveDB(true);
-      renderBrandLogos();
-      showToast("🖼️ Logo yako imehifadhiwa kwenye Login na Dashboard!");
+      const img = new Image();
+      img.onload = function() {
+        const maxSide = 240;
+        let w = img.width, h = img.height;
+        if (w > h && w > maxSide) { h = Math.round(h * maxSide / w); w = maxSide; }
+        else if (h >= w && h > maxSide) { w = Math.round(w * maxSide / h); h = maxSide; }
+        const canvas = document.createElement("canvas");
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext("2d");
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, w, h);
+        ctx.drawImage(img, 0, 0, w, h);
+        db.settings.customLogo = canvas.toDataURL("image/jpeg", 0.75);
+        saveDB(false);
+        renderBrandLogos();
+        showToast("🖼️ Logo imehifadhiwa na kutumwa kwenye Cloud!");
+      };
+      img.src = ev.target.result;
     };
     reader.readAsDataURL(file);
+    e.target.value = "";
   }
 
   function resetCustomLogo() {
     db.settings.customLogo = "";
-    saveDB(true);
+    saveDB(false);
     renderBrandLogos();
-    showToast("↩️ Imerudishwa logo chaguo-msingi ya FAUSTIN STATIONERY SERVICES.");
+    showToast("↩️ Imerudishwa logo chaguo-msingi.");
   }
 
-  // ====== USALAMA WA NENOSIRI ======
+  // ====== USALAMA WA NENOSIRI & SHOW/HIDE ======
   const APP_PASS = "Fau@06477";
   const SESSION_KEY = "faustine_stationery_unlocked_v1";
+
+  function togglePasswordVisibility() {
+    const inp = document.getElementById("loginPassword");
+    const btn = document.getElementById("togglePassBtn");
+    if (inp.type === "password") {
+      inp.type = "text";
+      btn.textContent = "🙈 Ficha";
+    } else {
+      inp.type = "password";
+      btn.textContent = "👁️ Onyesha";
+    }
+  }
 
   function unlockApp(e) {
     e.preventDefault();
@@ -900,7 +962,10 @@
 
   function lockApp() {
     sessionStorage.removeItem(SESSION_KEY);
-    document.getElementById("loginPassword").value = "";
+    const inp = document.getElementById("loginPassword");
+    inp.type = "password";
+    inp.value = "";
+    document.getElementById("togglePassBtn").textContent = "👁️ Onyesha";
     document.getElementById("mainApp").style.display = "none";
     document.getElementById("loginGate").style.display = "flex";
     renderBrandLogos();
@@ -908,10 +973,10 @@
 
   // ====== DATA & HIFADHI ======
   const STORAGE_KEY = "faustine_stationery_db_v2";
-  const GOAL_AKIBA = 1000000;
+  const DEFAULT_GOAL = 1000000;
 
   let db = {
-    settings: { mtaji: 50, akiba: 36, salio: 14, syncUrl: "", geminiApiKey: "", customLogo: "" },
+    settings: { mtaji: 50, akiba: 36, salio: 14, goalAmount: DEFAULT_GOAL, syncUrl: "", geminiApiKey: "", customLogo: "" },
     transactions: [],
     closedReports: [],
     shoppingList: [],
@@ -920,6 +985,11 @@
   };
 
   let charts = {};
+
+  function getGoalAmount() {
+    const g = parseFloat(db.settings && db.settings.goalAmount);
+    return (!isNaN(g) && g > 0) ? g : DEFAULT_GOAL;
+  }
 
   function loadDB() {
     const keysToCheck = [STORAGE_KEY, "faustine_stationery_db_v1"];
@@ -1424,9 +1494,140 @@
     showToast(`🧾 Cash-Up ya ${dateStr} imehifadhiwa!`);
   }
 
+  // ====== EXECUTIVE & INTELLIGENCE ANALYSIS ======
+  function updateGoalAmount() {
+    const val = parseFloat(document.getElementById("customGoalInput").value);
+    if (!val || val <= 0) return showToast("⚠️ Weka lengo sahihi la TZS.");
+    db.settings.goalAmount = val;
+    saveDB();
+    renderAll();
+    if (document.getElementById("takwimu").classList.contains("active")) renderCharts();
+    showToast(`🎯 Lengo jipya limewekwa: ${fmtTZS(val)}`);
+  }
+
+  function computeGoalProjection() {
+    const totals = calculateTotals();
+    const goal = getGoalAmount();
+    const currentAkiba = totals.akibaIn;
+    const remaining = Math.max(0, goal - currentAkiba);
+
+    const dates = db.transactions
+      .filter(t => t.type === "stationery" || t.type === "wifi")
+      .map(t => t.date)
+      .filter(Boolean)
+      .sort();
+
+    let spanDays = 1;
+    if (dates.length >= 2) {
+      const firstD = new Date(dates[0] + "T00:00:00");
+      const lastD = new Date(dates[dates.length - 1] + "T00:00:00");
+      const diff = Math.round((lastD - firstD) / 86400000) + 1;
+      spanDays = Math.max(1, diff);
+    } else if (dates.length === 1) {
+      spanDays = 1;
+    }
+
+    const activeDaysCount = Math.max(1, new Set(dates).size);
+    const avgDailyAkiba = currentAkiba / spanDays;
+    const avgActiveDayAkiba = currentAkiba / activeDaysCount;
+
+    if (remaining === 0) {
+      return {
+        goal,
+        currentAkiba,
+        remaining: 0,
+        avgDailyAkiba,
+        daysLeft: 0,
+        targetDateStr: getTodayStr(),
+        targetMonthName: getMonthName(getMonthKey(getTodayStr())),
+        targetYear: new Date().getFullYear(),
+        statusText: "🎉 Lengo limefikiwa kikamilifu!"
+      };
+    }
+
+    if (avgDailyAkiba <= 0) {
+      return {
+        goal,
+        currentAkiba,
+        remaining,
+        avgDailyAkiba: 0,
+        avgActiveDayAkiba,
+        daysLeft: null,
+        targetDateStr: "Haijakadiriwa bado",
+        targetMonthName: "-",
+        targetYear: "-",
+        statusText: "Ingiza mapato ya Stationery ili mfumo ukokotee siku, tarehe, mwezi na mwaka kamili."
+      };
+    }
+
+    const daysLeft = Math.ceil(remaining / avgDailyAkiba);
+    const projDate = new Date();
+    projDate.setDate(projDate.getDate() + daysLeft);
+    const y = projDate.getFullYear();
+    const m = String(projDate.getMonth() + 1).padStart(2, "0");
+    const d = String(projDate.getDate()).padStart(2, "0");
+    const dateStr = `${y}-${m}-${d}`;
+    const monthName = getMonthName(`${y}-${m}`);
+
+    return {
+      goal,
+      currentAkiba,
+      remaining,
+      avgDailyAkiba,
+      avgActiveDayAkiba,
+      daysLeft,
+      targetDateStr: dateStr,
+      targetMonthName: monthName,
+      targetYear: y,
+      statusText: `Kwa wastani wa Akiba wa ${fmtTZS(avgDailyAkiba)}/siku (au ${fmtTZS(avgActiveDayAkiba)}/siku yenye muamala), utafikisha ${fmtTZS(goal)} ndani ya siku ${daysLeft} (${dateStr} — ${monthName}, mwaka ${y}).`
+    };
+  }
+
+  function renderExecutiveIntelligence() {
+    const p = computeGoalProjection();
+    const goalInp = document.getElementById("customGoalInput");
+    if (goalInp && document.activeElement !== goalInp) {
+      goalInp.value = p.goal;
+    }
+
+    const grid = document.getElementById("executiveIntelGrid");
+    const nar = document.getElementById("executiveNarrative");
+    if (!grid || !nar) return;
+
+    const daysLabel = p.daysLeft === null ? "-" : (p.daysLeft === 0 ? "Leo (0)" : `Siku ${p.daysLeft}`);
+    const dateLabel = p.targetDateStr;
+    const monthLabel = p.targetMonthName;
+    const yearLabel = p.targetYear;
+
+    grid.innerHTML = `
+      <div class="intel-card">
+        <div class="intel-label">⏳ Siku Zilizobaki</div>
+        <div class="intel-val">${daysLabel}</div>
+        <div class="intel-sub">Baki: ${fmtTZS(p.remaining)} / ${fmtTZS(p.goal)}</div>
+      </div>
+      <div class="intel-card">
+        <div class="intel-label">📆 Tarehe ya Kufanikisha</div>
+        <div class="intel-val">${dateLabel}</div>
+        <div class="intel-sub">Wastani: ${fmtTZS(p.avgDailyAkiba)} / siku</div>
+      </div>
+      <div class="intel-card">
+        <div class="intel-label">🗓️ Mwezi Unaotarajiwa</div>
+        <div class="intel-val">${monthLabel}</div>
+        <div class="intel-sub">Akiba sasa: ${fmtTZS(p.currentAkiba)}</div>
+      </div>
+      <div class="intel-card">
+        <div class="intel-label">🏆 Mwaka wa Kufanikisha</div>
+        <div class="intel-val">${yearLabel}</div>
+        <div class="intel-sub">${((p.currentAkiba / p.goal) * 100).toFixed(1)}% ya lengo imekamilika</div>
+      </div>
+    `;
+    nar.textContent = "💡 Intelligence Insight: " + p.statusText;
+  }
+
   // ====== SMART WHATSAPP DIGEST ======
   function generateSmartWhatsAppDigest() {
     const t = calculateTotals();
+    const p = computeGoalProjection();
     const today = getTodayStr();
 
     let todayStat = 0, todayWifi = 0, todayExp = 0, todaySalioExp = 0;
@@ -1449,8 +1650,6 @@
       ? `Cash-Up: Halisi ${fmtTZS(rec.counted)} vs Inayotarajiwa ${fmtTZS(rec.expected)} (Var: ${rec.variance >= 0 ? "+" : ""}${fmtTZS(rec.variance)})`
       : `Cash-Up: Inayotarajiwa leo ${fmtTZS((todayStat + todayWifi) - (todayExp + todaySalioExp))}`;
 
-    const pctAkiba = Math.min(100, (t.akibaIn / GOAL_AKIBA) * 100).toFixed(1);
-
     return `⚡ *SMART WHATSAPP DIGEST — ${today}*\n` +
            `*FAUSTIN STATIONERY SERVICES*\n` +
            `----------------------------------\n` +
@@ -1462,9 +1661,11 @@
            `----------------------------------\n` +
            `💼 *Mizania ya Mifuko 3 & Wi-Fi:*\n` +
            `• Mtaji Uliobaki: ${fmtTZS(t.mtajiRem)}\n` +
-           `• Akiba: ${fmtTZS(t.akibaIn)} (${pctAkiba}% / 1,000,000)\n` +
+           `• Akiba: ${fmtTZS(t.akibaIn)} / ${fmtTZS(p.goal)}\n` +
            `• Salio Lililobaki: ${fmtTZS(t.salioRem)}\n` +
            `• STATIONERY SERVICE . NET: ${fmtTZS(t.wifiIn)}\n` +
+           `----------------------------------\n` +
+           `🧠 *Makadirio ya Lengo:* ${p.daysLeft !== null ? `Siku ${p.daysLeft} (${p.targetDateStr}, ${p.targetMonthName} ${p.targetYear})` : "Inahitaji data zaidi"}\n` +
            `----------------------------------\n` +
            `📦 *Low Stock / Restock Alert:*\n${lowLine}`;
   }
@@ -1474,7 +1675,7 @@
     sendWhatsAppText(encodeURIComponent(digest));
   }
 
-  // ====== HYBRID AI ASSISTANT (LOCAL + GEMINI API) ======
+  // ====== HYBRID AI ASSISTANT ======
   function updateAiModeBadge() {
     const badge = document.getElementById("aiModeBadge");
     if (!badge) return;
@@ -1503,14 +1704,12 @@
   function buildLocalAiReply(rawQuestion) {
     const q = rawQuestion.toLowerCase();
     const t = calculateTotals();
+    const p = computeGoalProjection();
     const today = getTodayStr();
     const curMonth = getMonthKey(today);
 
     let todayStat = 0, todayWifi = 0, monthStat = 0, monthWifi = 0, monthExp = 0;
-    const activeDaysSet = new Set();
-
     db.transactions.forEach(x => {
-      if (x.type === "stationery" || x.type === "wifi") activeDaysSet.add(x.date);
       if (x.date === today) {
         if (x.type === "stationery") todayStat += x.amount;
         if (x.type === "wifi") todayWifi += x.amount;
@@ -1522,11 +1721,6 @@
       }
     });
 
-    const activeDays = Math.max(1, activeDaysSet.size);
-    const avgDailyAkiba = t.akibaIn / activeDays;
-    const remAkiba = Math.max(0, GOAL_AKIBA - t.akibaIn);
-    const estDays = avgDailyAkiba > 0 ? Math.ceil(remAkiba / avgDailyAkiba) : null;
-
     if (q.includes("digest") || q.includes("whatsapp") || q.includes("wa")) {
       return generateSmartWhatsAppDigest();
     }
@@ -1534,29 +1728,22 @@
     if (q.includes("low stock") || q.includes("restock") || q.includes("shopping") || q.includes("isha") || q.includes("bidhaa")) {
       const lowItems = db.shoppingList.filter(x => isLowStockItem(x));
       if (lowItems.length === 0) {
-        return "📦 Kwa sasa hakuna kifaa kilicho chini ya kiwango cha Low Stock. Unaweza kuongeza vifaa kwenye 'Low Stock & Restock' ili kufuatilia stock na ku-print orodha.";
+        return "📦 Kwa sasa hakuna kifaa kilicho chini ya kiwango cha Low Stock.";
       }
       const lines = lowItems.map((it, idx) => `${idx + 1}. ${it.name} — Stock: ${it.stock ?? 0} (Min: ${it.minStock ?? 2}) [${it.qty || "-"}]`).join("\n");
-      return `📦 Vifaa Vilivyo Low Stock (${lowItems.length}):\n${lines}\n\nFungua 'Low Stock & Restock' na ubonyeze '🖨️ Print Orodha ya Manunuzi'.`;
+      return `📦 Vifaa Vilivyo Low Stock (${lowItems.length}):\n${lines}`;
     }
 
-    if (q.includes("akiba") || q.includes("1,000,000") || q.includes("1000000") || q.includes("lengo")) {
-      const pct = Math.min(100, (t.akibaIn / GOAL_AKIBA) * 100).toFixed(1);
-      if (remAkiba === 0) {
-        return `🎉 Hongera Faustine! Tayari umefikia lengo lako la Akiba la ${fmtTZS(GOAL_AKIBA)} (${fmtTZS(t.akibaIn)}).`;
-      }
-      const paceText = estDays !== null
-        ? `Kwa wastani wa Akiba wa takriban ${fmtTZS(avgDailyAkiba)} kwa siku, unakadiriwa kufikisha 1,000,000 TZS baada ya siku ~${estDays}.`
-        : "Ongeza miamala zaidi ya Stationery ili mfumo ukokotee makadirio ya siku halisi.";
-      return `🎯 Hali ya Akiba:\n• Imefikiwa: ${fmtTZS(t.akibaIn)} (${pct}%)\n• Bado: ${fmtTZS(remAkiba)}\n• ${paceText}`;
+    if (q.includes("akiba") || q.includes("lengo") || q.includes("mwaka") || q.includes("mwezi") || q.includes("tarehe") || q.includes("siku")) {
+      return `🎯 Executive Goal Intelligence:\n• Lengo: ${fmtTZS(p.goal)} | Akiba Sasa: ${fmtTZS(p.currentAkiba)} (Baki: ${fmtTZS(p.remaining)})\n• Siku Zilizobaki: ${p.daysLeft !== null ? p.daysLeft : "-"}\n• Tarehe Inayotarajiwa: ${p.targetDateStr}\n• Mwezi: ${p.targetMonthName}\n• Mwaka: ${p.targetYear}`;
     }
 
     if (q.includes("cash") || q.includes("reconcile") || q.includes("hesabu")) {
       const m = getDayCashMetrics(today);
-      return `🧾 Daily Cash-Up (${today}):\n• Mapato ya Leo: ${fmtTZS(m.dayIncome)}\n• Gharama/Makato ya Leo: ${fmtTZS(m.dayOutflow)}\n• Pesa Inayotarajiwa: ${fmtTZS(m.expected)}\nWeka pesa halisi uliyohesabu kwenye kadi ya Daily Cash-Up ili kuona Variance.`;
+      return `🧾 Daily Cash-Up (${today}):\n• Mapato: ${fmtTZS(m.dayIncome)} | Makato: ${fmtTZS(m.dayOutflow)}\n• Inayotarajiwa: ${fmtTZS(m.expected)}`;
     }
 
-    return `📊 Muhtasari wa Hali ya Sasa (Local):\n• Mtaji Uliobaki: ${fmtTZS(t.mtajiRem)}\n• Akiba: ${fmtTZS(t.akibaIn)}\n• Salio Lililobaki: ${fmtTZS(t.salioRem)}\n• Wi-Fi (.NET): ${fmtTZS(t.wifiIn)}\n• Leo: Stationery ${fmtTZS(todayStat)} | Wi-Fi ${fmtTZS(todayWifi)}\n• Mwezi Huu (${getMonthName(curMonth)}): Stationery ${fmtTZS(monthStat)}, Wi-Fi ${fmtTZS(monthWifi)}, Manunuzi ${fmtTZS(monthExp)}.`;
+    return `📊 Muhtasari wa Hali ya Sasa:\n• Mtaji Uliobaki: ${fmtTZS(t.mtajiRem)}\n• Akiba: ${fmtTZS(t.akibaIn)}\n• Salio Lililobaki: ${fmtTZS(t.salioRem)}\n• Wi-Fi (.NET): ${fmtTZS(t.wifiIn)}\n• Leo: Stationery ${fmtTZS(todayStat)} | Wi-Fi ${fmtTZS(todayWifi)}\n• Mwezi Huu: Stationery ${fmtTZS(monthStat)}, Wi-Fi ${fmtTZS(monthWifi)}, Manunuzi ${fmtTZS(monthExp)}.`;
   }
 
   async function askGeminiIfConfigured(userQuestion, localContextSummary) {
@@ -1569,9 +1756,7 @@
     const res = await fetch(endpoint, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }]
-      })
+      body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
     });
     if (!res.ok) throw new Error("Gemini API error");
     const data = await res.json();
@@ -1592,9 +1777,7 @@
           appendAiMessage("✨ [Gemini AI]\n" + geminiReply, "bot");
           return;
         }
-      } catch (e) {
-        // Fallback to local engine seamlessly
-      }
+      } catch (e) {}
     }
     appendAiMessage(localReply, "bot");
   }
@@ -1622,16 +1805,25 @@
       if (t.type === "stationery") {
         statTotal += t.amount;
         if (t.split) {
-          mtajiIn += t.split.mtaji;
-          akibaIn += t.split.akiba;
-          salioIn += t.split.salio;
+          mtajiIn += Number(t.split.mtaji || 0);
+          akibaIn += Number(t.split.akiba || 0);
+          salioIn += Number(t.split.salio || 0);
+        } else {
+          const pM = (db.settings.mtaji || 50) / 100;
+          const pA = (db.settings.akiba || 36) / 100;
+          const mVal = Math.round(t.amount * pM);
+          const aVal = Math.round(t.amount * pA);
+          const sVal = t.amount - mVal - aVal;
+          mtajiIn += mVal;
+          akibaIn += aVal;
+          salioIn += sVal;
         }
       } else if (t.type === "wifi") {
-        wifiIn += t.amount;
+        wifiIn += Number(t.amount || 0);
       } else if (t.type === "expense") {
-        expTotal += t.amount;
+        expTotal += Number(t.amount || 0);
       } else if (t.type === "salio") {
-        salioUsed += t.amount;
+        salioUsed += Number(t.amount || 0);
       }
     });
 
@@ -1650,13 +1842,16 @@
 
   function renderDashboard() {
     const t = calculateTotals();
+    const goal = getGoalAmount();
+    document.getElementById("goalLabelDisplay").textContent = Math.round(goal).toLocaleString("en-US");
+
     document.getElementById("balMtaji").textContent = fmtTZS(t.mtajiRem);
     document.getElementById("subMtaji").textContent = `Jumla: ${fmtTZS(t.mtajiIn)} | Manunuzi: ${fmtTZS(t.expTotal)}`;
 
     document.getElementById("balAkiba").textContent = fmtTZS(t.akibaIn);
-    const pct = Math.min(100, (t.akibaIn / GOAL_AKIBA) * 100);
+    const pct = Math.min(100, (t.akibaIn / goal) * 100);
     document.getElementById("akibaBar").style.width = pct.toFixed(1) + "%";
-    const remGoal = Math.max(0, GOAL_AKIBA - t.akibaIn);
+    const remGoal = Math.max(0, goal - t.akibaIn);
     document.getElementById("subAkiba").textContent = `${pct.toFixed(1)}% ya lengo (Baki ${fmtTZS(remGoal)})`;
 
     document.getElementById("balSalio").textContent = fmtTZS(t.salioRem);
@@ -1703,6 +1898,7 @@
 
   // ====== UCHAMBUZI & CHATI (CHART.JS) ======
   function renderCharts() {
+    renderExecutiveIntelligence();
     const days = parseInt(document.getElementById("chartRange").value, 10) || 30;
     const totals = calculateTotals();
 
@@ -1923,7 +2119,8 @@
       else if (t.type === "salio") salioUsed += t.amount;
     });
     const totals = calculateTotals();
-    const pctAkiba = Math.min(100, (totals.akibaIn / GOAL_AKIBA) * 100).toFixed(1);
+    const goal = getGoalAmount();
+    const pctAkiba = Math.min(100, (totals.akibaIn / goal) * 100).toFixed(1);
 
     return `📊 *RIPOTI YA MWEZI — ${getMonthName(ym).toUpperCase()}*\n` +
            `*FAUSTIN STATIONERY SERVICES*\n` +
@@ -1940,7 +2137,7 @@
            `🌐 *STATIONERY SERVICE . NET (Wi-Fi):* ${fmtTZS(wifi)}\n` +
            `----------------------------------\n` +
            `💰 *JUMLA KUU YA MAPATO:* ${fmtTZS(stat + wifi)}\n` +
-           `🎯 *Akiba Kuu Hadi Sasa:* ${fmtTZS(totals.akibaIn)} (${pctAkiba}% ya 1,000,000 TZS)`;
+           `🎯 *Akiba Kuu Hadi Sasa:* ${fmtTZS(totals.akibaIn)} (${pctAkiba}% ya ${fmtTZS(goal)})`;
   }
 
   function checkAutoMonthClose() {
@@ -2057,12 +2254,12 @@
     }
   }
 
-  // ====== CLOUD SYNC (GOOGLE SHEETS WEB APP) ======
+  // ====== CLOUD SYNC (GOOGLE APPS SCRIPT WEB APP) ======
   function updateSyncIndicator(state, label) {
     const dot = document.getElementById("syncDot");
     const txt = document.getElementById("syncText");
-    dot.className = "sync-dot " + state;
-    txt.textContent = label;
+    if (dot) dot.className = "sync-dot " + state;
+    if (txt) txt.textContent = label;
   }
 
   function saveSyncUrl() {
@@ -2077,6 +2274,59 @@
     }
   }
 
+  function extractCloudPayload(raw) {
+    if (!raw || typeof raw !== "object") return null;
+    if (raw.payload && typeof raw.payload === "object") return raw.payload;
+    if (raw.data && typeof raw.data === "object" && !Array.isArray(raw.data)) return raw.data;
+    if (Array.isArray(raw.transactions) || Array.isArray(raw.txs) || raw.settings) return raw;
+    return null;
+  }
+
+  function applyCloudDataToSystem(cloudObj) {
+    const keepLocalUrl = db.settings.syncUrl;
+    const keepLocalKey = db.settings.geminiApiKey;
+
+    const rawTxs = cloudObj.transactions || cloudObj.txs || cloudObj.records || [];
+    const normalizedTxs = Array.isArray(rawTxs) ? rawTxs.map(normalizeTransaction).filter(Boolean) : db.transactions;
+
+    const cloudSettings = cloudObj.settings || {};
+    const hasCloudLogo = Object.prototype.hasOwnProperty.call(cloudSettings, "customLogo");
+
+    db = {
+      ...db,
+      ...cloudObj,
+      transactions: normalizedTxs,
+      closedReports: Array.isArray(cloudObj.closedReports) ? cloudObj.closedReports : db.closedReports,
+      shoppingList: Array.isArray(cloudObj.shoppingList) ? cloudObj.shoppingList : db.shoppingList,
+      reconciliations: Array.isArray(cloudObj.reconciliations) ? cloudObj.reconciliations : db.reconciliations,
+      settings: {
+        ...db.settings,
+        ...cloudSettings,
+        syncUrl: cloudSettings.syncUrl || keepLocalUrl || "",
+        geminiApiKey: cloudSettings.geminiApiKey || keepLocalKey || "",
+        customLogo: hasCloudLogo ? (cloudSettings.customLogo || "") : (db.settings.customLogo || "")
+      },
+      updatedAt: Number(cloudObj.updatedAt || Date.now())
+    };
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
+
+    const urlInp = document.getElementById("setSyncUrl");
+    if (urlInp) urlInp.value = db.settings.syncUrl || "";
+    const mInp = document.getElementById("setMtaji");
+    if (mInp) mInp.value = db.settings.mtaji;
+    const aInp = document.getElementById("setAkiba");
+    if (aInp) aInp.value = db.settings.akiba;
+    const sInp = document.getElementById("setSalio");
+    if (sInp) sInp.value = db.settings.salio;
+
+    renderBrandLogos();
+    renderAll();
+    if (document.getElementById("takwimu").classList.contains("active")) {
+      renderCharts();
+    }
+  }
+
   async function pushToCloud() {
     if (!db.settings.syncUrl) return;
     updateSyncIndicator("busy", "Inahifadhi...");
@@ -2085,10 +2335,11 @@
         method: "POST",
         mode: "no-cors",
         headers: { "Content-Type": "text/plain" },
-        body: JSON.stringify({ action: "save", payload: db })
+        body: JSON.stringify({ action: "save", updatedAt: db.updatedAt, payload: db })
       });
       updateSyncIndicator("ok", "Synced");
-      document.getElementById("syncStatusMsg").textContent = "Imesawazishwa mwisho: " + new Date().toLocaleTimeString();
+      const msgEl = document.getElementById("syncStatusMsg");
+      if (msgEl) msgEl.textContent = "Imesawazishwa mwisho: " + new Date().toLocaleTimeString();
     } catch (err) {
       updateSyncIndicator("err", "Sync Error");
     }
@@ -2097,42 +2348,37 @@
   async function syncNow(manual = false) {
     if (!db.settings.syncUrl) {
       updateSyncIndicator("", "Local Only");
+      if (manual) showToast("ℹ️ Weka Google Apps Script URL kwanza kwenye Mipangilio & Sync.");
       return;
     }
-    updateSyncIndicator("busy", "Inasawazisha...");
+    updateSyncIndicator("busy", "Inapakua...");
     try {
-      const res = await fetch(db.settings.syncUrl + "?action=load&t=" + Date.now());
-      const cloudData = await res.json();
-      const keepLocalUrl = db.settings.syncUrl;
-      const keepLocalKey = db.settings.geminiApiKey;
-      const keepLocalLogo = db.settings.customLogo;
+      const sep = db.settings.syncUrl.includes("?") ? "&" : "?";
+      const res = await fetch(db.settings.syncUrl + sep + "action=load&t=" + Date.now(), { cache: "no-store" });
+      const rawJson = await res.json();
+      const cloudData = extractCloudPayload(rawJson);
 
-      if (cloudData && cloudData.updatedAt && cloudData.updatedAt > (db.updatedAt || 0)) {
-        db = {
-          ...db,
-          ...cloudData,
-          settings: {
-            ...db.settings,
-            ...(cloudData.settings || {}),
-            syncUrl: (cloudData.settings && cloudData.settings.syncUrl) ? cloudData.settings.syncUrl : keepLocalUrl,
-            geminiApiKey: (cloudData.settings && cloudData.settings.geminiApiKey) ? cloudData.settings.geminiApiKey : keepLocalKey,
-            customLogo: (cloudData.settings && cloudData.settings.customLogo) ? cloudData.settings.customLogo : keepLocalLogo
-          }
-        };
-        document.getElementById("setSyncUrl").value = db.settings.syncUrl || "";
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
-        renderBrandLogos();
-        renderAll();
-        if (manual) showToast("☁️ Data mpya zimepakuliwa kutoka Cloud!");
-      } else {
-        await pushToCloud();
-        if (manual) showToast("☁️ Data zako zimetumwa na kusawazishwa!");
+      if (cloudData) {
+        const cloudTxsCount = (cloudData.transactions || cloudData.txs || []).length;
+        const cloudTs = Number(cloudData.updatedAt || 0);
+        const localTs = Number(db.updatedAt || 0);
+
+        if (cloudTxsCount > 0 || cloudTs >= localTs || (cloudData.settings && cloudData.settings.customLogo !== undefined)) {
+          applyCloudDataToSystem(cloudData);
+          updateSyncIndicator("ok", "Synced");
+          const msgEl = document.getElementById("syncStatusMsg");
+          if (msgEl) msgEl.textContent = "Data zimeingia kwenye mfumo: " + new Date().toLocaleTimeString();
+          if (manual) showToast(`☁️ Data (${db.transactions.length} miamala) na Logo zimeingia kwenye mfumo!`);
+          return;
+        }
       }
+
+      await pushToCloud();
       updateSyncIndicator("ok", "Synced");
-      document.getElementById("syncStatusMsg").textContent = "Imesawazishwa kikamilifu: " + new Date().toLocaleTimeString();
+      if (manual) showToast("☁️ Data za mfumo zimetumwa na kusawazishwa!");
     } catch (e) {
       updateSyncIndicator("err", "Offline / Error");
-      if (manual) showToast("⚠️ Imeshindwa kuunganisha na Cloud. Angalia intaneti au URL.");
+      if (manual) showToast("⚠️ Imeshindwa kupakua/kuingiza data. Angalia URL au mtandao.");
     }
   }
 
@@ -2266,8 +2512,9 @@
     const keepUrl = db.settings.syncUrl;
     const keepKey = db.settings.geminiApiKey;
     const keepLogo = db.settings.customLogo;
+    const keepGoal = getGoalAmount();
     db = {
-      settings: { mtaji: 50, akiba: 36, salio: 14, syncUrl: keepUrl, geminiApiKey: keepKey, customLogo: keepLogo },
+      settings: { mtaji: 50, akiba: 36, salio: 14, goalAmount: keepGoal, syncUrl: keepUrl, geminiApiKey: keepKey, customLogo: keepLogo },
       transactions: [],
       closedReports: [],
       shoppingList: [],
@@ -2282,6 +2529,7 @@
   // ====== KUANZA MFUMO ======
   function renderAll() {
     renderDashboard();
+    renderExecutiveIntelligence();
     renderHistory();
     renderReports();
     if (document.getElementById("takwimu").classList.contains("active")) renderCharts();
@@ -2298,6 +2546,7 @@
     document.getElementById("setMtaji").value = db.settings.mtaji;
     document.getElementById("setAkiba").value = db.settings.akiba;
     document.getElementById("setSalio").value = db.settings.salio;
+    document.getElementById("customGoalInput").value = getGoalAmount();
     document.getElementById("setSyncUrl").value = db.settings.syncUrl || "";
     document.getElementById("setGeminiKey").value = db.settings.geminiApiKey || "";
     document.getElementById("geminiKeyStatus").textContent = db.settings.geminiApiKey

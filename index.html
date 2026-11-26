@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FAUSTIN STATIONERY SERVICES</title>
+<title>FAUSTINE STATIONERY SERVICES</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
@@ -374,7 +374,7 @@
 <div id="loginGate">
   <div class="login-box">
     <div class="login-logo-wrap" id="loginLogoContainer"></div>
-    <h2>FAUSTIN STATIONERY SERVICES</h2>
+    <h2>FAUSTINE STATIONERY SERVICES</h2>
     <p>Weka nenosiri lako ili kufungua mfumo wa hesabu na uchambuzi wa biashara.</p>
     <form onsubmit="unlockApp(event)">
       <div class="pass-wrapper">
@@ -392,7 +392,7 @@
     <div class="brand-left">
       <div class="brand-logo-card" id="headerLogoContainer"></div>
       <div>
-        <div class="brand-title">FAUSTIN STATIONERY SERVICES</div>
+        <div class="brand-title">FAUSTINE STATIONERY SERVICES</div>
         <div class="brand-sub">Mfumo wa Mapato, Mifuko 3, Manunuzi, Cash-Up, Executive AI &amp; STATIONERY SERVICE . NET</div>
       </div>
     </div>
@@ -790,13 +790,13 @@
   </div>
 
   <div id="aiMessages" class="ai-messages">
-    <div class="ai-msg bot">Habari Faustine! Mimi ni Hybrid AI Assistant wako. Ninaweza kukagua Mifuko 3, Executive Intelligence (siku, tarehe, mwezi na mwaka wa lengo), Low Stock, Cash-Up, na Smart WhatsApp Digest.</div>
+    <div class="ai-msg bot">Habari Faustine! Mimi ni Hybrid AI Assistant wa Faustine Stationery Services. Ninaweza kukagua Founder/Mmiliki/CEO, Mifuko 3, Muda wa Lengo, Low Stock, Cash-Up, na Smart WhatsApp Digest.</div>
   </div>
 
   <div class="ai-chips">
+    <button type="button" class="ai-chip" onclick="askAiPreset('Nani ni Founder, Mmiliki na CEO wa Faustine Stationery?')">👤 Founder &amp; CEO</button>
     <button type="button" class="ai-chip" onclick="askAiPreset('Muhtasari wa leo na mifuko mitatu')">📊 Mifuko &amp; Leo</button>
     <button type="button" class="ai-chip" onclick="askAiPreset('Hali ya Low Stock na Restock ikoje?')">📦 Low Stock</button>
-    <button type="button" class="ai-chip" onclick="askAiPreset('Andaa Smart WhatsApp Digest ya leo')">⚡ WA Digest</button>
     <button type="button" class="ai-chip" onclick="askAiPreset('Siku, tarehe, mwezi na mwaka wa kufikisha lengo la Akiba?')">🎯 Muda Lengo</button>
   </div>
 
@@ -917,9 +917,18 @@
 <div id="toast" class="toast"></div>
 
 <script>
+  // ====== FOUNDER / OWNER / CEO PROFILE ======
+  const FOUNDER_PROFILE = {
+    fullName: "Faustine Haruni Masingiri",
+    shortName: "Faustine",
+    role: "Founder, Mmiliki na CEO wa Faustine Stationery Services & STATIONERY SERVICE . NET",
+    education: "BSc in Mathematics and Statistics (University of Dar es Salaam)",
+    location: "Ubungo Msewe, Dar es Salaam, Tanzania"
+  };
+
   // ====== LOGO EMBLEM & COMPRESSION ======
   const BRAND_SVG = `
-    <svg width="46" height="36" viewBox="0 0 120 88" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Faustin Stationery Services Logo">
+    <svg width="46" height="36" viewBox="0 0 120 88" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Faustine Stationery Services Logo">
       <rect x="6" y="28" width="52" height="30" rx="6" fill="#0284c7" stroke="#0f172a" stroke-width="4"/>
       <path d="M18 28V10H46V28" fill="#ffffff" stroke="#0f172a" stroke-width="4"/>
       <line x1="23" y1="17" x2="41" y2="17" stroke="#0f172a" stroke-width="3" stroke-linecap="round"/>
@@ -1451,7 +1460,7 @@
       <html lang="sw">
       <head>
         <meta charset="UTF-8">
-        <title>Orodha ya Restock / Manunuzi - FAUSTIN STATIONERY SERVICES</title>
+        <title>Orodha ya Restock / Manunuzi - FAUSTINE STATIONERY SERVICES</title>
         <style>
           body { font-family: Arial, sans-serif; padding: 28px; color: #111; }
           .header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 12px; margin-bottom: 18px; }
@@ -1466,7 +1475,7 @@
       </head>
       <body>
         <div class="header">
-          <h1>FAUSTIN STATIONERY SERVICES</h1>
+          <h1>FAUSTINE STATIONERY SERVICES</h1>
           <p>ORODHA YA RESTOCK / MANUNUZI YA VIFAA (LOW STOCK LIST)</p>
         </div>
         <div class="meta">
@@ -1488,7 +1497,7 @@
           </tbody>
         </table>
         <div class="footer">
-          <span>Imeandaliwa na Mfumo wa Faustin Stationery Services</span>
+          <span>Imeandaliwa na Mfumo wa Faustine Stationery Services</span>
           <span>Jumla Kuu: _____________________ TZS</span>
         </div>
         <script>
@@ -1741,7 +1750,7 @@
       : `Cash-Up: Inayotarajiwa leo ${fmtTZS((todayStat + todayWifi) - (todayExp + todaySalioExp))}`;
 
     return `⚡ *SMART WHATSAPP DIGEST — ${today}*\n` +
-           `*FAUSTIN STATIONERY SERVICES*\n` +
+           `*FAUSTINE STATIONERY SERVICES*\n` +
            `----------------------------------\n` +
            `📌 *Leo (${today}):*\n` +
            `• Stationery: ${fmtTZS(todayStat)}\n` +
@@ -1765,7 +1774,7 @@
     sendWhatsAppText(encodeURIComponent(digest));
   }
 
-  // ====== HYBRID AI ASSISTANT (GEMINI MODELS + ABORT TIMEOUT + SHORT RETRY) ======
+  // ====== HYBRID AI ASSISTANT (FOUNDER/CEO + SHORT, DIRECT, NO STARS FOR ANY QUESTION) ======
   function updateAiModeBadge() {
     const badge = document.getElementById("aiModeBadge");
     if (!badge) return;
@@ -1782,14 +1791,22 @@
     }
   }
 
+  function stripStarsForAi(str) {
+    return String(str || "").replace(/\*+/g, "").trim();
+  }
+
   function appendAiMessage(text, sender = "bot") {
     const box = document.getElementById("aiMessages");
     const div = document.createElement("div");
     div.className = "ai-msg " + sender;
-    div.textContent = text;
+    div.textContent = sender === "bot" ? stripStarsForAi(text) : text;
     box.appendChild(div);
     box.scrollTop = box.scrollHeight;
     return div;
+  }
+
+  function getFounderSummaryText() {
+    return `Founder, Mmiliki na CEO: ${FOUNDER_PROFILE.fullName} (${FOUNDER_PROFILE.shortName})\nTaaluma: ${FOUNDER_PROFILE.education}\nEneo: ${FOUNDER_PROFILE.location}\nBiashara: Faustine Stationery Services & STATIONERY SERVICE . NET`;
   }
 
   function buildLocalAiReply(rawQuestion) {
@@ -1798,6 +1815,17 @@
     const p = computeGoalProjection();
     const today = getTodayStr();
     const curMonth = getMonthKey(today);
+
+    if (
+      q.includes("founder") ||
+      q.includes("mmiliki") ||
+      q.includes("ceo") ||
+      q.includes("mwanzilishi") ||
+      q.includes("nani") ||
+      q.includes("mwenye")
+    ) {
+      return getFounderSummaryText();
+    }
 
     let todayStat = 0, todayWifi = 0, monthStat = 0, monthWifi = 0, monthExp = 0;
     db.transactions.forEach(x => {
@@ -1819,29 +1847,34 @@
     if (q.includes("low stock") || q.includes("restock") || q.includes("shopping") || q.includes("isha") || q.includes("bidhaa")) {
       const lowItems = db.shoppingList.filter(x => isLowStockItem(x));
       if (lowItems.length === 0) {
-        return "📦 Kwa sasa hakuna kifaa kilicho chini ya kiwango cha Low Stock.";
+        return "Hakuna kifaa kilicho chini ya kiwango cha Low Stock.";
       }
-      const lines = lowItems.map((it, idx) => `${idx + 1}. ${it.name} — Stock: ${it.stock ?? 0} (Min: ${it.minStock ?? 2}) [${it.qty || "-"}]`).join("\n");
-      return `📦 Vifaa Vilivyo Low Stock (${lowItems.length}):\n${lines}`;
+      const lines = lowItems.map((it, idx) => `${idx + 1}. ${it.name} - Stock: ${it.stock ?? 0} (Min: ${it.minStock ?? 2}) [${it.qty || "-"}]`).join("\n");
+      return `Vifaa Vilivyo Low Stock (${lowItems.length}):\n${lines}`;
     }
 
     if (q.includes("akiba") || q.includes("lengo") || q.includes("mwaka") || q.includes("mwezi") || q.includes("tarehe") || q.includes("siku")) {
-      return `🎯 Executive Goal Intelligence:\n• Lengo: ${fmtTZS(p.goal)} | Akiba Sasa: ${fmtTZS(p.currentAkiba)} (Baki: ${fmtTZS(p.remaining)})\n• Muda wa Lengo: ${p.fullDateCombo}\n• Wastani wa Akiba: ${fmtTZS(p.avgDailyAkiba)} / siku`;
+      return `Lengo: ${fmtTZS(p.goal)} | Akiba: ${fmtTZS(p.currentAkiba)} | Baki: ${fmtTZS(p.remaining)}\nMuda wa Lengo: ${p.fullDateCombo}\nWastani wa Akiba: ${fmtTZS(p.avgDailyAkiba)} / siku`;
     }
 
     if (q.includes("cash") || q.includes("reconcile") || q.includes("hesabu")) {
       const m = getDayCashMetrics(today);
-      return `🧾 Daily Cash-Up (${today}):\n• Mapato: ${fmtTZS(m.dayIncome)} | Makato: ${fmtTZS(m.dayOutflow)}\n• Inayotarajiwa: ${fmtTZS(m.expected)}`;
+      return `Cash-Up (${today}): Mapato ${fmtTZS(m.dayIncome)} | Makato ${fmtTZS(m.dayOutflow)} | Inayotarajiwa ${fmtTZS(m.expected)}`;
     }
 
-    return `📊 Muhtasari wa Hali ya Sasa:\n• Mtaji Uliobaki: ${fmtTZS(t.mtajiRem)}\n• Akiba: ${fmtTZS(t.akibaIn)}\n• Salio Lililobaki: ${fmtTZS(t.salioRem)}\n• Wi-Fi (.NET): ${fmtTZS(t.wifiIn)}\n• Leo: Stationery ${fmtTZS(todayStat)} | Wi-Fi ${fmtTZS(todayWifi)}\n• Mwezi Huu: Stationery ${fmtTZS(monthStat)}, Wi-Fi ${fmtTZS(monthWifi)}, Manunuzi ${fmtTZS(monthExp)}.`;
+    return `Mtaji Uliobaki: ${fmtTZS(t.mtajiRem)}\nAkiba: ${fmtTZS(t.akibaIn)}\nSalio Lililobaki: ${fmtTZS(t.salioRem)}\nWi-Fi (.NET): ${fmtTZS(t.wifiIn)}\nLeo: Stationery ${fmtTZS(todayStat)} | Wi-Fi ${fmtTZS(todayWifi)}\nMwezi Huu: Stationery ${fmtTZS(monthStat)}, Wi-Fi ${fmtTZS(monthWifi)}, Manunuzi ${fmtTZS(monthExp)}`;
   }
 
   async function askGeminiIfConfigured(userQuestion, localContextSummary) {
     const key = (db.settings && db.settings.geminiApiKey) ? db.settings.geminiApiKey.trim() : "";
     if (!key) return { ok: false, reason: "Hakuna Gemini API Key iliyohifadhiwa." };
 
-    const prompt = `Mshauri wa biashara kwa Faustin Stationery Services (TZ). Jibu kwa Kiswahili kifupi sana, direct kwenye point, bila kutumia alama za nyota (* au **) wala Markdown.\nData:\n${localContextSummary}\nSwali: ${userQuestion}`;
+    const prompt = `Wewe ni msaidizi wa AI kwa Faustine Stationery Services.
+Taarifa rasmi za uongozi: Founder, Mmiliki na CEO wa Faustine Stationery Services ni Faustine Haruni Masingiri (BSc in Mathematics and Statistics, University of Dar es Salaam; Ubungo Msewe, Dar es Salaam).
+Jibu swali lolote lile kwa Kiswahili kifupi sana, moja kwa moja kwenye point (direct), bila maelezo marefu yasiyo ya lazima, na bila kutumia alama za nyota (* au **) wala Markdown.
+Data ya mfumo:
+${localContextSummary}
+Swali: ${userQuestion}`;
     const modelsToTry = ["gemini-3.8-flash", "gemini-4-hydrogen", "gemini-3.5-flash-lite"];
 
     let lastErr = "Imeshindwa kupata jibu kutoka Gemini.";
@@ -1871,7 +1904,7 @@
           }
           const rawText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
           if (rawText) {
-            const cleanText = rawText.replace(/\*/g, "").trim();
+            const cleanText = stripStarsForAi(rawText);
             const suffix = attempt > 1 ? `${modelName} • retry` : modelName;
             return { ok: true, text: cleanText, model: suffix };
           }
@@ -1895,19 +1928,26 @@
     const localReply = buildLocalAiReply(questionText);
     const hasKey = Boolean(db.settings && db.settings.geminiApiKey && db.settings.geminiApiKey.trim());
     const qLower = questionText.toLowerCase();
-    const isDirectDataCommand = qLower.includes("digest") || qLower.includes("whatsapp") || qLower.includes("low stock") || qLower.includes("cash");
+    const isDirectDataCommand =
+      qLower.includes("digest") ||
+      qLower.includes("whatsapp") ||
+      qLower.includes("low stock") ||
+      qLower.includes("cash") ||
+      qLower.includes("founder") ||
+      qLower.includes("mmiliki") ||
+      qLower.includes("ceo");
 
     if (hasKey && !isDirectDataCommand) {
-      const loadingBubble = appendAiMessage("⏳ Inawasiliana na Gemini...", "bot");
-      const result = await askGeminiIfConfigured(questionText, localReply);
+      const loadingBubble = appendAiMessage("Inawasiliana na Gemini...", "bot");
+      const result = await askGeminiIfConfigured(questionText, getFounderSummaryText() + "\n" + localReply);
       if (loadingBubble && loadingBubble.parentNode) {
         loadingBubble.remove();
       }
       if (result && result.ok) {
-        appendAiMessage(`✨ [Gemini AI • ${result.model}]\n` + result.text, "bot");
+        appendAiMessage(`[Gemini AI • ${result.model}]\n` + result.text, "bot");
         return;
       } else {
-        appendAiMessage(`⚠️ Gemini haikujibu (${result ? result.reason : "Hitilafu"}).\n\n` + localReply, "bot");
+        appendAiMessage(`Gemini haikujibu (${result ? result.reason : "Hitilafu"}).\n\n` + localReply, "bot");
         return;
       }
     }
@@ -2370,7 +2410,7 @@
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `Faustin_Stationery_${getTodayStr()}.csv`;
+    a.download = `Faustine_Stationery_${getTodayStr()}.csv`;
     a.click();
   }
 
@@ -2391,7 +2431,7 @@
     const pctAkiba = Math.min(100, (totals.akibaIn / goal) * 100).toFixed(1);
 
     return `📊 *RIPOTI YA MWEZI — ${getMonthName(ym).toUpperCase()}*\n` +
-           `*FAUSTIN STATIONERY SERVICES*\n` +
+           `*FAUSTINE STATIONERY SERVICES*\n` +
            `----------------------------------\n` +
            `🖨️ *Mapato Stationery:* ${fmtTZS(stat)}\n` +
            `   • Mtaji (${db.settings.mtaji}%): ${fmtTZS(mtaji)}\n` +
@@ -2684,7 +2724,7 @@
     const blob = new Blob([JSON.stringify(db, null, 2)], { type: "application/json" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = `Faustin_Stationery_Backup_${getTodayStr()}.json`;
+    a.download = `Faustine_Stationery_Backup_${getTodayStr()}.json`;
     a.click();
   }
 

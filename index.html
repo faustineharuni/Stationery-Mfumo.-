@@ -1765,7 +1765,7 @@
     sendWhatsAppText(encodeURIComponent(digest));
   }
 
-  // ====== HYBRID AI ASSISTANT (FAST LITE FIRST + ABORT TIMEOUT + SHORT RETRY) ======
+  // ====== HYBRID AI ASSISTANT (GEMINI 3.8 FLASH + ABORT TIMEOUT + SHORT RETRY) ======
   function updateAiModeBadge() {
     const badge = document.getElementById("aiModeBadge");
     if (!badge) return;
@@ -1842,7 +1842,7 @@
     if (!key) return { ok: false, reason: "Hakuna Gemini API Key iliyohifadhiwa." };
 
     const prompt = `Mshauri wa biashara kwa Faustin Stationery Services (TZ). Jibu kwa Kiswahili kifupi na chenye vitendo.\nData:\n${localContextSummary}\nSwali: ${userQuestion}`;
-    const modelsToTry = ["gemini-2.5-flash-lite", "gemini-2.5-flash"];
+    const modelsToTry = ["gemini-3.8-flash"];
 
     let lastErr = "Imeshindwa kupata jibu kutoka Gemini.";
     for (const modelName of modelsToTry) {

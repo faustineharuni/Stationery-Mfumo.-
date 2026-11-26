@@ -1765,7 +1765,7 @@
     sendWhatsAppText(encodeURIComponent(digest));
   }
 
-  // ====== HYBRID AI ASSISTANT (WITH LITE FALLBACK & RETRY) ======
+  // ====== HYBRID AI ASSISTANT (FAST LITE FIRST + ABORT TIMEOUT + SHORT RETRY) ======
   function updateAiModeBadge() {
     const badge = document.getElementById("aiModeBadge");
     if (!badge) return;
@@ -1841,26 +1841,30 @@
     const key = (db.settings && db.settings.geminiApiKey) ? db.settings.geminiApiKey.trim() : "";
     if (!key) return { ok: false, reason: "Hakuna Gemini API Key iliyohifadhiwa." };
 
-    const prompt = `Wewe ni mshauri mahiri wa biashara kwa Faustin Stationery Services (Tanzania). Jibu kwa Kiswahili kifupi, wazi na chenye vitendo.\n\nTakwimu za sasa:\n${localContextSummary}\n\nSwali la mtumiaji: ${userQuestion}`;
-    const modelsToTry = ["gemini-2.5-flash", "gemini-2.5-flash-lite", "gemini-flash-latest"];
+    const prompt = `Mshauri wa biashara kwa Faustin Stationery Services (TZ). Jibu kwa Kiswahili kifupi na chenye vitendo.\nData:\n${localContextSummary}\nSwali: ${userQuestion}`;
+    const modelsToTry = ["gemini-2.5-flash-lite", "gemini-2.5-flash"];
 
     let lastErr = "Imeshindwa kupata jibu kutoka Gemini.";
     for (const modelName of modelsToTry) {
       for (let attempt = 1; attempt <= 2; attempt++) {
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), 6000);
         try {
           const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${encodeURIComponent(key)}`;
           const res = await fetch(endpoint, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
+            signal: controller.signal,
             body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
           });
+          clearTimeout(timer);
           const data = await res.json();
           if (!res.ok) {
             const msg = data?.error?.message || `HTTP ${res.status}`;
             lastErr = `${msg} (${modelName})`;
             const isOverloaded = res.status === 429 || res.status === 503 || /high demand|overloaded|unavailable/i.test(msg);
             if (isOverloaded && attempt === 1) {
-              await new Promise(r => setTimeout(r, 700));
+              await new Promise(r => setTimeout(r, 350));
               continue;
             }
             break;
@@ -1871,9 +1875,12 @@
             return { ok: true, text: text.trim(), model: suffix };
           }
         } catch (err) {
-          lastErr = `${err.message || "Tatizo la mtandao au kivinjari."} (${modelName})`;
+          clearTimeout(timer);
+          lastErr = err.name === "AbortError"
+            ? `Muda wa kusubiri umezidi (${modelName})`
+            : `${err.message || "Tatizo la mtandao."} (${modelName})`;
           if (attempt === 1) {
-            await new Promise(r => setTimeout(r, 700));
+            await new Promise(r => setTimeout(r, 350));
             continue;
           }
           break;

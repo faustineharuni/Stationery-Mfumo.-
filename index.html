@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FAUSTINE STATIONERY SERVICE</title>
+<title>FAUSTIN STATIONERY SERVICES</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
@@ -28,22 +28,30 @@
   body { background: var(--bg); color: var(--text); padding: 14px; line-height: 1.5; }
   .container { max-width: 1180px; margin: 0 auto; }
 
+  /* LOGO STYLING */
+  .brand-logo-card {
+    background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 14px;
+    padding: 10px 14px; display: inline-flex; align-items: center; gap: 12px;
+  }
+  .login-logo-wrap {
+    background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px;
+    padding: 14px 16px; margin: 0 auto 14px; display: flex; flex-direction: column; align-items: center;
+  }
+  .custom-logo-img {
+    width: 54px; height: 54px; object-fit: contain; border-radius: 10px; background: #fff; padding: 4px; border: 1px solid #e2e8f0;
+  }
+
   /* LOGIN GATE */
   #loginGate {
     position: fixed; inset: 0; background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
     z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 20px;
   }
   .login-box {
-    background: #ffffff; width: 100%; max-width: 390px; padding: 32px 26px; border-radius: 20px;
+    background: #ffffff; width: 100%; max-width: 400px; padding: 28px 24px; border-radius: 20px;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); text-align: center;
   }
-  .login-logo {
-    width: 60px; height: 60px; background: #eff6ff; color: var(--primary); border-radius: 16px;
-    display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 14px;
-    border: 1px solid #dbeafe;
-  }
-  .login-box h2 { font-size: 1.2rem; font-weight: 800; color: var(--primary-dark); letter-spacing: -0.3px; }
-  .login-box p { font-size: 0.85rem; color: var(--muted); margin: 6px 0 20px; }
+  .login-box h2 { font-size: 1.15rem; font-weight: 800; color: var(--primary-dark); letter-spacing: -0.3px; margin-top: 4px; }
+  .login-box p { font-size: 0.84rem; color: var(--muted); margin: 6px 0 18px; }
   .login-input {
     width: 100%; padding: 13px 15px; border: 2px solid var(--border); border-radius: 12px;
     font-size: 1rem; text-align: center; letter-spacing: 1px; margin-bottom: 12px; outline: none;
@@ -59,12 +67,13 @@
   /* HEADER */
   header {
     background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 60%, #1d4ed8 100%);
-    color: #fff; padding: 20px 24px; border-radius: 16px; margin-bottom: 18px;
+    color: #fff; padding: 18px 22px; border-radius: 16px; margin-bottom: 18px;
     box-shadow: 0 10px 25px -5px rgba(30, 58, 138, 0.28);
     display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;
   }
-  .brand-title { font-size: 1.38rem; font-weight: 900; letter-spacing: -0.4px; }
-  .brand-sub { font-size: 0.84rem; color: #cbd5e1; margin-top: 2px; }
+  .brand-left { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .brand-title { font-size: 1.32rem; font-weight: 900; letter-spacing: -0.4px; }
+  .brand-sub { font-size: 0.82rem; color: #cbd5e1; margin-top: 2px; }
   .header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
   .date-badge {
     background: rgba(255,255,255,0.12); padding: 6px 13px; border-radius: 10px;
@@ -216,7 +225,6 @@
   .shop-left { display: flex; align-items: center; gap: 10px; flex: 1; cursor: pointer; min-width: 180px; }
   .shop-check { width: 18px; height: 18px; accent-color: var(--primary); cursor: pointer; margin: 0; }
   .shop-name { font-weight: 700; font-size: 0.92rem; color: var(--text); }
-  .shop-qty { font-size: 0.76rem; color: var(--primary); background: #eff6ff; padding: 3px 8px; border-radius: 6px; font-weight: 700; }
 
   /* CASH-UP RECONCILE BOX */
   .reconcile-box {
@@ -303,8 +311,8 @@
 <!-- UKURASA WA KUFUNGUA MFUMO (LOGIN GATE) -->
 <div id="loginGate">
   <div class="login-box">
-    <div class="login-logo">🔐</div>
-    <h2>FAUSTINE STATIONERY SERVICE</h2>
+    <div class="login-logo-wrap" id="loginLogoContainer"></div>
+    <h2>FAUSTIN STATIONERY SERVICES</h2>
     <p>Weka nenosiri lako ili kufungua mfumo wa hesabu na uchambuzi wa biashara.</p>
     <form onsubmit="unlockApp(event)">
       <input type="password" id="loginPassword" class="login-input" placeholder="Weka Nenosiri..." required autofocus>
@@ -316,9 +324,12 @@
 
 <div class="container" id="mainApp" style="display:none;">
   <header>
-    <div>
-      <div class="brand-title">FAUSTINE STATIONERY SERVICE</div>
-      <div class="brand-sub">Mfumo wa Mapato, Mifuko 3, Manunuzi, Cash-Up, Hybrid AI &amp; STATIONERY SERVICE . NET</div>
+    <div class="brand-left">
+      <div class="brand-logo-card" id="headerLogoContainer"></div>
+      <div>
+        <div class="brand-title">FAUSTIN STATIONERY SERVICES</div>
+        <div class="brand-sub">Mfumo wa Mapato, Mifuko 3, Manunuzi, Cash-Up, Hybrid AI &amp; STATIONERY SERVICE . NET</div>
+      </div>
     </div>
     <div class="header-right">
       <div class="date-badge" id="todayBadge"></div>
@@ -598,9 +609,9 @@
     <div class="grid-2">
       <!-- USAWAZISHAJI WA VIFAA VINGI (GOOGLE SHEETS SYNC) -->
       <div class="card">
-        <div class="card-title" style="margin-bottom:10px;">☁️ Usawazishaji wa Vifaa Vingi (Cloud Sync)</div>
+        <div class="card-title" style="margin-bottom:10px;">☁️ Usawazishaji wa Vifaa Vingi (Google Apps Script)</div>
         <p style="font-size:0.84rem; color:var(--muted); margin-bottom:12px;">
-          Weka kiungo cha <strong>Google Apps Script Web App URL</strong> ili data zako zisawazishwe kiotomatiki kati ya simu na kompyuta yako.
+          Weka kiungo chako cha <strong>Google Apps Script Web App URL</strong> ili data zako zisawazishwe kiotomatiki kati ya simu na kompyuta yako.
         </p>
         <label>Google Apps Script Web App URL</label>
         <input type="url" id="setSyncUrl" placeholder="https://script.google.com/macros/s/.../exec">
@@ -636,26 +647,37 @@
     </div>
 
     <div class="grid-2">
-      <!-- HYBRID AI GEMINI API KEY -->
+      <!-- LOGO UPLOAD & HYBRID AI GEMINI API KEY -->
       <div class="card">
-        <div class="card-title" style="margin-bottom:10px;">🤖 Hybrid AI Settings (Local + Gemini API)</div>
-        <p style="font-size:0.84rem; color:var(--muted); margin-bottom:12px;">
-          Mfumo hutumia <strong>Local Business Engine</strong> moja kwa moja bila intaneti/API. Ukiweka <strong>Gemini API Key</strong> hapa chini, AI itaweza pia kujibu maswali mapana zaidi kwa kutumia Gemini API.
+        <div class="card-title" style="margin-bottom:10px;">🖼️ Logo ya Biashara &amp; Hybrid AI Key</div>
+        <p style="font-size:0.83rem; color:var(--muted); margin-bottom:10px;">
+          Logo rasmi ya <strong>FAUSTIN STATIONERY SERVICES</strong> tayari imewekwa kwenye Login na Dashboard. Unaweza pia kupakia picha yako ya logo hapa chini:
         </p>
-        <label>Gemini API Key (Hiari)</label>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px;">
+          <label class="btn btn-outline btn-sm" style="margin:0; cursor:pointer;">
+            📤 Pakia Picha ya Logo
+            <input type="file" accept="image/*" onchange="uploadCustomLogo(event)" style="display:none;">
+          </label>
+          <button type="button" class="btn btn-outline btn-sm" onclick="resetCustomLogo()">↩️ Tumia Logo Chaguo-Msingi</button>
+        </div>
+
+        <label>Gemini API Key (Hiari — kwa Hybrid AI)</label>
         <input type="password" id="setGeminiKey" placeholder="AIzaSy...">
-        <button class="btn btn-primary" onclick="saveGeminiKey()">Hifadhi Gemini API Key</button>
-        <div id="geminiKeyStatus" style="font-size:0.8rem; color:var(--muted); margin-top:8px;"></div>
+        <button class="btn btn-primary btn-sm" onclick="saveGeminiKey()">Hifadhi Gemini API Key</button>
+        <div id="geminiKeyStatus" style="font-size:0.78rem; color:var(--muted); margin-top:6px;"></div>
       </div>
 
       <!-- BACKUP & RESET -->
       <div class="card">
         <div class="card-title" style="margin-bottom:10px;">💾 Hifadhi Nakala (Backup) &amp; Usalama</div>
+        <p style="font-size:0.83rem; color:var(--muted); margin-bottom:12px;">
+          Inasaidia kurejesha faili za JSON za mfumo wako bila kugoma.
+        </p>
         <div style="display:flex; gap:10px; flex-wrap:wrap;">
           <button class="btn btn-outline" onclick="downloadBackup()">⬇️ Pakua Backup (JSON)</button>
           <label class="btn btn-outline" style="margin:0; cursor:pointer;">
             ⬆️ Rejesha Backup (JSON)
-            <input type="file" accept=".json" onchange="restoreBackup(event)" style="display:none;">
+            <input type="file" accept=".json,application/json,text/plain" onchange="restoreBackup(event)" style="display:none;">
           </label>
           <button class="btn btn-expense" onclick="resetAllData()">🗑️ Futa Data Zote</button>
         </div>
@@ -806,6 +828,58 @@
 <div id="toast" class="toast"></div>
 
 <script>
+  // ====== LOGO EMBLEM (FAUSTIN STATIONERY SERVICES) ======
+  const BRAND_SVG = `
+    <svg width="46" height="36" viewBox="0 0 120 88" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Faustin Stationery Services Logo">
+      <rect x="6" y="28" width="52" height="30" rx="6" fill="#0284c7" stroke="#0f172a" stroke-width="4"/>
+      <path d="M18 28V10H46V28" fill="#ffffff" stroke="#0f172a" stroke-width="4"/>
+      <line x1="23" y1="17" x2="41" y2="17" stroke="#0f172a" stroke-width="3" stroke-linecap="round"/>
+      <line x1="23" y1="23" x2="36" y2="23" stroke="#0f172a" stroke-width="3" stroke-linecap="round"/>
+      <path d="M16 58H48V74H16V58Z" fill="#ffffff" stroke="#0f172a" stroke-width="4"/>
+      <line x1="22" y1="65" x2="42" y2="65" stroke="#0f172a" stroke-width="3" stroke-linecap="round"/>
+      <rect x="66" y="10" width="48" height="44" rx="5" fill="#ffffff" stroke="#0f172a" stroke-width="4.5"/>
+      <path d="M84 54H96L99 68H81L84 54Z" fill="#0f172a"/>
+      <line x1="75" y1="70" x2="105" y2="70" stroke="#0f172a" stroke-width="4" stroke-linecap="round"/>
+      <rect x="34" y="79" width="52" height="5" rx="2.5" fill="#f59e0b"/>
+    </svg>
+  `;
+
+  function renderBrandLogos() {
+    const customLogo = db.settings && db.settings.customLogo;
+    const emblemHtml = customLogo
+      ? `<img src="${customLogo}" alt="Logo" class="custom-logo-img">`
+      : BRAND_SVG;
+
+    const loginCont = document.getElementById("loginLogoContainer");
+    if (loginCont) {
+      loginCont.innerHTML = `${emblemHtml}<div style="font-size:0.7rem;font-weight:800;color:#0284c7;letter-spacing:0.6px;margin-top:4px;">STATIONERY SERVICES</div>`;
+    }
+    const headerCont = document.getElementById("headerLogoContainer");
+    if (headerCont) {
+      headerCont.innerHTML = emblemHtml;
+    }
+  }
+
+  function uploadCustomLogo(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(ev) {
+      db.settings.customLogo = ev.target.result;
+      saveDB(true);
+      renderBrandLogos();
+      showToast("🖼️ Logo yako imehifadhiwa kwenye Login na Dashboard!");
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function resetCustomLogo() {
+    db.settings.customLogo = "";
+    saveDB(true);
+    renderBrandLogos();
+    showToast("↩️ Imerudishwa logo chaguo-msingi ya FAUSTIN STATIONERY SERVICES.");
+  }
+
   // ====== USALAMA WA NENOSIRI ======
   const APP_PASS = "Fau@06477";
   const SESSION_KEY = "faustine_stationery_unlocked_v1";
@@ -829,6 +903,7 @@
     document.getElementById("loginPassword").value = "";
     document.getElementById("mainApp").style.display = "none";
     document.getElementById("loginGate").style.display = "flex";
+    renderBrandLogos();
   }
 
   // ====== DATA & HIFADHI ======
@@ -836,7 +911,7 @@
   const GOAL_AKIBA = 1000000;
 
   let db = {
-    settings: { mtaji: 50, akiba: 36, salio: 14, syncUrl: "", geminiApiKey: "" },
+    settings: { mtaji: 50, akiba: 36, salio: 14, syncUrl: "", geminiApiKey: "", customLogo: "" },
     transactions: [],
     closedReports: [],
     shoppingList: [],
@@ -847,17 +922,26 @@
   let charts = {};
 
   function loadDB() {
-    const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem("faustine_stationery_db_v1");
-    if (raw) {
-      try {
-        const parsed = JSON.parse(raw);
-        db = { ...db, ...parsed };
-        if (!db.settings) db.settings = { mtaji: 50, akiba: 36, salio: 14, syncUrl: "", geminiApiKey: "" };
-        if (!Array.isArray(db.transactions)) db.transactions = [];
-        if (!Array.isArray(db.closedReports)) db.closedReports = [];
-        if (!Array.isArray(db.shoppingList)) db.shoppingList = [];
-        if (!Array.isArray(db.reconciliations)) db.reconciliations = [];
-      } catch (e) { console.error(e); }
+    const keysToCheck = [STORAGE_KEY, "faustine_stationery_db_v1"];
+    for (const k of keysToCheck) {
+      const raw = localStorage.getItem(k);
+      if (raw) {
+        try {
+          const parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === "object") {
+            db = {
+              ...db,
+              ...parsed,
+              settings: { ...db.settings, ...(parsed.settings || {}) }
+            };
+            if (!Array.isArray(db.transactions)) db.transactions = [];
+            if (!Array.isArray(db.closedReports)) db.closedReports = [];
+            if (!Array.isArray(db.shoppingList)) db.shoppingList = [];
+            if (!Array.isArray(db.reconciliations)) db.reconciliations = [];
+            break;
+          }
+        } catch (e) { console.error(e); }
+      }
     }
   }
 
@@ -878,12 +962,12 @@
     return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
   }
   function getMonthKey(dateStr) {
-    return dateStr.slice(0, 7);
+    return String(dateStr || "").slice(0, 7);
   }
   function getMonthName(ym) {
-    const [y, m] = ym.split("-");
+    const [y, m] = (ym || "2026-01").split("-");
     const names = ["Januari","Februari","Machi","Aprili","Mei","Juni","Julai","Agosti","Septemba","Oktoba","Novemba","Desemba"];
-    return names[parseInt(m, 10) - 1] + " " + y;
+    return (names[parseInt(m, 10) - 1] || "Mwezi") + " " + y;
   }
   function showToast(msg) {
     const t = document.getElementById("toast");
@@ -1089,7 +1173,7 @@
   function quickRestockItem(id) {
     const item = db.shoppingList.find(x => x.id === id);
     if (!item) return;
-    const addQtyStr = prompt(`Restock "${item.name}" (Stock sasa: ${item.stock}). Weka idadi unayoongeza:`, "5");
+    const addQtyStr = prompt(`Restock "${item.name}" (Stock sasa: ${item.stock ?? 0}). Weka idadi unayoongeza:`, "5");
     if (addQtyStr === null) return;
     const addQty = parseInt(addQtyStr, 10);
     if (!addQty || addQty <= 0) return showToast("Weka idadi sahihi zaidi ya 0.");
@@ -1171,7 +1255,7 @@
             <input type="checkbox" class="shop-check" ${item.checked ? 'checked' : ''} onchange="toggleShoppingItem('${item.id}')">
             <div>
               <div class="shop-name">${item.name} ${low ? '<span class="badge b-low">LOW STOCK</span>' : '<span class="badge b-ok">OK</span>'}</div>
-              <div style="font-size:0.74rem; color:var(--muted);">Stock: <strong>${stockNum}</strong> (Min: ${minNum}) • Kipimo: ${item.qty}</div>
+              <div style="font-size:0.74rem; color:var(--muted);">Stock: <strong>${stockNum}</strong> (Min: ${minNum}) • Kipimo: ${item.qty || "-"}</div>
             </div>
           </label>
           <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
@@ -1196,7 +1280,7 @@
       <tr>
         <td style="text-align:center;">${idx + 1}</td>
         <td><strong>${item.name}</strong></td>
-        <td style="text-align:center;">${Number(item.stock ?? 0)} / Min ${Number(item.minStock ?? 2)} (${item.qty})</td>
+        <td style="text-align:center;">${Number(item.stock ?? 0)} / Min ${Number(item.minStock ?? 2)} (${item.qty || "-"})</td>
         <td style="text-align:center;"><span style="display:inline-block; width:16px; height:16px; border:1.5px solid #000;"></span></td>
         <td></td>
       </tr>
@@ -1207,7 +1291,7 @@
       <html lang="sw">
       <head>
         <meta charset="UTF-8">
-        <title>Orodha ya Restock / Manunuzi - FAUSTINE STATIONERY SERVICE</title>
+        <title>Orodha ya Restock / Manunuzi - FAUSTIN STATIONERY SERVICES</title>
         <style>
           body { font-family: Arial, sans-serif; padding: 28px; color: #111; }
           .header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 12px; margin-bottom: 18px; }
@@ -1222,7 +1306,7 @@
       </head>
       <body>
         <div class="header">
-          <h1>FAUSTINE STATIONERY SERVICE</h1>
+          <h1>FAUSTIN STATIONERY SERVICES</h1>
           <p>ORODHA YA RESTOCK / MANUNUZI YA VIFAA (LOW STOCK LIST)</p>
         </div>
         <div class="meta">
@@ -1244,7 +1328,7 @@
           </tbody>
         </table>
         <div class="footer">
-          <span>Imeandaliwa na Mfumo wa Faustine Stationery Service</span>
+          <span>Imeandaliwa na Mfumo wa Faustin Stationery Services</span>
           <span>Jumla Kuu: _____________________ TZS</span>
         </div>
         <script>
@@ -1344,7 +1428,6 @@
   function generateSmartWhatsAppDigest() {
     const t = calculateTotals();
     const today = getTodayStr();
-    const curMonth = getMonthKey(today);
 
     let todayStat = 0, todayWifi = 0, todayExp = 0, todaySalioExp = 0;
     db.transactions.forEach(x => {
@@ -1358,7 +1441,7 @@
 
     const lowItems = db.shoppingList.filter(x => isLowStockItem(x));
     const lowLine = lowItems.length > 0
-      ? lowItems.map(i => `• ${i.name} (Stock: ${i.stock ?? 0}/${i.qty})`).join("\n")
+      ? lowItems.map(i => `• ${i.name} (Stock: ${i.stock ?? 0}/${i.qty || "-"})`).join("\n")
       : "• Hakuna bidhaa zilizo Low Stock kwa sasa.";
 
     const rec = db.reconciliations.find(r => r.date === today);
@@ -1369,7 +1452,7 @@
     const pctAkiba = Math.min(100, (t.akibaIn / GOAL_AKIBA) * 100).toFixed(1);
 
     return `⚡ *SMART WHATSAPP DIGEST — ${today}*\n` +
-           `*FAUSTINE STATIONERY SERVICE*\n` +
+           `*FAUSTIN STATIONERY SERVICES*\n` +
            `----------------------------------\n` +
            `📌 *Leo (${today}):*\n` +
            `• Stationery: ${fmtTZS(todayStat)}\n` +
@@ -1453,7 +1536,7 @@
       if (lowItems.length === 0) {
         return "📦 Kwa sasa hakuna kifaa kilicho chini ya kiwango cha Low Stock. Unaweza kuongeza vifaa kwenye 'Low Stock & Restock' ili kufuatilia stock na ku-print orodha.";
       }
-      const lines = lowItems.map((it, idx) => `${idx + 1}. ${it.name} — Stock: ${it.stock ?? 0} (Min: ${it.minStock ?? 2}) [${it.qty}]`).join("\n");
+      const lines = lowItems.map((it, idx) => `${idx + 1}. ${it.name} — Stock: ${it.stock ?? 0} (Min: ${it.minStock ?? 2}) [${it.qty || "-"}]`).join("\n");
       return `📦 Vifaa Vilivyo Low Stock (${lowItems.length}):\n${lines}\n\nFungua 'Low Stock & Restock' na ubonyeze '🖨️ Print Orodha ya Manunuzi'.`;
     }
 
@@ -1480,7 +1563,7 @@
     const key = (db.settings && db.settings.geminiApiKey) ? db.settings.geminiApiKey.trim() : "";
     if (!key) return null;
 
-    const prompt = `Wewe ni mshauri mahiri wa biashara kwa Faustine Stationery Service (Tanzania). Jibu kwa Kiswahili kifupi, wazi na chenye vitendo.\n\nTakwimu za sasa:\n${localContextSummary}\n\nSwali la mtumiaji: ${userQuestion}`;
+    const prompt = `Wewe ni mshauri mahiri wa biashara kwa Faustin Stationery Services (Tanzania). Jibu kwa Kiswahili kifupi, wazi na chenye vitendo.\n\nTakwimu za sasa:\n${localContextSummary}\n\nSwali la mtumiaji: ${userQuestion}`;
     const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(key)}`;
 
     const res = await fetch(endpoint, {
@@ -1770,7 +1853,7 @@
   function renderHistory() {
     const fType = document.getElementById("filterType").value;
     const fMonth = document.getElementById("filterMonth").value;
-    let list = [...db.transactions].sort((a, b) => b.date.localeCompare(a.date));
+    let list = [...db.transactions].sort((a, b) => (b.date || "").localeCompare(a.date || ""));
 
     if (fType !== "all") list = list.filter(t => t.type === fType);
     if (fMonth) list = list.filter(t => getMonthKey(t.date) === fMonth);
@@ -1791,7 +1874,7 @@
         effect = "Mfuko Tenga wa Wi-Fi";
       } else if (t.type === "expense") {
         badge = `<span class="badge b-exp">Manunuzi</span>`;
-        desc = `<strong>${t.item}</strong>${t.note ? " — " + t.note : ""}`;
+        desc = `<strong>${t.item || "Kifaa"}</strong>${t.note ? " — " + t.note : ""}`;
         effect = "Imekatwa kwenye Mtaji";
       } else if (t.type === "salio") {
         badge = `<span class="badge b-sal">Matumizi Salio</span>`;
@@ -1823,7 +1906,7 @@
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `Faustine_Stationery_${getTodayStr()}.csv`;
+    a.download = `Faustin_Stationery_${getTodayStr()}.csv`;
     a.click();
   }
 
@@ -1843,7 +1926,7 @@
     const pctAkiba = Math.min(100, (totals.akibaIn / GOAL_AKIBA) * 100).toFixed(1);
 
     return `📊 *RIPOTI YA MWEZI — ${getMonthName(ym).toUpperCase()}*\n` +
-           `*FAUSTINE STATIONERY SERVICE*\n` +
+           `*FAUSTIN STATIONERY SERVICES*\n` +
            `----------------------------------\n` +
            `🖨️ *Mapato Stationery:* ${fmtTZS(stat)}\n` +
            `   • Mtaji (${db.settings.mtaji}%): ${fmtTZS(mtaji)}\n` +
@@ -1865,7 +1948,7 @@
     const curYm = getMonthKey(getTodayStr());
     const lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
 
-    const monthsWithData = [...new Set(db.transactions.map(t => getMonthKey(t.date)))].sort();
+    const monthsWithData = [...new Set(db.transactions.map(t => getMonthKey(t.date)).filter(Boolean))].sort();
     let changed = false;
     monthsWithData.forEach(ym => {
       const alreadyClosed = db.closedReports.some(r => r.month === ym);
@@ -1919,7 +2002,7 @@
       return;
     }
 
-    const sorted = [...db.closedReports].sort((a, b) => b.month.localeCompare(a.month));
+    const sorted = [...db.closedReports].sort((a, b) => (b.month || "").localeCompare(a.month || ""));
     container.innerHTML = sorted.map(r => `
       <div style="border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:12px;background:#fff;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:8px;">
@@ -2020,9 +2103,25 @@
     try {
       const res = await fetch(db.settings.syncUrl + "?action=load&t=" + Date.now());
       const cloudData = await res.json();
+      const keepLocalUrl = db.settings.syncUrl;
+      const keepLocalKey = db.settings.geminiApiKey;
+      const keepLocalLogo = db.settings.customLogo;
+
       if (cloudData && cloudData.updatedAt && cloudData.updatedAt > (db.updatedAt || 0)) {
-        db = { ...db, ...cloudData, settings: { ...db.settings, ...cloudData.settings, syncUrl: db.settings.syncUrl } };
+        db = {
+          ...db,
+          ...cloudData,
+          settings: {
+            ...db.settings,
+            ...(cloudData.settings || {}),
+            syncUrl: (cloudData.settings && cloudData.settings.syncUrl) ? cloudData.settings.syncUrl : keepLocalUrl,
+            geminiApiKey: (cloudData.settings && cloudData.settings.geminiApiKey) ? cloudData.settings.geminiApiKey : keepLocalKey,
+            customLogo: (cloudData.settings && cloudData.settings.customLogo) ? cloudData.settings.customLogo : keepLocalLogo
+          }
+        };
+        document.getElementById("setSyncUrl").value = db.settings.syncUrl || "";
         localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
+        renderBrandLogos();
         renderAll();
         if (manual) showToast("☁️ Data mpya zimepakuliwa kutoka Cloud!");
       } else {
@@ -2068,8 +2167,41 @@
     const blob = new Blob([JSON.stringify(db, null, 2)], { type: "application/json" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = `Faustine_Stationery_Backup_${getTodayStr()}.json`;
+    a.download = `Faustin_Stationery_Backup_${getTodayStr()}.json`;
     a.click();
+  }
+
+  function normalizeTransaction(rawTx) {
+    if (!rawTx || typeof rawTx !== "object") return null;
+    const amount = parseFloat(rawTx.amount ?? rawTx.kiasi ?? rawTx.value ?? 0);
+    if (!amount || isNaN(amount)) return null;
+    const rawType = String(rawTx.type || rawTx.aina || rawTx.source || "stationery").toLowerCase();
+    let type = "stationery";
+    if (rawType.includes("wifi") || rawType.includes("net")) type = "wifi";
+    else if (rawType.includes("exp") || rawType.includes("manunuzi") || rawType.includes("kifaa")) type = "expense";
+    else if (rawType.includes("salio") || rawType.includes("matumizi")) type = "salio";
+
+    const date = String(rawTx.date || rawTx.tarehe || getTodayStr()).slice(0, 10);
+    let split = rawTx.split || null;
+    if (type === "stationery" && !split) {
+      const pM = (db.settings.mtaji || 50) / 100;
+      const pA = (db.settings.akiba || 36) / 100;
+      split = {
+        mtaji: Math.round(amount * pM),
+        akiba: Math.round(amount * pA),
+        salio: amount - Math.round(amount * pM) - Math.round(amount * pA)
+      };
+    }
+
+    return {
+      id: String(rawTx.id || (Date.now() + Math.random().toString(36).slice(2, 7))),
+      type,
+      date,
+      amount,
+      item: rawTx.item || rawTx.kifaa || "",
+      note: rawTx.note || rawTx.maelezo || rawTx.reason || "",
+      split
+    };
   }
 
   function restoreBackup(e) {
@@ -2078,18 +2210,53 @@
     const reader = new FileReader();
     reader.onload = function(ev) {
       try {
-        const parsed = JSON.parse(ev.target.result);
-        if (parsed && Array.isArray(parsed.transactions)) {
-          db = { ...db, ...parsed };
-          if (!Array.isArray(db.shoppingList)) db.shoppingList = [];
-          if (!Array.isArray(db.reconciliations)) db.reconciliations = [];
-          saveDB();
-          renderAll();
-          showToast("✅ Backup imerejeshwa kikamilifu!");
+        const text = String(ev.target.result || "").replace(/^\uFEFF/, "").trim();
+        const parsed = JSON.parse(text);
+
+        let rawTxs = [];
+        let parsedSettings = {};
+        let parsedClosed = [];
+        let parsedShop = [];
+        let parsedRec = [];
+
+        if (Array.isArray(parsed)) {
+          rawTxs = parsed;
+        } else if (parsed && typeof parsed === "object") {
+          const container = (parsed.payload && typeof parsed.payload === "object") ? parsed.payload : parsed;
+          rawTxs = container.transactions || container.txs || container.records || container.data || [];
+          parsedSettings = container.settings || {};
+          parsedClosed = container.closedReports || container.reports || [];
+          parsedShop = container.shoppingList || container.shopping || container.lowStock || [];
+          parsedRec = container.reconciliations || container.cashUps || [];
         } else {
-          alert("Faili la backup si sahihi.");
+          return alert("Faili la backup si sahihi.");
         }
-      } catch (err) { alert("Imeshindwa kusoma faili."); }
+
+        const cleanTxs = Array.isArray(rawTxs) ? rawTxs.map(normalizeTransaction).filter(Boolean) : [];
+        db.transactions = cleanTxs;
+        db.settings = {
+          ...db.settings,
+          ...parsedSettings,
+          syncUrl: parsedSettings.syncUrl || db.settings.syncUrl || "",
+          geminiApiKey: parsedSettings.geminiApiKey || db.settings.geminiApiKey || "",
+          customLogo: parsedSettings.customLogo || db.settings.customLogo || ""
+        };
+        if (Array.isArray(parsedClosed)) db.closedReports = parsedClosed;
+        if (Array.isArray(parsedShop)) db.shoppingList = parsedShop;
+        if (Array.isArray(parsedRec)) db.reconciliations = parsedRec;
+
+        saveDB();
+        document.getElementById("setSyncUrl").value = db.settings.syncUrl || "";
+        document.getElementById("setMtaji").value = db.settings.mtaji;
+        document.getElementById("setAkiba").value = db.settings.akiba;
+        document.getElementById("setSalio").value = db.settings.salio;
+        renderBrandLogos();
+        renderAll();
+        showToast(`✅ Backup imerejeshwa kikamilifu! (Miamala: ${cleanTxs.length})`);
+      } catch (err) {
+        alert("Imeshindwa kusoma faili la JSON: " + err.message);
+      }
+      e.target.value = "";
     };
     reader.readAsText(file);
   }
@@ -2098,8 +2265,9 @@
     if (!confirm("ONYO: Hii itafuta miamala na ripoti ZOTE kabisa. Una uhakika?")) return;
     const keepUrl = db.settings.syncUrl;
     const keepKey = db.settings.geminiApiKey;
+    const keepLogo = db.settings.customLogo;
     db = {
-      settings: { mtaji: 50, akiba: 36, salio: 14, syncUrl: keepUrl, geminiApiKey: keepKey },
+      settings: { mtaji: 50, akiba: 36, salio: 14, syncUrl: keepUrl, geminiApiKey: keepKey, customLogo: keepLogo },
       transactions: [],
       closedReports: [],
       shoppingList: [],
@@ -2121,6 +2289,7 @@
 
   function initApp() {
     loadDB();
+    renderBrandLogos();
     const today = getTodayStr();
     document.getElementById("todayBadge").textContent = "📅 " + today;
     document.getElementById("incDate").value = today;
@@ -2145,6 +2314,9 @@
       updateSyncIndicator("", "Local Only");
     }
   }
+
+  loadDB();
+  renderBrandLogos();
 
   if (sessionStorage.getItem(SESSION_KEY) === "1") {
     document.getElementById("loginGate").style.display = "none";

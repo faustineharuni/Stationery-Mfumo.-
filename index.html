@@ -1765,7 +1765,7 @@
     sendWhatsAppText(encodeURIComponent(digest));
   }
 
-  // ====== HYBRID AI ASSISTANT (GEMINI 3.8 FLASH + ABORT TIMEOUT + SHORT RETRY) ======
+  // ====== HYBRID AI ASSISTANT (GEMINI MODELS + ABORT TIMEOUT + SHORT RETRY) ======
   function updateAiModeBadge() {
     const badge = document.getElementById("aiModeBadge");
     if (!badge) return;
@@ -1842,13 +1842,13 @@
     if (!key) return { ok: false, reason: "Hakuna Gemini API Key iliyohifadhiwa." };
 
     const prompt = `Mshauri wa biashara kwa Faustin Stationery Services (TZ). Jibu kwa Kiswahili kifupi na chenye vitendo.\nData:\n${localContextSummary}\nSwali: ${userQuestion}`;
-    const modelsToTry = ["gemini-3.8-flash"];
+    const modelsToTry = ["gemini-3.8-flash", "gemini-4-hydrogen", "gemini-3.5-flash-lite"];
 
     let lastErr = "Imeshindwa kupata jibu kutoka Gemini.";
     for (const modelName of modelsToTry) {
       for (let attempt = 1; attempt <= 2; attempt++) {
         const controller = new AbortController();
-        const timer = setTimeout(() => controller.abort(), 6000);
+        const timer = setTimeout(() => controller.abort(), 8000);
         try {
           const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${encodeURIComponent(key)}`;
           const res = await fetch(endpoint, {

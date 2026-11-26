@@ -704,7 +704,7 @@
       <div class="card">
         <div class="card-title" style="margin-bottom:10px;">💾 Hifadhi Nakala (Backup) &amp; Usalama</div>
         <p style="font-size:0.83rem; color:var(--muted); margin-bottom:12px;">
-          Inasaidia kurejesha faili za JSON (ikiwemo <code>entries</code> na <code>percentages</code>) bila kugoma.
+          Inasaidia kurejesha faili za JSON (ikiwemo <code>entries</code>, <code>purchases</code>, <code>salio</code> na <code>percentages</code>) bila kugoma.
         </p>
         <div style="display:flex; gap:10px; flex-wrap:wrap;">
           <button class="btn btn-outline" onclick="downloadBackup()">⬇️ Pakua Backup (JSON)</button>
@@ -2273,7 +2273,7 @@
     if (!raw || typeof raw !== "object") return null;
     if (raw.payload && typeof raw.payload === "object") return raw.payload;
     if (raw.data && typeof raw.data === "object" && !Array.isArray(raw.data)) return raw.data;
-    if (Array.isArray(raw.transactions) || Array.isArray(raw.txs) || Array.isArray(raw.entries) || raw.settings || raw.percentages) return raw;
+    if (Array.isArray(raw.transactions) || Array.isArray(raw.txs) || Array.isArray(raw.entries) || Array.isArray(raw.purchases) || raw.settings || raw.percentages) return raw;
     return null;
   }
 
@@ -2414,7 +2414,7 @@
     a.click();
   }
 
-  function normalizeTransaction(rawTx) {
+  function normalizeTransaction(rawTx, forcedType = null) {
     if (!rawTx || typeof rawTx !== "object" || Array.isArray(rawTx)) return null;
 
     const rawAmt = rawTx.amount ?? rawTx.kiasi ?? rawTx.value ?? rawTx.price ?? rawTx.total ?? rawTx.sum;
@@ -2425,7 +2425,7 @@
     if (!cleanedAmt || isNaN(cleanedAmt) || cleanedAmt <= 0) return null;
 
     const rawType = String(
-      rawTx.type || rawTx.category || rawTx.aina || rawTx.source || rawTx.bucket || "stationery"
+      forcedType || rawTx.type || rawTx.category || rawTx.aina || rawTx.source || rawTx.bucket || "stationery"
     ).toLowerCase().trim();
 
     let type = "stationery";
@@ -2433,8 +2433,8 @@
       type = "wifi";
     } else if (
       rawType.includes("exp") ||
+      rawType.includes("purch") ||
       rawType.includes("manunuzi") ||
-      rawType.includes("purchase") ||
       rawType.includes("kifaa") ||
       rawType.includes("restock")
     ) {
@@ -2478,51 +2478,77 @@
     };
   }
 
-  function extractTransactionsDeep(node, results = []) {
+  function extractTransactionsDeep(node, results = [], seenIds = new Set(), forcedType = null) {
     if (!node) return results;
 
     if (Array.isArray(node)) {
       node.forEach(item => {
-        const tx = normalizeTransaction(item);
-        if (tx) results.push(tx);
-        else extractTransactionsDeep(item, results);
+        const tx = normalizeTransaction(item, forcedType);
+        if (tx) {
+          if (!seenIds.has(tx.id)) {
+            seenIds.add(tx.id);
+            results.push(tx);
+          }
+        } else {
+          extractTransactionsDeep(item, results, seenIds, forcedType);
+        }
       });
       return results;
     }
 
     if (typeof node === "object") {
-      const knownArrays = [
-        node.entries,
-        node.transactions,
-        node.txs,
-        node.records,
-        node.history,
-        node.items,
-        node.data
+      // Kagua array zote zinazojulikana bila kuruka nyingine
+      const arrayBuckets = [
+        { arr: node.entries, type: null },
+        { arr: node.transactions, type: null },
+        { arr: node.txs, type: null },
+        { arr: node.purchases, type: "expense" },
+        { arr: node.expenses, type: "expense" },
+        { arr: node.manunuzi, type: "expense" },
+        { arr: node.salioExpenses, type: "salio" },
+        { arr: node.salioWithdrawals, type: "salio" },
+        { arr: node.withdrawals, type: "salio" },
+        { arr: node.records, type: null },
+        { arr: node.history, type: null },
+        { arr: node.items, type: null }
       ];
-      for (const arr of knownArrays) {
-        if (Array.isArray(arr) && arr.length > 0) {
-          arr.forEach(item => {
-            const tx = normalizeTransaction(item);
-            if (tx) results.push(tx);
+
+      for (const bucket of arrayBuckets) {
+        if (Array.isArray(bucket.arr) && bucket.arr.length > 0) {
+          bucket.arr.forEach(item => {
+            const tx = normalizeTransaction(item, bucket.type);
+            if (tx && !seenIds.has(tx.id)) {
+              seenIds.add(tx.id);
+              results.push(tx);
+            }
           });
-          if (results.length > 0) return results;
         }
       }
 
+      if (results.length > 0 && (node.entries || node.transactions || node.purchases || node.salioExpenses)) {
+        return results;
+      }
+
+      // Kama object yenyewe ni muamala
       const possibleAmt = node.amount ?? node.kiasi ?? node.value ?? node.price ?? node.total;
-      const hasMeta = node.date || node.tarehe || node.label || node.note || node.maelezo || node.category || node.type || node.aina;
+      const hasMeta = node.date || node.tarehe || node.label || node.note || node.maelezo || node.item || node.category || node.type || node.aina;
       if (possibleAmt !== undefined && typeof possibleAmt !== "object" && hasMeta) {
-        const tx = normalizeTransaction(node);
-        if (tx) {
+        const tx = normalizeTransaction(node, forcedType);
+        if (tx && !seenIds.has(tx.id)) {
+          seenIds.add(tx.id);
           results.push(tx);
           return results;
         }
       }
 
-      Object.values(node).forEach(val => {
+      Object.entries(node).forEach(([key, val]) => {
         if (val && typeof val === "object") {
-          extractTransactionsDeep(val, results);
+          const kLower = key.toLowerCase();
+          let nextForced = forcedType;
+          if (kLower.includes("purch") || kLower.includes("exp") || kLower.includes("manunuzi")) nextForced = "expense";
+          else if (kLower.includes("salio") || kLower.includes("withdraw") || kLower.includes("matumizi")) nextForced = "salio";
+          else if (kLower.includes("wifi") || kLower.includes(".net")) nextForced = "wifi";
+          extractTransactionsDeep(val, results, seenIds, nextForced);
         }
       });
     }
@@ -2543,7 +2569,7 @@
           ? parsed.payload
           : (parsed && typeof parsed === "object" && !Array.isArray(parsed) ? parsed : {});
 
-        const cleanTxs = extractTransactionsDeep(container, []);
+        const cleanTxs = extractTransactionsDeep(container, [], new Set(), null);
         const parsedPercentages = container.percentages || {};
         const parsedSettings = container.settings || {};
 

@@ -1765,7 +1765,7 @@
     sendWhatsAppText(encodeURIComponent(digest));
   }
 
-  // ====== HYBRID AI ASSISTANT ======
+  // ====== HYBRID AI ASSISTANT (FIXED & DIAGNOSTIC) ======
   function updateAiModeBadge() {
     const badge = document.getElementById("aiModeBadge");
     if (!badge) return;
@@ -1789,6 +1789,7 @@
     div.textContent = text;
     box.appendChild(div);
     box.scrollTop = box.scrollHeight;
+    return div;
   }
 
   function buildLocalAiReply(rawQuestion) {
@@ -1838,20 +1839,32 @@
 
   async function askGeminiIfConfigured(userQuestion, localContextSummary) {
     const key = (db.settings && db.settings.geminiApiKey) ? db.settings.geminiApiKey.trim() : "";
-    if (!key) return null;
+    if (!key) return { ok: false, reason: "Hakuna Gemini API Key iliyohifadhiwa." };
 
     const prompt = `Wewe ni mshauri mahiri wa biashara kwa Faustin Stationery Services (Tanzania). Jibu kwa Kiswahili kifupi, wazi na chenye vitendo.\n\nTakwimu za sasa:\n${localContextSummary}\n\nSwali la mtumiaji: ${userQuestion}`;
-    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(key)}`;
+    const modelsToTry = ["gemini-2.5-flash", "gemini-flash-latest"];
 
-    const res = await fetch(endpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-    });
-    if (!res.ok) throw new Error("Gemini API error");
-    const data = await res.json();
-    const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-    return text ? text.trim() : null;
+    let lastErr = "Imeshindwa kupata jibu kutoka Gemini.";
+    for (const modelName of modelsToTry) {
+      try {
+        const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${encodeURIComponent(key)}`;
+        const res = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          lastErr = data?.error?.message || `HTTP ${res.status}`;
+          continue;
+        }
+        const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (text) return { ok: true, text: text.trim(), model: modelName };
+      } catch (err) {
+        lastErr = err.message || "Tatizo la mtandao au kivinjari.";
+      }
+    }
+    return { ok: false, reason: lastErr };
   }
 
   async function processAiQuestion(questionText) {
@@ -1861,13 +1874,18 @@
     const isDirectDataCommand = qLower.includes("digest") || qLower.includes("whatsapp") || qLower.includes("low stock") || qLower.includes("cash");
 
     if (hasKey && !isDirectDataCommand) {
-      try {
-        const geminiReply = await askGeminiIfConfigured(questionText, localReply);
-        if (geminiReply) {
-          appendAiMessage("✨ [Gemini AI]\n" + geminiReply, "bot");
-          return;
-        }
-      } catch (e) {}
+      const loadingBubble = appendAiMessage("⏳ Inawasiliana na Gemini...", "bot");
+      const result = await askGeminiIfConfigured(questionText, localReply);
+      if (loadingBubble && loadingBubble.parentNode) {
+        loadingBubble.remove();
+      }
+      if (result && result.ok) {
+        appendAiMessage(`✨ [Gemini AI • ${result.model}]\n` + result.text, "bot");
+        return;
+      } else {
+        appendAiMessage(`⚠️ Gemini haikujibu (${result ? result.reason : "Hitilafu"}).\n\n` + localReply, "bot");
+        return;
+      }
     }
     appendAiMessage(localReply, "bot");
   }
@@ -1999,10 +2017,8 @@
     }
 
     const aboveIndices = [];
-    const belowIndices = [];
     valid.forEach((v, idx) => {
       if (v > avgVal) aboveIndices.push(idx);
-      else belowIndices.push(idx);
     });
 
     const maxVal = Math.max(...valid);

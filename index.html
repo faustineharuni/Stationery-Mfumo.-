@@ -312,7 +312,7 @@
   .ai-fab:hover { transform: translateY(-2px); }
   .ai-drawer {
     position: fixed; bottom: 78px; left: 22px; z-index: 2500;
-    width: 375px; max-width: calc(100vw - 32px); max-height: 76vh;
+    width: 385px; max-width: calc(100vw - 32px); max-height: 78vh;
     background: #ffffff; border-radius: 18px; border: 1px solid var(--border);
     box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.4);
     display: none; flex-direction: column; overflow: hidden;
@@ -328,13 +328,13 @@
   }
   .ai-messages {
     padding: 14px; overflow-y: auto; flex: 1; display: flex; flex-direction: column; gap: 10px;
-    background: #f8fafc; max-height: 320px;
+    background: #f8fafc; max-height: 330px;
   }
   .ai-msg {
-    padding: 10px 12px; border-radius: 12px; font-size: 0.84rem; line-height: 1.45; white-space: pre-line;
+    padding: 10px 12px; border-radius: 12px; font-size: 0.84rem; line-height: 1.48; white-space: pre-line;
   }
   .ai-msg.bot {
-    background: #ffffff; border: 1px solid var(--border); color: var(--text); align-self: flex-start; max-width: 92%;
+    background: #ffffff; border: 1px solid var(--border); color: var(--text); align-self: flex-start; max-width: 93%;
   }
   .ai-msg.user {
     background: var(--primary); color: #fff; align-self: flex-end; max-width: 85%; font-weight: 600;
@@ -790,18 +790,18 @@
   </div>
 
   <div id="aiMessages" class="ai-messages">
-    <div class="ai-msg bot">Habari Faustine! Mimi ni Hybrid AI Assistant wa Faustine Stationery Services. Ninaweza kukagua Founder/Mmiliki/CEO, Mifuko 3, Muda wa Lengo, Low Stock, Cash-Up, na Smart WhatsApp Digest.</div>
+    <div class="ai-msg bot">Habari Faustine! Mimi ni Hybrid AI Assistant wa Faustine Stationery Services. Ninasoma data zote za mfumo na chati zote 4 ili kukupa uchambuzi wa kitakwimu na halisi (au jibu direct ukisema).</div>
   </div>
 
   <div class="ai-chips">
     <button type="button" class="ai-chip" onclick="askAiPreset('Nani ni Founder, Mmiliki na CEO wa Faustine Stationery?')">👤 Founder &amp; CEO</button>
-    <button type="button" class="ai-chip" onclick="askAiPreset('Muhtasari wa leo na mifuko mitatu')">📊 Mifuko &amp; Leo</button>
+    <button type="button" class="ai-chip" onclick="askAiPreset('Tafsiri chati zote kwa kitakwimu na uhalisia wa biashara')">📈 Tafsiri Chati</button>
     <button type="button" class="ai-chip" onclick="askAiPreset('Hali ya Low Stock na Restock ikoje?')">📦 Low Stock</button>
     <button type="button" class="ai-chip" onclick="askAiPreset('Siku, tarehe, mwezi na mwaka wa kufikisha lengo la Akiba?')">🎯 Muda Lengo</button>
   </div>
 
   <form class="ai-form" onsubmit="handleAiSubmit(event)">
-    <input type="text" id="aiInput" placeholder="Uliza swali (Local au Gemini)..." required>
+    <input type="text" id="aiInput" placeholder="Uliza swali (au ongeza 'jibu direct')..." required>
     <button type="submit" class="btn btn-primary btn-sm">Tuma</button>
   </form>
 </div>
@@ -1822,7 +1822,105 @@
     sendWhatsAppText(encodeURIComponent(digest));
   }
 
-  // ====== HYBRID AI ASSISTANT (FOUNDER/CEO + SHORT, DIRECT, NO STARS FOR ANY QUESTION) ======
+  // ====== CHART ANALYTICS ENGINE (FOR CHARTS & AI) ======
+  function getChartAnalyticsData(period = "month") {
+    const now = new Date();
+    const dateList = [];
+    if (period === "day") {
+      dateList.push(toLocalDateStr(now));
+    } else if (period === "week") {
+      for (let i = 6; i >= 0; i--) {
+        const d = new Date(now);
+        d.setDate(now.getDate() - i);
+        dateList.push(toLocalDateStr(d));
+      }
+    } else {
+      const year = now.getFullYear();
+      const month = now.getMonth();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      for (let day = 1; day <= daysInMonth; day++) {
+        dateList.push(toLocalDateStr(new Date(year, month, day)));
+      }
+    }
+
+    const labels = dateList.map(ds => period === "day" ? `Leo (${ds.slice(5)})` : ds.slice(5));
+    const statSeries = [], wifiSeries = [], mtajiSeries = [], expSeries = [], growthSeries = [];
+    let cumGrowth = 0;
+
+    dateList.forEach(ds => {
+      let sDay = 0, wDay = 0, mDay = 0, eDay = 0, salDay = 0;
+      db.transactions.forEach(t => {
+        if (t.date === ds) {
+          if (t.type === "stationery") {
+            sDay += t.amount;
+            if (t.split) mDay += t.split.mtaji;
+          } else if (t.type === "wifi") {
+            wDay += t.amount;
+          } else if (t.type === "expense") {
+            eDay += t.amount;
+          } else if (t.type === "salio") {
+            salDay += t.amount;
+          }
+        }
+      });
+
+      cumGrowth += ((sDay + wDay) - (eDay + salDay));
+      statSeries.push(sDay);
+      wifiSeries.push(wDay);
+      mtajiSeries.push(mDay);
+      expSeries.push(eDay);
+      growthSeries.push(cumGrowth);
+    });
+
+    function summarizeSeries(series) {
+      const n = series.length || 1;
+      const sum = series.reduce((a, b) => a + b, 0);
+      const avg = sum / n;
+      const max = series.length ? Math.max(...series) : 0;
+      const maxIdx = series.indexOf(max);
+      const peakLabel = labels[maxIdx] || "-";
+      const latest = series.length ? series[series.length - 1] : 0;
+      const latestLabel = labels[labels.length - 1] || "-";
+      const aboveAvgCount = series.filter(v => v > avg).length;
+      const diffFromAvg = latest - avg;
+      const diffPct = avg > 0 ? ((Math.abs(diffFromAvg) / avg) * 100).toFixed(1) : "0.0";
+      return { sum, avg, max, peakLabel, latest, latestLabel, aboveAvgCount, totalPoints: n, diffFromAvg, diffPct };
+    }
+
+    const statSummary = summarizeSeries(statSeries);
+    const wifiSummary = summarizeSeries(wifiSeries);
+    const mtajiSummary = summarizeSeries(mtajiSeries);
+    const expSummary = summarizeSeries(expSeries);
+    const growthSummary = summarizeSeries(growthSeries);
+    const coveragePct = expSummary.sum > 0 ? ((mtajiSummary.sum / expSummary.sum) * 100).toFixed(1) : "100.0";
+
+    const summaryText = [
+      `Kipindi cha Chati: ${period.toUpperCase()} (Vipindi ${dateList.length})`,
+      `1. Chati ya Stationery: Jumla ${fmtTZS(statSummary.sum)} | Wastani ${fmtTZS(statSummary.avg)} | Kilele ${fmtTZS(statSummary.max)} (${statSummary.peakLabel}) | Mwisho (${statSummary.latestLabel}) ${fmtTZS(statSummary.latest)} | Juu ya wastani vipindi ${statSummary.aboveAvgCount}/${statSummary.totalPoints} | Tofauti na wastani ${statSummary.diffFromAvg >= 0 ? "+" : ""}${fmtTZS(statSummary.diffFromAvg)} (${statSummary.diffPct}%)`,
+      `2. Chati ya Wi-Fi (.NET): Jumla ${fmtTZS(wifiSummary.sum)} | Wastani ${fmtTZS(wifiSummary.avg)} | Kilele ${fmtTZS(wifiSummary.max)} (${wifiSummary.peakLabel}) | Mwisho (${wifiSummary.latestLabel}) ${fmtTZS(wifiSummary.latest)} | Juu ya wastani vipindi ${wifiSummary.aboveAvgCount}/${wifiSummary.totalPoints}`,
+      `3. Chati ya Mtaji vs Manunuzi: Jumla Mtaji ${fmtTZS(mtajiSummary.sum)} (Wastani ${fmtTZS(mtajiSummary.avg)}, Kilele ${fmtTZS(mtajiSummary.max)} ${mtajiSummary.peakLabel}) vs Jumla Manunuzi ${fmtTZS(expSummary.sum)} | Ufunikaji Mtaji/Manunuzi ${coveragePct}%`,
+      `4. Chati ya Ukuaji Halisi: Wastani ${fmtTZS(growthSummary.avg)} | Kilele ${fmtTZS(growthSummary.max)} (${growthSummary.peakLabel}) | Mwisho (${growthSummary.latestLabel}) ${fmtTZS(growthSummary.latest)} | Juu ya wastani vipindi ${growthSummary.aboveAvgCount}/${growthSummary.totalPoints}`
+    ].join("\n");
+
+    return {
+      period,
+      labels,
+      statSeries,
+      wifiSeries,
+      mtajiSeries,
+      expSeries,
+      growthSeries,
+      statSummary,
+      wifiSummary,
+      mtajiSummary,
+      expSummary,
+      growthSummary,
+      coveragePct,
+      summaryText
+    };
+  }
+
+  // ====== HYBRID AI ASSISTANT (READS FULL SYSTEM DATA + ALL CHARTS, STATISTICAL & REALISTIC, DIRECT ON REQUEST) ======
   function updateAiModeBadge() {
     const badge = document.getElementById("aiModeBadge");
     if (!badge) return;
@@ -1857,12 +1955,143 @@
     return `Founder, Mmiliki na CEO: ${FOUNDER_PROFILE.fullName} (${FOUNDER_PROFILE.shortName})\nTaaluma: ${FOUNDER_PROFILE.education}\nEneo: ${FOUNDER_PROFILE.location}\nBiashara: Faustine Stationery Services & STATIONERY SERVICE . NET`;
   }
 
-  function buildLocalAiReply(rawQuestion) {
-    const q = rawQuestion.toLowerCase();
+  function wantsDirectShortAnswer(questionText) {
+    const q = String(questionText || "").toLowerCase();
+    return (
+      q.includes("jibu direct") ||
+      q.includes("direct") ||
+      q.includes("kifupi") ||
+      q.includes("kwa ufupi") ||
+      q.includes("moja kwa moja") ||
+      q.includes("short answer")
+    );
+  }
+
+  function buildFullSystemDataContext() {
     const t = calculateTotals();
     const p = computeGoalProjection();
     const today = getTodayStr();
     const curMonth = getMonthKey(today);
+    const activePeriod = (document.getElementById("chartRange") && document.getElementById("chartRange").value) || "month";
+    const chartData = getChartAnalyticsData(activePeriod);
+
+    const statTxs = db.transactions.filter(x => x.type === "stationery");
+    const wifiTxs = db.transactions.filter(x => x.type === "wifi");
+    const expTxs = db.transactions.filter(x => x.type === "expense");
+    const salioTxs = db.transactions.filter(x => x.type === "salio");
+
+    const statByDate = {};
+    const wifiByDate = {};
+    let todayStat = 0, todayWifi = 0, todayExp = 0, todaySalio = 0;
+    let monthStat = 0, monthWifi = 0, monthExp = 0, monthSalio = 0;
+
+    db.transactions.forEach(x => {
+      const amt = Number(x.amount || 0);
+      const d = x.date || "";
+      if (x.type === "stationery") {
+        statByDate[d] = (statByDate[d] || 0) + amt;
+        if (d === today) todayStat += amt;
+        if (getMonthKey(d) === curMonth) monthStat += amt;
+      } else if (x.type === "wifi") {
+        wifiByDate[d] = (wifiByDate[d] || 0) + amt;
+        if (d === today) todayWifi += amt;
+        if (getMonthKey(d) === curMonth) monthWifi += amt;
+      } else if (x.type === "expense") {
+        if (d === today) todayExp += amt;
+        if (getMonthKey(d) === curMonth) monthExp += amt;
+      } else if (x.type === "salio") {
+        if (d === today) todaySalio += amt;
+        if (getMonthKey(d) === curMonth) monthSalio += amt;
+      }
+    });
+
+    const statDayVals = Object.values(statByDate);
+    const statActiveDays = statDayVals.length;
+    const statSum = statDayVals.reduce((a, b) => a + b, 0);
+    const statAvgActiveDay = statActiveDays > 0 ? Math.round(statSum / statActiveDays) : 0;
+    const statMax = statDayVals.length > 0 ? Math.max(...statDayVals) : 0;
+    const statPeakDate = Object.keys(statByDate).find(k => statByDate[k] === statMax) || "-";
+
+    const wifiDayVals = Object.values(wifiByDate);
+    const wifiActiveDays = wifiDayVals.length;
+    const wifiSum = wifiDayVals.reduce((a, b) => a + b, 0);
+    const wifiAvgActiveDay = wifiActiveDays > 0 ? Math.round(wifiSum / wifiActiveDays) : 0;
+    const wifiMax = wifiDayVals.length > 0 ? Math.max(...wifiDayVals) : 0;
+    const wifiPeakDate = Object.keys(wifiByDate).find(k => wifiByDate[k] === wifiMax) || "-";
+
+    const allDates = db.transactions.map(x => x.date).filter(Boolean).sort();
+    const firstDate = allDates[0] || "-";
+    const lastDate = allDates[allDates.length - 1] || "-";
+    const spanDays = (allDates.length >= 2)
+      ? Math.max(1, Math.round((new Date(lastDate + "T00:00:00") - new Date(firstDate + "T00:00:00")) / 86400000) + 1)
+      : Math.max(1, allDates.length);
+
+    const statAvgSpanDay = Math.round(statSum / spanDays);
+    const wifiAvgSpanDay = Math.round(wifiSum / spanDays);
+
+    const lowItems = db.shoppingList.filter(x => isLowStockItem(x));
+    const lowStockText = lowItems.length > 0
+      ? lowItems.map(i => `${i.name} (Stock: ${i.stock ?? 0}, Min: ${i.minStock ?? 2}, Kipimo: ${i.qty || "-"})`).join("; ")
+      : "Hakuna bidhaa zilizo Low Stock";
+
+    const recentTxsText = [...db.transactions]
+      .sort((a, b) => (b.date || "").localeCompare(a.date || ""))
+      .slice(0, 12)
+      .map(x => `[${x.date}] ${x.type.toUpperCase()}: ${fmtTZS(x.amount)} (${x.item || x.note || "-"})`)
+      .join(" | ");
+
+    return {
+      today,
+      curMonth,
+      firstDate,
+      lastDate,
+      spanDays,
+      totals: t,
+      goalProj: p,
+      chartData,
+      todayStat, todayWifi, todayExp, todaySalio,
+      monthStat, monthWifi, monthExp, monthSalio,
+      statCount: statTxs.length,
+      statSum,
+      statActiveDays,
+      statAvgActiveDay,
+      statAvgSpanDay,
+      statMax,
+      statPeakDate,
+      wifiCount: wifiTxs.length,
+      wifiSum,
+      wifiActiveDays,
+      wifiAvgActiveDay,
+      wifiAvgSpanDay,
+      wifiMax,
+      wifiPeakDate,
+      expCount: expTxs.length,
+      salioCount: salioTxs.length,
+      lowStockText,
+      recentTxsText,
+      formattedSummary: [
+        `Tarehe ya Leo: ${today} | Mwezi: ${curMonth} | Kipindi cha Data: ${firstDate} hadi ${lastDate} (Siku ${spanDays})`,
+        `Jumla ya Miamala: ${db.transactions.length} (Stationery: ${statTxs.length}, Wi-Fi: ${wifiTxs.length}, Manunuzi: ${expTxs.length}, Matumizi Salio: ${salioTxs.length})`,
+        `Mifuko 3 & Wi-Fi: Mtaji Uliobaki ${fmtTZS(t.mtajiRem)} (Jumla Mtaji ${fmtTZS(t.mtajiIn)}, Manunuzi ${fmtTZS(t.expTotal)}); Akiba ${fmtTZS(t.akibaIn)} / Lengo ${fmtTZS(p.goal)} (Baki ${fmtTZS(p.remaining)}); Salio Lililobaki ${fmtTZS(t.salioRem)} (Jumla Salio ${fmtTZS(t.salioIn)}, Yaliyotumika ${fmtTZS(t.salioUsed)}); Wi-Fi (.NET) ${fmtTZS(t.wifiIn)}`,
+        `Takwimu za Stationery: Jumla ${fmtTZS(statSum)}, Siku Hai ${statActiveDays}, Wastani/Siku Hai ${fmtTZS(statAvgActiveDay)}, Wastani/Siku Zote ${fmtTZS(statAvgSpanDay)}, Kilele ${fmtTZS(statMax)} (${statPeakDate})`,
+        `Takwimu za Wi-Fi (.NET): Jumla ${fmtTZS(wifiSum)}, Siku Hai ${wifiActiveDays}, Wastani/Siku Hai ${fmtTZS(wifiAvgActiveDay)}, Wastani/Siku Zote ${fmtTZS(wifiAvgSpanDay)}, Kilele ${fmtTZS(wifiMax)} (${wifiPeakDate})`,
+        `Leo (${today}): Stationery ${fmtTZS(todayStat)}, Wi-Fi ${fmtTZS(todayWifi)}, Manunuzi ${fmtTZS(todayExp)}, Matumizi Salio ${fmtTZS(todaySalio)}`,
+        `Mwezi Huu (${curMonth}): Stationery ${fmtTZS(monthStat)}, Wi-Fi ${fmtTZS(monthWifi)}, Manunuzi ${fmtTZS(monthExp)}, Matumizi Salio ${fmtTZS(monthSalio)}`,
+        `TAFSIRI NA DATA YA CHATI ZOTE 4:\n${chartData.summaryText}`,
+        `Muda wa Kufikisha Lengo: ${p.fullDateCombo} (Kasi wastani ya Akiba: ${fmtTZS(p.avgDailyAkiba)}/siku)`,
+        `Low Stock: ${lowStockText}`,
+        `Miamala ya Karibuni (12): ${recentTxsText || "Hakuna"}`
+      ].join("\n")
+    };
+  }
+
+  function buildLocalAiReply(rawQuestion) {
+    const q = String(rawQuestion || "").toLowerCase();
+    const ctx = buildFullSystemDataContext();
+    const isShort = wantsDirectShortAnswer(rawQuestion);
+    const t = ctx.totals;
+    const p = ctx.goalProj;
+    const cd = ctx.chartData;
 
     if (
       q.includes("founder") ||
@@ -1872,57 +2101,116 @@
       q.includes("nani") ||
       q.includes("mwenye")
     ) {
-      return getFounderSummaryText();
+      if (isShort) {
+        return `${FOUNDER_PROFILE.fullName} — Founder, Mmiliki na CEO wa Faustine Stationery Services.`;
+      }
+      return `${getFounderSummaryText()}\n\nMaelezo ya Uhalisia: Anaongoza moja kwa moja shughuli za duka, uchambuzi wa kitakwimu, usimamizi wa mifuko 3, na ukuaji wa STATIONERY SERVICE . NET.`;
     }
-
-    let todayStat = 0, todayWifi = 0, monthStat = 0, monthWifi = 0, monthExp = 0;
-    db.transactions.forEach(x => {
-      if (x.date === today) {
-        if (x.type === "stationery") todayStat += x.amount;
-        if (x.type === "wifi") todayWifi += x.amount;
-      }
-      if (getMonthKey(x.date) === curMonth) {
-        if (x.type === "stationery") monthStat += x.amount;
-        if (x.type === "wifi") monthWifi += x.amount;
-        if (x.type === "expense") monthExp += x.amount;
-      }
-    });
 
     if (q.includes("digest") || q.includes("whatsapp") || q.includes("wa")) {
       return generateSmartWhatsAppDigest();
     }
 
+    if (q.includes("chati") || q.includes("grafu") || q.includes("chart") || q.includes("mwenendo") || q.includes("tafsiri")) {
+      if (isShort) {
+        return `Chati (${cd.period}): Stat wastani ${fmtTZS(cd.statSummary.avg)}, Wi-Fi wastani ${fmtTZS(cd.wifiSummary.avg)}, Mtaji vs Manunuzi ufunikaji ${cd.coveragePct}%, Ukuaji mwisho ${fmtTZS(cd.growthSummary.latest)}.`;
+      }
+      return [
+        `Tafsiri ya Kitakwimu na Halisi ya Chati Zote (${cd.period.toUpperCase()}):`,
+        `1. Stationery: Wastani ni ${fmtTZS(cd.statSummary.avg)}, kilele ${fmtTZS(cd.statSummary.max)} (${cd.statSummary.peakLabel}), na imevuka wastani katika vipindi ${cd.statSummary.aboveAvgCount}/${cd.statSummary.totalPoints}. Hii inaonyesha mchango wa mauzo ya kila siku ya huduma za stationery.`,
+        `2. Wi-Fi (.NET): Wastani ni ${fmtTZS(cd.wifiSummary.avg)}, kilele ${fmtTZS(cd.wifiSummary.max)} (${cd.wifiSummary.peakLabel}), na imevuka wastani vipindi ${cd.wifiSummary.aboveAvgCount}/${cd.wifiSummary.totalPoints}.`,
+        `3. Mtaji vs Manunuzi: Mtaji uliokusanywa (${fmtTZS(cd.mtajiSummary.sum)}) unafunika manunuzi (${fmtTZS(cd.expSummary.sum)}) kwa ${cd.coveragePct}%.`,
+        `4. Ukuaji Halisi: Kiwango cha mwisho (${cd.growthSummary.latestLabel}) ni ${fmtTZS(cd.growthSummary.latest)} dhidi ya wastani wa ${fmtTZS(cd.growthSummary.avg)}, kikionyesha nafasi halisi ya biashara baada ya gharama na makato.`
+      ].join("\n");
+    }
+
+    if (q.includes("wastani") || q.includes("average") || q.includes("stationery") || q.includes("mauzo")) {
+      if (isShort) {
+        return `Wastani wa Stationery: ${fmtTZS(ctx.statAvgActiveDay)}/siku hai (${fmtTZS(ctx.statAvgSpanDay)}/siku zote). Jumla: ${fmtTZS(ctx.statSum)}.`;
+      }
+      return [
+        `Takwimu na Wastani wa Stationery:`,
+        `- Wastani kwa siku hai (${ctx.statActiveDays} siku): ${fmtTZS(ctx.statAvgActiveDay)}`,
+        `- Wastani kwa siku zote za kipindi (${ctx.spanDays} siku): ${fmtTZS(ctx.statAvgSpanDay)}`,
+        `- Jumla ya mauzo ya Stationery: ${fmtTZS(ctx.statSum)} (miamala ${ctx.statCount})`,
+        `- Kilele cha juu: ${fmtTZS(ctx.statMax)} tarehe ${ctx.statPeakDate}`,
+        `Maelezo: Wastani wa siku hai unapima kasi ya siku zenye mauzo, huku wastani wa siku zote ukionyesha mwenendo wa jumla wa kalenda.`
+      ].join("\n");
+    }
+
+    if (q.includes("wifi") || q.includes(".net") || q.includes("mtandao")) {
+      if (isShort) {
+        return `Wi-Fi (.NET): Jumla ${fmtTZS(ctx.wifiSum)} | Wastani ${fmtTZS(ctx.wifiAvgActiveDay)}/siku hai.`;
+      }
+      return [
+        `Takwimu za STATIONERY SERVICE . NET (Wi-Fi):`,
+        `- Jumla ya mapato ya Wi-Fi: ${fmtTZS(ctx.wifiSum)} (miamala ${ctx.wifiCount})`,
+        `- Wastani kwa siku hai (${ctx.wifiActiveDays} siku): ${fmtTZS(ctx.wifiAvgActiveDay)}`,
+        `- Kilele cha juu: ${fmtTZS(ctx.wifiMax)} tarehe ${ctx.wifiPeakDate}`,
+        `Maelezo: Mapato ya Wi-Fi yanatunzwa kwenye mfuko wake tenga ili kufuatilia ukuaji wa huduma ya mtandao kwa uwazi.`
+      ].join("\n");
+    }
+
     if (q.includes("low stock") || q.includes("restock") || q.includes("shopping") || q.includes("isha") || q.includes("bidhaa")) {
       const lowItems = db.shoppingList.filter(x => isLowStockItem(x));
       if (lowItems.length === 0) {
-        return "Hakuna kifaa kilicho chini ya kiwango cha Low Stock.";
+        return isShort
+          ? "Hakuna bidhaa zilizo Low Stock."
+          : "Hakuna kifaa kilicho chini ya kiwango cha Low Stock kwa sasa. Hali ya akiba ya vifaa ipo salama.";
       }
-      const lines = lowItems.map((it, idx) => `${idx + 1}. ${it.name} - Stock: ${it.stock ?? 0} (Min: ${it.minStock ?? 2}) [${it.qty || "-"}]`).join("\n");
-      return `Vifaa Vilivyo Low Stock (${lowItems.length}):\n${lines}`;
+      const lines = lowItems.map((it, idx) => `${idx + 1}. ${it.name} — Stock: ${it.stock ?? 0} (Min: ${it.minStock ?? 2}) [${it.qty || "-"}]`).join("\n");
+      if (isShort) return `Low Stock (${lowItems.length}):\n${lines}`;
+      return `Vifaa Vilivyo Low Stock (${lowItems.length}):\n${lines}\n\nMaelezo: Vifaa hivi vimefika au kushuka chini ya kiwango cha tahadhari; ni muhimu kuvi-restock mapema ili kuepusha kusimama kwa huduma.`;
     }
 
     if (q.includes("akiba") || q.includes("lengo") || q.includes("mwaka") || q.includes("mwezi") || q.includes("tarehe") || q.includes("siku")) {
-      return `Lengo: ${fmtTZS(p.goal)} | Akiba: ${fmtTZS(p.currentAkiba)} | Baki: ${fmtTZS(p.remaining)}\nMuda wa Lengo: ${p.fullDateCombo}\nWastani wa Akiba: ${fmtTZS(p.avgDailyAkiba)} / siku`;
+      if (isShort) {
+        return `Lengo ${fmtTZS(p.goal)} | Akiba ${fmtTZS(p.currentAkiba)} | Baki ${fmtTZS(p.remaining)} | Muda: ${p.fullDateCombo}.`;
+      }
+      return [
+        `Uchambuzi wa Lengo la Akiba:`,
+        `- Lengo: ${fmtTZS(p.goal)} | Akiba Iliyopo: ${fmtTZS(p.currentAkiba)} | Baki: ${fmtTZS(p.remaining)}`,
+        `- Makadirio ya Muda: ${p.fullDateCombo}`,
+        `- Wastani wa Akiba: ${fmtTZS(p.avgDailyAkiba)} / siku`,
+        `Maelezo: Makadirio yanatokana na kasi ya wastani ya akiba iliyokusanywa tangu mwanzo wa rekodi zako.`
+      ].join("\n");
     }
 
-    if (q.includes("cash") || q.includes("reconcile") || q.includes("hesabu")) {
-      const m = getDayCashMetrics(today);
-      return `Cash-Up (${today}): Mapato ${fmtTZS(m.dayIncome)} | Makato ${fmtTZS(m.dayOutflow)} | Inayotarajiwa ${fmtTZS(m.expected)}`;
+    if (isShort) {
+      return `Mtaji: ${fmtTZS(t.mtajiRem)} | Akiba: ${fmtTZS(t.akibaIn)} | Salio: ${fmtTZS(t.salioRem)} | Wi-Fi: ${fmtTZS(t.wifiIn)} | Leo: Stat ${fmtTZS(ctx.todayStat)}, Wi-Fi ${fmtTZS(ctx.todayWifi)}.`;
     }
 
-    return `Mtaji Uliobaki: ${fmtTZS(t.mtajiRem)}\nAkiba: ${fmtTZS(t.akibaIn)}\nSalio Lililobaki: ${fmtTZS(t.salioRem)}\nWi-Fi (.NET): ${fmtTZS(t.wifiIn)}\nLeo: Stationery ${fmtTZS(todayStat)} | Wi-Fi ${fmtTZS(todayWifi)}\nMwezi Huu: Stationery ${fmtTZS(monthStat)}, Wi-Fi ${fmtTZS(monthWifi)}, Manunuzi ${fmtTZS(monthExp)}`;
+    return [
+      `Muhtasari wa Kitakwimu na Halisi wa Biashara:`,
+      `- Mifuko 3: Mtaji Uliobaki ${fmtTZS(t.mtajiRem)}, Akiba ${fmtTZS(t.akibaIn)}, Salio Lililobaki ${fmtTZS(t.salioRem)}`,
+      `- STATIONERY SERVICE . NET (Wi-Fi): ${fmtTZS(t.wifiIn)}`,
+      `- Leo (${ctx.today}): Stationery ${fmtTZS(ctx.todayStat)} | Wi-Fi ${fmtTZS(ctx.todayWifi)} | Manunuzi ${fmtTZS(ctx.todayExp)}`,
+      `- Mwezi (${ctx.curMonth}): Stationery ${fmtTZS(ctx.monthStat)} | Wi-Fi ${fmtTZS(ctx.monthWifi)} | Manunuzi ${fmtTZS(ctx.monthExp)}`,
+      `- Wastani wa Stationery: ${fmtTZS(ctx.statAvgActiveDay)}/siku hai | Wastani wa Wi-Fi: ${fmtTZS(ctx.wifiAvgActiveDay)}/siku hai`,
+      `Maelezo: Uchambuzi huu unatokana na data zote za mfumo na chati zote 4 zilizokokotolewa moja kwa moja.`
+    ].join("\n");
   }
 
-  async function askGeminiIfConfigured(userQuestion, localContextSummary) {
+  async function askGeminiIfConfigured(userQuestion, fullContextText) {
     const key = (db.settings && db.settings.geminiApiKey) ? db.settings.geminiApiKey.trim() : "";
     if (!key) return { ok: false, reason: "Hakuna Gemini API Key iliyohifadhiwa." };
 
-    const prompt = `Wewe ni msaidizi wa AI kwa Faustine Stationery Services.
+    const isShort = wantsDirectShortAnswer(userQuestion);
+    const styleInstruction = isShort
+      ? "Mtumiaji ameomba jibu direct/fupi. Jibu kwa ufupi sana, moja kwa moja kwenye namba au hoja kuu bila maelezo marefu."
+      : "Mtumiaji hajaomba jibu la moja kwa moja tu. Jibu kwa Kiswahili fasaha, soma data zote za mfumo na chati zote 4 zilizotolewa, toa tafsiri ya kitakwimu na halisi (wastani, kilele, uwiano, mwelekeo), na ongeza maelezo mafupi yanayosaidia kuelewa hali halisi ya biashara.";
+
+    const prompt = `Wewe ni msaidizi wa uchambuzi wa data, chati na biashara kwa Faustine Stationery Services.
 Taarifa rasmi za uongozi: Founder, Mmiliki na CEO wa Faustine Stationery Services ni Faustine Haruni Masingiri (BSc in Mathematics and Statistics, University of Dar es Salaam; Ubungo Msewe, Dar es Salaam).
-Jibu swali lolote lile kwa Kiswahili kifupi sana, moja kwa moja kwenye point (direct), bila maelezo marefu yasiyo ya lazima, na bila kutumia alama za nyota (* au **) wala Markdown.
-Data ya mfumo:
-${localContextSummary}
-Swali: ${userQuestion}`;
+Tumia TU namba na taarifa zilizo kwenye data ya mfumo na chati hapa chini—usibuni takwimu ambazo hazipo.
+${styleInstruction}
+Usitumie alama za nyota (* au **) wala Markdown.
+
+DATA HALISI YA MFUMO NA CHATI ZOTE:
+${fullContextText}
+
+Swali la mtumiaji: ${userQuestion}`;
+
     const modelsToTry = ["gemini-3.8-flash", "gemini-4-hydrogen", "gemini-3.5-flash-lite"];
 
     let lastErr = "Imeshindwa kupata jibu kutoka Gemini.";
@@ -1973,21 +2261,21 @@ Swali: ${userQuestion}`;
   }
 
   async function processAiQuestion(questionText) {
+    const ctx = buildFullSystemDataContext();
     const localReply = buildLocalAiReply(questionText);
     const hasKey = Boolean(db.settings && db.settings.geminiApiKey && db.settings.geminiApiKey.trim());
-    const qLower = questionText.toLowerCase();
+    const qLower = String(questionText || "").toLowerCase();
     const isDirectDataCommand =
       qLower.includes("digest") ||
       qLower.includes("whatsapp") ||
-      qLower.includes("low stock") ||
-      qLower.includes("cash") ||
+      qLower.includes("wa") ||
       qLower.includes("founder") ||
       qLower.includes("mmiliki") ||
       qLower.includes("ceo");
 
     if (hasKey && !isDirectDataCommand) {
-      const loadingBubble = appendAiMessage("Inawasiliana na Gemini...", "bot");
-      const result = await askGeminiIfConfigured(questionText, getFounderSummaryText() + "\n" + localReply);
+      const loadingBubble = appendAiMessage("Inasoma data na chati zote...", "bot");
+      const result = await askGeminiIfConfigured(questionText, getFounderSummaryText() + "\n" + ctx.formattedSummary);
       if (loadingBubble && loadingBubble.parentNode) {
         loadingBubble.remove();
       }
@@ -2211,59 +2499,13 @@ Swali: ${userQuestion}`;
   function renderCharts() {
     renderExecutiveIntelligence();
     const period = document.getElementById("chartRange").value || "month";
+    const cd = getChartAnalyticsData(period);
+    const { labels, statSeries, wifiSeries, mtajiSeries, expSeries, growthSeries } = cd;
 
-    const now = new Date();
-    const dateList = [];
-    if (period === "day") {
-      dateList.push(toLocalDateStr(now));
-    } else if (period === "week") {
-      for (let i = 6; i >= 0; i--) {
-        const d = new Date(now);
-        d.setDate(now.getDate() - i);
-        dateList.push(toLocalDateStr(d));
-      }
-    } else {
-      const year = now.getFullYear();
-      const month = now.getMonth();
-      const daysInMonth = new Date(year, month + 1, 0).getDate();
-      for (let day = 1; day <= daysInMonth; day++) {
-        dateList.push(toLocalDateStr(new Date(year, month, day)));
-      }
-    }
-
-    const labels = dateList.map(ds => period === "day" ? `Leo (${ds.slice(5)})` : ds.slice(5));
-    const statSeries = [], wifiSeries = [], mtajiSeries = [], expSeries = [], growthSeries = [];
-    let cumGrowth = 0;
-
-    dateList.forEach(ds => {
-      let sDay = 0, wDay = 0, mDay = 0, eDay = 0, salDay = 0;
-      db.transactions.forEach(t => {
-        if (t.date === ds) {
-          if (t.type === "stationery") {
-            sDay += t.amount;
-            if (t.split) mDay += t.split.mtaji;
-          } else if (t.type === "wifi") {
-            wDay += t.amount;
-          } else if (t.type === "expense") {
-            eDay += t.amount;
-          } else if (t.type === "salio") {
-            salDay += t.amount;
-          }
-        }
-      });
-
-      cumGrowth += ((sDay + wDay) - (eDay + salDay));
-      statSeries.push(sDay);
-      wifiSeries.push(wDay);
-      mtajiSeries.push(mDay);
-      expSeries.push(eDay);
-      growthSeries.push(cumGrowth);
-    });
-
-    const pStatSum = statSeries.reduce((a, b) => a + b, 0);
-    const pWifiSum = wifiSeries.reduce((a, b) => a + b, 0);
-    const pExpSum = expSeries.reduce((a, b) => a + b, 0);
-    const activeCount = Math.max(1, dateList.filter((_, idx) => (statSeries[idx] + wifiSeries[idx]) > 0).length);
+    const pStatSum = cd.statSummary.sum;
+    const pWifiSum = cd.wifiSummary.sum;
+    const pExpSum = cd.expSummary.sum;
+    const activeCount = Math.max(1, labels.filter((_, idx) => (statSeries[idx] + wifiSeries[idx]) > 0).length);
 
     document.getElementById("kpiCards").innerHTML = `
       <div style="background:#eff6ff;padding:13px;border-radius:12px;border:1px solid #bfdbfe;">
@@ -2307,7 +2549,7 @@ Swali: ${userQuestion}`;
       buildDetailedInterpretation("wifi", wifiSeries, labels, wifiChartObj.avgVal);
 
     // 3. Mtaji vs Manunuzi + Dotted Average of Mtaji
-    const mtajiAvg = mtajiSeries.length > 0 ? mtajiSeries.reduce((a, b) => a + b, 0) / mtajiSeries.length : 0;
+    const mtajiAvg = cd.mtajiSummary.avg;
     charts.mtajiExp = new Chart(document.getElementById("chartMtajiVsExpLine"), {
       type: "line",
       data: {
@@ -2687,17 +2929,29 @@ Swali: ${userQuestion}`;
 
   async function pushToCloud() {
     if (!db.settings.syncUrl) return;
-    updateSyncIndicator("busy", "Inahifadhi...");
+    updateSyncIndicator("busy", "Inatuma...");
     try {
+      const safePayload = {
+        ...db,
+        updatedAt: Date.now(),
+        settings: {
+          ...db.settings,
+          geminiApiKey: ""
+        }
+      };
+
       await fetch(db.settings.syncUrl, {
         method: "POST",
         mode: "no-cors",
-        headers: { "Content-Type": "text/plain" },
-        body: JSON.stringify({ action: "save", updatedAt: db.updatedAt, payload: db })
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify({ action: "save", payload: safePayload })
       });
+
+      db.updatedAt = safePayload.updatedAt;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
       updateSyncIndicator("ok", "Synced");
       const msgEl = document.getElementById("syncStatusMsg");
-      if (msgEl) msgEl.textContent = "Imesawazishwa mwisho: " + new Date().toLocaleTimeString();
+      if (msgEl) msgEl.textContent = "Imetumwa kwenye wingu: " + new Date().toLocaleTimeString();
     } catch (err) {
       updateSyncIndicator("err", "Sync Error");
     }
@@ -2709,24 +2963,31 @@ Swali: ${userQuestion}`;
       if (manual) showToast("ℹ️ Weka Google Apps Script URL kwanza kwenye Mipangilio & Sync.");
       return;
     }
-    updateSyncIndicator("busy", "Inapakua...");
+    updateSyncIndicator("busy", "Inasawazisha...");
     try {
       const sep = db.settings.syncUrl.includes("?") ? "&" : "?";
-      const res = await fetch(db.settings.syncUrl + sep + "action=load&t=" + Date.now(), { cache: "no-store" });
+      const res = await fetch(db.settings.syncUrl + sep + "action=load&t=" + Date.now(), {
+        method: "GET",
+        cache: "no-store"
+      });
       const rawJson = await res.json();
       const cloudData = extractCloudPayload(rawJson);
 
       if (cloudData) {
-        const cloudTxsCount = extractTransactionsDeep(cloudData, []).length;
-        const cloudTs = Number(cloudData.updatedAt || 0);
-        const localTs = Number(db.updatedAt || 0);
+        const cloudTxs = extractTransactionsDeep(cloudData, []);
+        const hasAnyCloudData =
+          cloudTxs.length > 0 ||
+          (Array.isArray(cloudData.shoppingList) && cloudData.shoppingList.length > 0) ||
+          (Array.isArray(cloudData.reconciliations) && cloudData.reconciliations.length > 0) ||
+          (Array.isArray(cloudData.closedReports) && cloudData.closedReports.length > 0) ||
+          Boolean(cloudData.settings && cloudData.settings.customLogo);
 
-        if (cloudTxsCount > 0 || cloudTs >= localTs || (cloudData.settings && cloudData.settings.customLogo !== undefined)) {
+        if (hasAnyCloudData) {
           applyCloudDataToSystem(cloudData);
           updateSyncIndicator("ok", "Synced");
           const msgEl = document.getElementById("syncStatusMsg");
-          if (msgEl) msgEl.textContent = "Data zimeingia kwenye mfumo: " + new Date().toLocaleTimeString();
-          if (manual) showToast(`☁️ Data (${db.transactions.length} miamala) na Logo zimeingia kwenye mfumo!`);
+          if (msgEl) msgEl.textContent = "Imepakuliwa kutoka wingu: " + new Date().toLocaleTimeString();
+          if (manual) showToast(`☁️ Data (${db.transactions.length} miamala) zimesawazishwa!`);
           return;
         }
       }

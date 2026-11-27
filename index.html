@@ -914,6 +914,23 @@
   </div>
 </div>
 
+<!-- ================= POP-UP 4: UKUMBUSHO WA KUJAZA STOCK BAADA YA KUHIFADHI MAPATO ================= -->
+<div id="stockPromptModal" class="modal-backdrop">
+  <div class="modal-box" style="max-width:420px;">
+    <div class="modal-header">
+      <div class="card-title">📦 Ukumbusho wa Stock</div>
+      <button type="button" class="modal-close" onclick="closeStockPromptModal()">&times;</button>
+    </div>
+    <p style="font-size:0.86rem; color:var(--muted); margin-bottom:16px;">
+      Mapato ya siku yamehifadhiwa! Je, ungependa kujaza au kusasisha stock kwa leo?
+    </p>
+    <div style="display:flex; gap:10px;">
+      <button type="button" class="btn btn-primary" style="flex:1;" onclick="confirmFillStockFromPrompt()">✅ Jaza Stock</button>
+      <button type="button" class="btn btn-outline" style="flex:1;" onclick="closeStockPromptModal()">Ghairi</button>
+    </div>
+  </div>
+</div>
+
 <div id="toast" class="toast"></div>
 
 <script>
@@ -1191,6 +1208,22 @@
     updateIncomeLivePreview();
     renderAll();
     showToast("✅ Mapato yamehifadhiwa kikamilifu!");
+    openStockPromptModal();
+  }
+
+  function openStockPromptModal() {
+    const modal = document.getElementById("stockPromptModal");
+    if (modal) modal.classList.add("open");
+  }
+
+  function closeStockPromptModal() {
+    const modal = document.getElementById("stockPromptModal");
+    if (modal) modal.classList.remove("open");
+  }
+
+  function confirmFillStockFromPrompt() {
+    closeStockPromptModal();
+    openShoppingModal();
   }
 
   function addExpense(e) {
@@ -1339,6 +1372,20 @@
     showToast("📦 Kifaa kimeongezwa kwenye Low Stock / Restock Tracker!");
   }
 
+  function decrementStockItem(id) {
+    const item = db.shoppingList.find(x => x.id === id);
+    if (!item) return;
+    const currentStock = Number(item.stock ?? 0);
+    if (currentStock <= 0) {
+      return showToast(`⚠️ "${item.name}" tayari ina stock 0.`);
+    }
+    item.stock = currentStock - 1;
+    saveDB();
+    renderShoppingList();
+    updateShoppingBadge();
+    showToast(`➖ "${item.name}" imepunguzwa kwa 1 (Stock sasa: ${item.stock}).`);
+  }
+
   function quickRestockItem(id) {
     const item = db.shoppingList.find(x => x.id === id);
     if (!item) return;
@@ -1428,6 +1475,7 @@
             </div>
           </label>
           <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+            <button type="button" class="btn btn-outline btn-sm" onclick="decrementStockItem('${item.id}')" title="Punguza 1">➖ -1</button>
             <button type="button" class="btn btn-primary btn-sm" onclick="quickRestockItem('${item.id}')" title="Restock">📥 Restock</button>
             <button type="button" class="btn btn-outline btn-sm" onclick="deleteShoppingItem('${item.id}')" title="Futa">✕</button>
           </div>

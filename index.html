@@ -2097,12 +2097,20 @@
   }
 
   function buildLocalAiReply(rawQuestion) {
-    const q = String(rawQuestion || "").toLowerCase();
+    const rawTrimmed = String(rawQuestion || "").trim();
+    const q = rawTrimmed.toLowerCase();
     const ctx = buildFullSystemDataContext();
     const isShort = wantsDirectShortAnswer(rawQuestion);
     const t = ctx.totals;
     const p = ctx.goalProj;
     const cd = ctx.chartData;
+
+    if (/^(habari|mambo|salamu|niaje|hey|hi|hello|shikamoo)(\s+.*)?$/i.test(rawTrimmed)) {
+      return `Habari Faustine! Ninaendelea vizuri. Unaweza kuniuliza data ya biashara, tafsiri ya chati, ushauri, au swali lolote la mtandao.`;
+    }
+    if (/^(asante|ahsante|shukran|poa|sawa|ok|okay)(\s+.*)?$/i.test(rawTrimmed)) {
+      return `Karibu sana Faustine! Nipo tayari kukusaidia muda wowote.`;
+    }
 
     if (
       q.includes("founder") ||
@@ -2184,18 +2192,21 @@
       ].join("\n");
     }
 
-    if (isShort) {
-      return `Mtaji: ${fmtTZS(t.mtajiRem)} | Akiba: ${fmtTZS(t.akibaIn)} | Salio: ${fmtTZS(t.salioRem)} | Wi-Fi: ${fmtTZS(t.wifiIn)} | Leo: Stat ${fmtTZS(ctx.todayStat)}, Wi-Fi ${fmtTZS(ctx.todayWifi)}.`;
+    if (q.includes("muhtasari") || q.includes("hali ya biashara") || q.includes("mizania") || q.includes("mapato") || q.includes("matumizi")) {
+      if (isShort) {
+        return `Mtaji: ${fmtTZS(t.mtajiRem)} | Akiba: ${fmtTZS(t.akibaIn)} | Salio: ${fmtTZS(t.salioRem)} | Wi-Fi: ${fmtTZS(t.wifiIn)} | Leo: Stat ${fmtTZS(ctx.todayStat)}, Wi-Fi ${fmtTZS(ctx.todayWifi)}.`;
+      }
+      return [
+        `Muhtasari wa Kitakwimu na Halisi wa Biashara:`,
+        `- Mifuko 3: Mtaji Uliobaki ${fmtTZS(t.mtajiRem)}, Akiba ${fmtTZS(t.akibaIn)}, Salio Lililobaki ${fmtTZS(t.salioRem)}`,
+        `- STATIONERY SERVICE . NET (Wi-Fi): ${fmtTZS(t.wifiIn)}`,
+        `- Leo (${ctx.today}): Stationery ${fmtTZS(ctx.todayStat)} | Wi-Fi ${fmtTZS(ctx.todayWifi)} | Manunuzi ${fmtTZS(ctx.todayExp)}`,
+        `- Mwezi (${ctx.curMonth}): Stationery ${fmtTZS(ctx.monthStat)} | Wi-Fi ${fmtTZS(ctx.monthWifi)} | Manunuzi ${fmtTZS(ctx.monthExp)}`,
+        `- Wastani wa Stationery: ${fmtTZS(ctx.statAvgActiveDay)}/siku hai | Wastani wa Wi-Fi: ${fmtTZS(ctx.wifiAvgActiveDay)}/siku hai`
+      ].join("\n");
     }
 
-    return [
-      `Muhtasari wa Kitakwimu na Halisi wa Biashara:`,
-      `- Mifuko 3: Mtaji Uliobaki ${fmtTZS(t.mtajiRem)}, Akiba ${fmtTZS(t.akibaIn)}, Salio Lililobaki ${fmtTZS(t.salioRem)}`,
-      `- STATIONERY SERVICE . NET (Wi-Fi): ${fmtTZS(t.wifiIn)}`,
-      `- Leo (${ctx.today}): Stationery ${fmtTZS(ctx.todayStat)} | Wi-Fi ${fmtTZS(ctx.todayWifi)} | Manunuzi ${fmtTZS(ctx.todayExp)}`,
-      `- Mwezi (${ctx.curMonth}): Stationery ${fmtTZS(ctx.monthStat)} | Wi-Fi ${fmtTZS(ctx.monthWifi)} | Manunuzi ${fmtTZS(ctx.monthExp)}`,
-      `- Wastani wa Stationery: ${fmtTZS(ctx.statAvgActiveDay)}/siku hai | Wastani wa Wi-Fi: ${fmtTZS(ctx.wifiAvgActiveDay)}/siku hai`
-    ].join("\n");
+    return `Swali lako ("${rawTrimmed}") limepokelewa. Hakikisha Gemini API Key ipo kwenye Mipangilio & Sync na mtandao upo hewani ili nipate majibu mapana ya ushauri na mtandao, au uliza moja kwa moja kuhusu muhtasari, chati, low stock, au lengo la akiba.`;
   }
 
   async function askGeminiIfConfigured(userQuestion, fullContextText) {
@@ -2217,35 +2228,33 @@ ${fullContextText}
 
 Swali la mtumiaji: ${userQuestion}`;
 
-    const modelsToTry = ["gemini-3.8-flash", "gemini-4-hydrogen", "gemini-3.5-flash-lite"];
+    const modelsToTry = ["gemini-2.5-flash", "gemini-2.5-flash-lite"];
 
     let lastErr = "Imeshindwa kupata jibu.";
     for (const modelName of modelsToTry) {
-      for (let attempt = 1; attempt <= 2; attempt++) {
+      for (const useSearch of [true, false]) {
         const controller = new AbortController();
-        const timer = setTimeout(() => controller.abort(), 10000);
+        const timer = setTimeout(() => controller.abort(), 12000);
         try {
           const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${encodeURIComponent(key)}`;
+          const payloadBody = {
+            contents: [{ parts: [{ text: prompt }] }]
+          };
+          if (useSearch) {
+            payloadBody.tools = [{ google_search: {} }];
+          }
+
           const res = await fetch(endpoint, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             signal: controller.signal,
-            body: JSON.stringify({
-              contents: [{ parts: [{ text: prompt }] }],
-              tools: [{ google_search: {} }]
-            })
+            body: JSON.stringify(payloadBody)
           });
           clearTimeout(timer);
           const data = await res.json();
           if (!res.ok) {
-            const msg = data?.error?.message || `HTTP ${res.status}`;
-            lastErr = `${msg} (${modelName})`;
-            const isOverloaded = res.status === 429 || res.status === 503 || /high demand|overloaded|unavailable/i.test(msg);
-            if (isOverloaded && attempt === 1) {
-              await new Promise(r => setTimeout(r, 350));
-              continue;
-            }
-            break;
+            lastErr = `${data?.error?.message || `HTTP ${res.status}`} (${modelName})`;
+            continue;
           }
           const rawText = data?.candidates?.[0]?.content?.parts
             ?.map(p => p.text || "")
@@ -2260,11 +2269,6 @@ Swali la mtumiaji: ${userQuestion}`;
           lastErr = err.name === "AbortError"
             ? `Muda wa kusubiri umezidi (${modelName})`
             : `${err.message || "Tatizo la mtandao."} (${modelName})`;
-          if (attempt === 1) {
-            await new Promise(r => setTimeout(r, 350));
-            continue;
-          }
-          break;
         }
       }
     }
@@ -2290,9 +2294,6 @@ Swali la mtumiaji: ${userQuestion}`;
       }
       if (result && result.ok) {
         appendAiMessage(result.text, "bot");
-        return;
-      } else {
-        appendAiMessage(localReply, "bot");
         return;
       }
     }
@@ -2541,7 +2542,6 @@ Swali la mtumiaji: ${userQuestion}`;
 
     Object.values(charts).forEach(c => { if (c) c.destroy(); });
 
-    // 1. Stationery Only Line Chart + Dotted Average
     const statChartObj = makeSingleLineWithAvgConfig(
       labels, statSeries, "#1d4ed8", "rgba(29, 78, 216, 0.14)", "Mauzo Stationery (TZS)", "Wastani Stationery"
     );
@@ -2549,7 +2549,6 @@ Swali la mtumiaji: ${userQuestion}`;
     document.getElementById("interpStationeryOnly").innerHTML =
       buildDetailedInterpretation("stationery", statSeries, labels, statChartObj.avgVal);
 
-    // 2. Wi-Fi (.NET) Only Line Chart (PINK) + Dotted Average
     const wifiChartObj = makeSingleLineWithAvgConfig(
       labels, wifiSeries, "#ec4899", "rgba(236, 72, 153, 0.16)", "Mauzo Wi-Fi .NET (TZS)", "Wastani Wi-Fi"
     );
@@ -2557,7 +2556,6 @@ Swali la mtumiaji: ${userQuestion}`;
     document.getElementById("interpWifiOnly").innerHTML =
       buildDetailedInterpretation("wifi", wifiSeries, labels, wifiChartObj.avgVal);
 
-    // 3. Mtaji vs Manunuzi + Dotted Average of Mtaji
     const mtajiAvg = cd.mtajiSummary.avg;
     charts.mtajiExp = new Chart(document.getElementById("chartMtajiVsExpLine"), {
       type: "line",
@@ -2604,7 +2602,6 @@ Swali la mtumiaji: ${userQuestion}`;
     document.getElementById("interpMtajiExp").innerHTML =
       buildDetailedInterpretation("mtaji_vs_exp", mtajiSeries, labels, mtajiAvg, { expSeries });
 
-    // 4. Business Cumulative Growth + Dotted Average
     const growthChartObj = makeSingleLineWithAvgConfig(
       labels, growthSeries, "#0284c7", "rgba(2, 132, 199, 0.14)", "Ukuaji Halisi (TZS)", "Wastani Ukuaji"
     );

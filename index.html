@@ -784,7 +784,7 @@
   <div class="ai-header">
     <div>
       <div style="font-weight:800; font-size:0.92rem;">🤖 Faustine Hybrid AI</div>
-      <span class="ai-mode-badge" id="aiModeBadge">Mode: Local + Gemini Ready</span>
+      <span class="ai-mode-badge" id="aiModeBadge">Mode: Local Smart Engine</span>
     </div>
     <button type="button" class="modal-close" onclick="toggleAiDrawer()" style="background:rgba(255,255,255,0.18); color:#fff;">&times;</button>
   </div>
@@ -1920,12 +1920,12 @@
     };
   }
 
-  // ====== HYBRID AI ASSISTANT (DATA + USHAURI + MTANDAO + DIRECT ON REQUEST) ======
+  // ====== HYBRID AI ASSISTANT (DATA + USHAURI + MTANDAO + SMALL->LARGE SEQUENTIAL) ======
   function updateAiModeBadge() {
     const badge = document.getElementById("aiModeBadge");
     if (!badge) return;
     const hasKey = Boolean(db.settings && db.settings.geminiApiKey && db.settings.geminiApiKey.trim());
-    badge.textContent = hasKey ? "Mode: Hybrid (Data + Ushauri + Web)" : "Mode: Local Smart + Gemini Ready";
+    badge.textContent = hasKey ? "Mode: Hybrid (Sequential Small->Large + Local)" : "Mode: Local Smart Engine";
   }
 
   function toggleAiDrawer() {
@@ -1939,6 +1939,11 @@
 
   function stripStarsForAi(str) {
     return String(str || "").replace(/\*+/g, "").trim();
+  }
+
+  function isFluentReply(text) {
+    const clean = stripStarsForAi(text);
+    return Boolean(clean && clean.length >= 12);
   }
 
   function appendAiMessage(text, sender = "bot") {
@@ -2255,10 +2260,19 @@ ${fullContextText}
 
 Swali la mtumiaji: ${userQuestion}`;
 
-    const modelsToTry = ["gemini-2.5-flash", "gemini-2.5-flash-lite"];
+    // Zimepangwa kuanzia ndogo/nyepesi hadi kubwa/nzito (hatua kwa hatua hadi jibu la ufasaha lipatikane)
+    const modelsSmallToLarge = [
+      "gemini-3.5-flash-lite",
+      "gemini-3-flash",
+      "gemini-4-flash-lite",
+      "gemini-4-flash",
+      "gemini-4-pro"
+    ];
 
     let lastErr = "Imeshindwa kupata jibu.";
-    for (const modelName of modelsToTry) {
+    for (const modelName of modelsSmallToLarge) {
+      let modelSucceeded = false;
+
       for (const useSearch of [true, false]) {
         const controller = new AbortController();
         const timer = setTimeout(() => controller.abort(), 12000);
@@ -2279,17 +2293,20 @@ Swali la mtumiaji: ${userQuestion}`;
           });
           clearTimeout(timer);
           const data = await res.json();
+
           if (!res.ok) {
             lastErr = `${data?.error?.message || `HTTP ${res.status}`} (${modelName})`;
             continue;
           }
+
           const rawText = data?.candidates?.[0]?.content?.parts
             ?.map(p => p.text || "")
             .join("\n")
             .trim();
 
-          if (rawText) {
-            return { ok: true, text: stripStarsForAi(rawText) };
+          if (isFluentReply(rawText)) {
+            modelSucceeded = true;
+            return { ok: true, text: stripStarsForAi(rawText), modelUsed: modelName };
           }
         } catch (err) {
           clearTimeout(timer);
@@ -2298,7 +2315,12 @@ Swali la mtumiaji: ${userQuestion}`;
             : `${err.message || "Tatizo la mtandao."} (${modelName})`;
         }
       }
+
+      if (!modelSucceeded) {
+        continue;
+      }
     }
+
     return { ok: false, reason: lastErr };
   }
 
@@ -2314,7 +2336,7 @@ Swali la mtumiaji: ${userQuestion}`;
       qLower.includes("ceo");
 
     if (hasKey && !isDirectDataCommand) {
-      const loadingBubble = appendAiMessage("Inachambua data, ushauri na mtandao...", "bot");
+      const loadingBubble = appendAiMessage("Inajaribu model hatua kwa hatua hadi jibu la ufasaha lipatikane...", "bot");
       const result = await askGeminiIfConfigured(questionText, getFounderSummaryText() + "\n" + ctx.formattedSummary);
       if (loadingBubble && loadingBubble.parentNode) {
         loadingBubble.remove();
@@ -2323,7 +2345,7 @@ Swali la mtumiaji: ${userQuestion}`;
         appendAiMessage(result.text, "bot");
         return;
       }
-      appendAiMessage(`${localReply}\n\n(Maelezo ya Gemini: ${result?.reason || "Haikupatikana"})`, "bot");
+      appendAiMessage(localReply, "bot");
       return;
     }
     appendAiMessage(localReply, "bot");

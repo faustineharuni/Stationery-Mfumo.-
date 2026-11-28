@@ -2130,6 +2130,45 @@
       return generateSmartWhatsAppDigest();
     }
 
+    // Low Stock / Restock (bila kutumia substring "isha" inayonasa "biashara")
+    if (
+      q.includes("low stock") ||
+      q.includes("restock") ||
+      q.includes("shopping") ||
+      q.includes("kuisha") ||
+      q.includes("imeisha") ||
+      q.includes("zimeisha") ||
+      q.includes("zilizoisha") ||
+      q.includes("vifaa vilivyoisha")
+    ) {
+      const lowItems = db.shoppingList.filter(x => isLowStockItem(x));
+      if (lowItems.length === 0) {
+        return isShort
+          ? "Hakuna bidhaa zilizo Low Stock."
+          : "Hakuna kifaa kilicho chini ya kiwango cha Low Stock kwa sasa. Hali ya akiba ya vifaa ipo salama.";
+      }
+      const lines = lowItems.map((it, idx) => `${idx + 1}. ${it.name} — Stock: ${it.stock ?? 0} (Min: ${it.minStock ?? 2}) [${it.qty || "-"}]`).join("\n");
+      if (isShort) return `Low Stock (${lowItems.length}):\n${lines}`;
+      return `Vifaa Vilivyo Low Stock (${lowItems.length}):\n${lines}`;
+    }
+
+    // Ushauri wa biashara
+    if (q.includes("shauri") || q.includes("ushauri") || q.includes("mbinu") || q.includes("ukuaji") || q.includes("mkakati")) {
+      const lowItems = db.shoppingList.filter(x => isLowStockItem(x));
+      const lowNames = lowItems.length > 0 ? lowItems.map(i => i.name).join(", ") : "hakuna";
+      const mtajiWarning = t.mtajiRem < 0
+        ? `Mtaji uliobaki upo hasi (${fmtTZS(t.mtajiRem)}) — epuka manunuzi makubwa ya vifaa mpaka Mtaji ujae tena.`
+        : `Mtaji uliobaki ni ${fmtTZS(t.mtajiRem)} — panga restock kulingana na kasi ya mauzo.`;
+
+      return [
+        `Ushauri wa Biashara — Faustine Stationery Services:`,
+        `1. Nidhamu ya Mtaji: ${mtajiWarning}`,
+        `2. Kuongeza Mapato ya Stationery & Wi-Fi (.NET): Wastani wa Stationery ni ${fmtTZS(ctx.statAvgActiveDay)}/siku hai na Wi-Fi ni ${fmtTZS(ctx.wifiAvgActiveDay)}/siku hai. Tangaza huduma za printing, typing, picha mbao, na vocha/vifurushi vya Wi-Fi kwa wanafunzi na majirani wa Ubungo Msewe.`,
+        `3. Lengo la Akiba: Una ${fmtTZS(p.currentAkiba)} kati ya ${fmtTZS(p.goal)} (makadirio: ${p.fullDateCombo}). Kufikia mapema, punguza matumizi yasiyo ya lazima kwenye Salio (${fmtTZS(t.salioRem)}).`,
+        `4. Restock: Bidhaa zilizo Low Stock sasa ni ${lowNames}.`
+      ].join("\n");
+    }
+
     if (q.includes("chati") || q.includes("grafu") || q.includes("chart") || q.includes("mwenendo") || q.includes("tafsiri")) {
       if (isShort) {
         return `Chati (${cd.period}): Stat wastani ${fmtTZS(cd.statSummary.avg)}, Wi-Fi wastani ${fmtTZS(cd.wifiSummary.avg)}, Mtaji vs Manunuzi ufunikaji ${cd.coveragePct}%, Ukuaji mwisho ${fmtTZS(cd.growthSummary.latest)}.`;
@@ -2168,18 +2207,6 @@
       ].join("\n");
     }
 
-    if (q.includes("low stock") || q.includes("restock") || q.includes("shopping") || q.includes("isha") || q.includes("bidhaa")) {
-      const lowItems = db.shoppingList.filter(x => isLowStockItem(x));
-      if (lowItems.length === 0) {
-        return isShort
-          ? "Hakuna bidhaa zilizo Low Stock."
-          : "Hakuna kifaa kilicho chini ya kiwango cha Low Stock kwa sasa. Hali ya akiba ya vifaa ipo salama.";
-      }
-      const lines = lowItems.map((it, idx) => `${idx + 1}. ${it.name} — Stock: ${it.stock ?? 0} (Min: ${it.minStock ?? 2}) [${it.qty || "-"}]`).join("\n");
-      if (isShort) return `Low Stock (${lowItems.length}):\n${lines}`;
-      return `Vifaa Vilivyo Low Stock (${lowItems.length}):\n${lines}`;
-    }
-
     if (q.includes("akiba") || q.includes("lengo") || q.includes("mwaka") || q.includes("mwezi") || q.includes("tarehe") || q.includes("siku")) {
       if (isShort) {
         return `Lengo ${fmtTZS(p.goal)} | Akiba ${fmtTZS(p.currentAkiba)} | Baki ${fmtTZS(p.remaining)} | Muda: ${p.fullDateCombo}.`;
@@ -2206,7 +2233,7 @@
       ].join("\n");
     }
 
-    return `Swali lako ("${rawTrimmed}") limepokelewa. Hakikisha Gemini API Key ipo kwenye Mipangilio & Sync na mtandao upo hewani ili nipate majibu mapana ya ushauri na mtandao, au uliza moja kwa moja kuhusu muhtasari, chati, low stock, au lengo la akiba.`;
+    return `Swali lako ("${rawTrimmed}") limepokelewa. Unaweza kuuliza kuhusu ushauri wa biashara, muhtasari, chati, low stock, lengo la akiba, au taarifa za mtandao.`;
   }
 
   async function askGeminiIfConfigured(userQuestion, fullContextText) {
@@ -2296,6 +2323,8 @@ Swali la mtumiaji: ${userQuestion}`;
         appendAiMessage(result.text, "bot");
         return;
       }
+      appendAiMessage(`${localReply}\n\n(Maelezo ya Gemini: ${result?.reason || "Haikupatikana"})`, "bot");
+      return;
     }
     appendAiMessage(localReply, "bot");
   }

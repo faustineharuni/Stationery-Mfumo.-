@@ -790,7 +790,7 @@
   </div>
 
   <div id="aiMessages" class="ai-messages">
-    <div class="ai-msg bot">Habari Faustine! Mimi ni Hybrid AI Assistant wa Faustine Stationery Services. Ninasoma data zote za mfumo na chati zote 4 ili kukupa uchambuzi wa kitakwimu na halisi (au jibu direct ukisema).</div>
+    <div class="ai-msg bot">Habari Faustine! Mimi ni Hybrid AI Assistant wa Faustine Stationery Services. Ninasoma data zote za mfumo, chati zote 4, ushauri wa biashara, na taarifa za mtandao ili kukupa majibu sahihi na fasaha.</div>
   </div>
 
   <div class="ai-chips">
@@ -801,7 +801,7 @@
   </div>
 
   <form class="ai-form" onsubmit="handleAiSubmit(event)">
-    <input type="text" id="aiInput" placeholder="Uliza swali (au ongeza 'jibu direct')..." required>
+    <input type="text" id="aiInput" placeholder="Uliza swali lolote, ushauri au data..." required>
     <button type="submit" class="btn btn-primary btn-sm">Tuma</button>
   </form>
 </div>
@@ -1920,12 +1920,12 @@
     };
   }
 
-  // ====== HYBRID AI ASSISTANT (READS FULL SYSTEM DATA + ALL CHARTS, STATISTICAL & REALISTIC, DIRECT ON REQUEST) ======
+  // ====== HYBRID AI ASSISTANT (DATA + USHAURI + MTANDAO + DIRECT ON REQUEST) ======
   function updateAiModeBadge() {
     const badge = document.getElementById("aiModeBadge");
     if (!badge) return;
     const hasKey = Boolean(db.settings && db.settings.geminiApiKey && db.settings.geminiApiKey.trim());
-    badge.textContent = hasKey ? "Mode: Hybrid (Local + Gemini Active)" : "Mode: Local Smart + Gemini Ready";
+    badge.textContent = hasKey ? "Mode: Hybrid (Data + Ushauri + Web)" : "Mode: Local Smart + Gemini Ready";
   }
 
   function toggleAiDrawer() {
@@ -1964,6 +1964,17 @@
       q.includes("kwa ufupi") ||
       q.includes("moja kwa moja") ||
       q.includes("short answer")
+    );
+  }
+
+  function wantsWhatsAppDigest(questionText) {
+    const q = String(questionText || "").toLowerCase();
+    return (
+      q.includes("whatsapp digest") ||
+      q.includes("smart digest") ||
+      q.includes("digest ya whatsapp") ||
+      q.includes("riporti ya whatsapp") ||
+      q.includes("ripoti ya whatsapp")
     );
   }
 
@@ -2107,7 +2118,7 @@
       return `${getFounderSummaryText()}\n\nMaelezo ya Uhalisia: Anaongoza moja kwa moja shughuli za duka, uchambuzi wa kitakwimu, usimamizi wa mifuko 3, na ukuaji wa STATIONERY SERVICE . NET.`;
     }
 
-    if (q.includes("digest") || q.includes("whatsapp") || q.includes("wa")) {
+    if (wantsWhatsAppDigest(rawQuestion)) {
       return generateSmartWhatsAppDigest();
     }
 
@@ -2117,10 +2128,10 @@
       }
       return [
         `Tafsiri ya Kitakwimu na Halisi ya Chati Zote (${cd.period.toUpperCase()}):`,
-        `1. Stationery: Wastani ni ${fmtTZS(cd.statSummary.avg)}, kilele ${fmtTZS(cd.statSummary.max)} (${cd.statSummary.peakLabel}), na imevuka wastani katika vipindi ${cd.statSummary.aboveAvgCount}/${cd.statSummary.totalPoints}. Hii inaonyesha mchango wa mauzo ya kila siku ya huduma za stationery.`,
+        `1. Stationery: Wastani ni ${fmtTZS(cd.statSummary.avg)}, kilele ${fmtTZS(cd.statSummary.max)} (${cd.statSummary.peakLabel}), na imevuka wastani katika vipindi ${cd.statSummary.aboveAvgCount}/${cd.statSummary.totalPoints}.`,
         `2. Wi-Fi (.NET): Wastani ni ${fmtTZS(cd.wifiSummary.avg)}, kilele ${fmtTZS(cd.wifiSummary.max)} (${cd.wifiSummary.peakLabel}), na imevuka wastani vipindi ${cd.wifiSummary.aboveAvgCount}/${cd.wifiSummary.totalPoints}.`,
         `3. Mtaji vs Manunuzi: Mtaji uliokusanywa (${fmtTZS(cd.mtajiSummary.sum)}) unafunika manunuzi (${fmtTZS(cd.expSummary.sum)}) kwa ${cd.coveragePct}%.`,
-        `4. Ukuaji Halisi: Kiwango cha mwisho (${cd.growthSummary.latestLabel}) ni ${fmtTZS(cd.growthSummary.latest)} dhidi ya wastani wa ${fmtTZS(cd.growthSummary.avg)}, kikionyesha nafasi halisi ya biashara baada ya gharama na makato.`
+        `4. Ukuaji Halisi: Kiwango cha mwisho (${cd.growthSummary.latestLabel}) ni ${fmtTZS(cd.growthSummary.latest)} dhidi ya wastani wa ${fmtTZS(cd.growthSummary.avg)}.`
       ].join("\n");
     }
 
@@ -2133,8 +2144,7 @@
         `- Wastani kwa siku hai (${ctx.statActiveDays} siku): ${fmtTZS(ctx.statAvgActiveDay)}`,
         `- Wastani kwa siku zote za kipindi (${ctx.spanDays} siku): ${fmtTZS(ctx.statAvgSpanDay)}`,
         `- Jumla ya mauzo ya Stationery: ${fmtTZS(ctx.statSum)} (miamala ${ctx.statCount})`,
-        `- Kilele cha juu: ${fmtTZS(ctx.statMax)} tarehe ${ctx.statPeakDate}`,
-        `Maelezo: Wastani wa siku hai unapima kasi ya siku zenye mauzo, huku wastani wa siku zote ukionyesha mwenendo wa jumla wa kalenda.`
+        `- Kilele cha juu: ${fmtTZS(ctx.statMax)} tarehe ${ctx.statPeakDate}`
       ].join("\n");
     }
 
@@ -2146,8 +2156,7 @@
         `Takwimu za STATIONERY SERVICE . NET (Wi-Fi):`,
         `- Jumla ya mapato ya Wi-Fi: ${fmtTZS(ctx.wifiSum)} (miamala ${ctx.wifiCount})`,
         `- Wastani kwa siku hai (${ctx.wifiActiveDays} siku): ${fmtTZS(ctx.wifiAvgActiveDay)}`,
-        `- Kilele cha juu: ${fmtTZS(ctx.wifiMax)} tarehe ${ctx.wifiPeakDate}`,
-        `Maelezo: Mapato ya Wi-Fi yanatunzwa kwenye mfuko wake tenga ili kufuatilia ukuaji wa huduma ya mtandao kwa uwazi.`
+        `- Kilele cha juu: ${fmtTZS(ctx.wifiMax)} tarehe ${ctx.wifiPeakDate}`
       ].join("\n");
     }
 
@@ -2160,7 +2169,7 @@
       }
       const lines = lowItems.map((it, idx) => `${idx + 1}. ${it.name} — Stock: ${it.stock ?? 0} (Min: ${it.minStock ?? 2}) [${it.qty || "-"}]`).join("\n");
       if (isShort) return `Low Stock (${lowItems.length}):\n${lines}`;
-      return `Vifaa Vilivyo Low Stock (${lowItems.length}):\n${lines}\n\nMaelezo: Vifaa hivi vimefika au kushuka chini ya kiwango cha tahadhari; ni muhimu kuvi-restock mapema ili kuepusha kusimama kwa huduma.`;
+      return `Vifaa Vilivyo Low Stock (${lowItems.length}):\n${lines}`;
     }
 
     if (q.includes("akiba") || q.includes("lengo") || q.includes("mwaka") || q.includes("mwezi") || q.includes("tarehe") || q.includes("siku")) {
@@ -2171,8 +2180,7 @@
         `Uchambuzi wa Lengo la Akiba:`,
         `- Lengo: ${fmtTZS(p.goal)} | Akiba Iliyopo: ${fmtTZS(p.currentAkiba)} | Baki: ${fmtTZS(p.remaining)}`,
         `- Makadirio ya Muda: ${p.fullDateCombo}`,
-        `- Wastani wa Akiba: ${fmtTZS(p.avgDailyAkiba)} / siku`,
-        `Maelezo: Makadirio yanatokana na kasi ya wastani ya akiba iliyokusanywa tangu mwanzo wa rekodi zako.`
+        `- Wastani wa Akiba: ${fmtTZS(p.avgDailyAkiba)} / siku`
       ].join("\n");
     }
 
@@ -2186,8 +2194,7 @@
       `- STATIONERY SERVICE . NET (Wi-Fi): ${fmtTZS(t.wifiIn)}`,
       `- Leo (${ctx.today}): Stationery ${fmtTZS(ctx.todayStat)} | Wi-Fi ${fmtTZS(ctx.todayWifi)} | Manunuzi ${fmtTZS(ctx.todayExp)}`,
       `- Mwezi (${ctx.curMonth}): Stationery ${fmtTZS(ctx.monthStat)} | Wi-Fi ${fmtTZS(ctx.monthWifi)} | Manunuzi ${fmtTZS(ctx.monthExp)}`,
-      `- Wastani wa Stationery: ${fmtTZS(ctx.statAvgActiveDay)}/siku hai | Wastani wa Wi-Fi: ${fmtTZS(ctx.wifiAvgActiveDay)}/siku hai`,
-      `Maelezo: Uchambuzi huu unatokana na data zote za mfumo na chati zote 4 zilizokokotolewa moja kwa moja.`
+      `- Wastani wa Stationery: ${fmtTZS(ctx.statAvgActiveDay)}/siku hai | Wastani wa Wi-Fi: ${fmtTZS(ctx.wifiAvgActiveDay)}/siku hai`
     ].join("\n");
   }
 
@@ -2198,11 +2205,10 @@
     const isShort = wantsDirectShortAnswer(userQuestion);
     const styleInstruction = isShort
       ? "Mtumiaji ameomba jibu direct/fupi. Jibu kwa ufupi sana, moja kwa moja kwenye namba au hoja kuu bila maelezo marefu."
-      : "Mtumiaji hajaomba jibu la moja kwa moja tu. Jibu kwa Kiswahili fasaha, soma data zote za mfumo na chati zote 4 zilizotolewa, toa tafsiri ya kitakwimu na halisi (wastani, kilele, uwiano, mwelekeo), na ongeza maelezo mafupi yanayosaidia kuelewa hali halisi ya biashara.";
+      : "Jibu kwa Kiswahili fasaha, chenye weledi na ufasaha wa hali ya juu. Tumia DATA HALISI YA MFUMO NA CHATI pale swali linapohusu biashara, mapato, matumizi, mifuko, chati, au stock. Kama swali ni la ushauri wa biashara, mbinu, bei za soko, au taarifa ambazo hazipo kwenye data ya mfumo, tumia Google Search (mtandao) na uelewa wako mpana kutoa jibu sahihi na la kisasa. Tengeneza WhatsApp Digest PEKEE ikiwa mtumiaji ameomba waziwazi WhatsApp Digest.";
 
-    const prompt = `Wewe ni msaidizi wa uchambuzi wa data, chati na biashara kwa Faustine Stationery Services.
+    const prompt = `Wewe ni mshauri mkuu wa biashara na mchambuzi wa data wa Faustine Stationery Services.
 Taarifa rasmi za uongozi: Founder, Mmiliki na CEO wa Faustine Stationery Services ni Faustine Haruni Masingiri (BSc in Mathematics and Statistics, University of Dar es Salaam; Ubungo Msewe, Dar es Salaam).
-Tumia TU namba na taarifa zilizo kwenye data ya mfumo na chati hapa chini—usibuni takwimu ambazo hazipo.
 ${styleInstruction}
 Usitumie alama za nyota (* au **) wala Markdown.
 
@@ -2213,18 +2219,21 @@ Swali la mtumiaji: ${userQuestion}`;
 
     const modelsToTry = ["gemini-3.8-flash", "gemini-4-hydrogen", "gemini-3.5-flash-lite"];
 
-    let lastErr = "Imeshindwa kupata jibu kutoka Gemini.";
+    let lastErr = "Imeshindwa kupata jibu.";
     for (const modelName of modelsToTry) {
       for (let attempt = 1; attempt <= 2; attempt++) {
         const controller = new AbortController();
-        const timer = setTimeout(() => controller.abort(), 8000);
+        const timer = setTimeout(() => controller.abort(), 10000);
         try {
           const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${encodeURIComponent(key)}`;
           const res = await fetch(endpoint, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             signal: controller.signal,
-            body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+            body: JSON.stringify({
+              contents: [{ parts: [{ text: prompt }] }],
+              tools: [{ google_search: {} }]
+            })
           });
           clearTimeout(timer);
           const data = await res.json();
@@ -2238,11 +2247,13 @@ Swali la mtumiaji: ${userQuestion}`;
             }
             break;
           }
-          const rawText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+          const rawText = data?.candidates?.[0]?.content?.parts
+            ?.map(p => p.text || "")
+            .join("\n")
+            .trim();
+
           if (rawText) {
-            const cleanText = stripStarsForAi(rawText);
-            const suffix = attempt > 1 ? `${modelName} • retry` : modelName;
-            return { ok: true, text: cleanText, model: suffix };
+            return { ok: true, text: stripStarsForAi(rawText) };
           }
         } catch (err) {
           clearTimeout(timer);
@@ -2266,24 +2277,22 @@ Swali la mtumiaji: ${userQuestion}`;
     const hasKey = Boolean(db.settings && db.settings.geminiApiKey && db.settings.geminiApiKey.trim());
     const qLower = String(questionText || "").toLowerCase();
     const isDirectDataCommand =
-      qLower.includes("digest") ||
-      qLower.includes("whatsapp") ||
-      qLower.includes("wa") ||
+      wantsWhatsAppDigest(questionText) ||
       qLower.includes("founder") ||
       qLower.includes("mmiliki") ||
       qLower.includes("ceo");
 
     if (hasKey && !isDirectDataCommand) {
-      const loadingBubble = appendAiMessage("Inasoma data na chati zote...", "bot");
+      const loadingBubble = appendAiMessage("Inachambua data, ushauri na mtandao...", "bot");
       const result = await askGeminiIfConfigured(questionText, getFounderSummaryText() + "\n" + ctx.formattedSummary);
       if (loadingBubble && loadingBubble.parentNode) {
         loadingBubble.remove();
       }
       if (result && result.ok) {
-        appendAiMessage(`[Gemini AI • ${result.model}]\n` + result.text, "bot");
+        appendAiMessage(result.text, "bot");
         return;
       } else {
-        appendAiMessage(`Gemini haikujibu (${result ? result.reason : "Hitilafu"}).\n\n` + localReply, "bot");
+        appendAiMessage(localReply, "bot");
         return;
       }
     }
